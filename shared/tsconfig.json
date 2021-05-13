@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "module": "es6",
+    "outDir": "build",
+    "moduleResolution": "node",
+    "declaration": true
+  },
+  "include": ["src"]
+}
