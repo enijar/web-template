@@ -3,11 +3,13 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
 const HtmlInlineScriptPlugin = require("html-inline-script-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const ReactRefreshTypeScript = require("react-refresh-typescript");
 
 const DEV_MODE = process.env.NODE_ENV === "development";
 const SRC_DIR = path.resolve(__dirname, "src");
 const PUBLIC_DIR = path.resolve(__dirname, "public");
 const BUILD_DIR = path.resolve(__dirname, "build");
+const CACHE_DIR = path.resolve(__dirname, "node_modules", ".cache");
 
 module.exports = {
   target: "browserslist",
@@ -31,6 +33,8 @@ module.exports = {
             loader: "@linaria/webpack-loader",
             options: {
               sourceMap: DEV_MODE,
+              cacheDirectory: path.join(CACHE_DIR, ".linaria"),
+              displayName: DEV_MODE,
             },
           },
         ],
