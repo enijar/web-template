@@ -7,9 +7,9 @@ export default {
   bcryptRounds: 12,
   database: {
     host: `localhost`,
-    name: `cll-world`,
+    name: `app`,
     dialect: `sqlite` as Dialect,
-    username: `cll-world`,
+    username: `app`,
     password: `secret`,
     storage: path.resolve(__dirname, ".cache", "database.sqlite"),
   },
