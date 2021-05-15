@@ -1,9 +1,9 @@
 import * as path from "path";
 import * as HtmlWebpackPlugin from "html-webpack-plugin";
 import * as CopyPlugin from "copy-webpack-plugin";
-import HtmlInlineScriptPlugin from "html-inline-script-webpack-plugin";
 import * as MiniCssExtractPlugin from "mini-css-extract-plugin";
 import * as ReactRefreshWebpackPlugin from "@pmmmwh/react-refresh-webpack-plugin";
+const HtmlInlineScriptPlugin = require("html-inline-script-webpack-plugin");
 const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 
 const DEV_MODE = process.env.NODE_ENV === "development";
@@ -31,7 +31,7 @@ const config = {
             loader: "babel-loader",
             options: {
               presets: ["@babel/preset-typescript", "@babel/preset-react"],
-              plugins: ["react-refresh/babel"],
+              plugins: DEV_MODE ? ["react-refresh/babel"] : [],
             },
           },
           {
