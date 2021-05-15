@@ -14,4 +14,7 @@ export default {
     storage: env.database.storage,
     entities: path.resolve(__dirname, "entities"),
   },
+  jwt: {
+    secret: env.jwt.secret,
+  },
 };

@@ -21,6 +21,7 @@ async function request(
         "Content-Type": "application/json",
         Accept: "application/json",
       },
+      credentials: "include",
       body: data ? JSON.stringify(data) : undefined,
     });
     const json = await res.json();

@@ -1,10 +1,12 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { loginModel } from "@app/shared";
-import useForm from "../../hooks/use-form";
 import api from "../../services/api";
+import { useAuth } from "../../state/auth";
+import useForm from "../../hooks/use-form";
 
 export default function Login() {
+  const history = useHistory();
   const [messages, setMessages] = React.useState<{ [key: string]: string }>({});
   const { data, setData, errors, setErrors, onChange, onSubmit } = useForm(
     loginModel,
@@ -13,13 +15,15 @@ export default function Login() {
       setMessages(res.messages);
       setErrors(res.errors);
       if (res.ok) {
+        useAuth.getState().setUser(res.data.user);
         setData({});
+        history.push("/");
       }
     }
   );
 
   return (
-    <div>
+    <main>
       <h1>Login</h1>
 
       <div>{errors.server}</div>
@@ -48,9 +52,10 @@ export default function Login() {
           <div>{errors.password}</div>
         </div>
         <div>
-          <button>Login</button> or <Link to="/register">Register</Link>
+          <button>Login</button>
+          or <Link to="/register">Register</Link>
         </div>
       </form>
-    </div>
+    </main>
   );
 }

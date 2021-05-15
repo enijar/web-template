@@ -13,4 +13,7 @@ export default {
     password: `secret`,
     storage: path.resolve(__dirname, ".cache", "database.sqlite"),
   },
+  jwt: {
+    secret: `secret`,
+  },
 };

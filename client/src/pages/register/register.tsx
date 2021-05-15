@@ -19,7 +19,7 @@ export default function Register() {
   );
 
   return (
-    <div>
+    <main>
       <h1>Register</h1>
 
       <div>{errors.server}</div>
@@ -64,6 +64,6 @@ export default function Register() {
           <button>Register</button> or <Link to="/">Login</Link>
         </div>
       </form>
-    </div>
+    </main>
   );
 }

@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { compare } from "bcrypt";
 import { loginModel } from "@app/shared";
 import User from "../entities/user";
+import auth from "../services/auth";
 
 export default async function login(req: Request, res: Response) {
   try {
@@ -25,7 +26,11 @@ export default async function login(req: Request, res: Response) {
       return;
     }
 
-    res.json({ messages: { server: "You're now logged in" } });
+    const authToken = await auth.sign(user);
+
+    req.cookies.set("authToken", authToken);
+
+    res.json({ data: { user } });
   } catch (err) {
     console.error(err);
     res.status(500).json({ errors: { server: "Server Error" } });
