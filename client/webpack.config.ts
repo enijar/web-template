@@ -9,7 +9,7 @@ const DEV_MODE = process.env.NODE_ENV === "development";
 const SRC_DIR = path.resolve(__dirname, "src");
 const PUBLIC_DIR = path.resolve(__dirname, "public");
 const BUILD_DIR = path.resolve(__dirname, "build");
-const CACHE_DIR = path.resolve(__dirname, "node_modules", ".cache");
+const CACHE_DIR = path.resolve(__dirname, ".cache");
 
 module.exports = {
   target: "browserslist",
