@@ -1,10 +1,12 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "module": "es6",
+    "module": "commonjs",
+    "lib": ["es2017", "es7", "es6", "dom"],
+    "declaration": true,
     "outDir": "build",
-    "moduleResolution": "node",
-    "declaration": true
+    "strict": true,
+    "esModuleInterop": true
   },
-  "include": ["src"]
+  "include": ["src/index.ts"]
 }

@@ -1,1 +1,2 @@
-export { default as userModel } from "./models/user";
+export { default as loginModel } from "./models/login";
+export { default as registerModel } from "./models/register";
