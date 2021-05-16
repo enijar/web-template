@@ -4,12 +4,12 @@
     "module": "commonjs",
     "target": "es2017",
     "outDir": "build",
-    "baseUrl": "./",
+    "baseUrl": "./src",
     "alwaysStrict": true,
     "noImplicitAny": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "resolveJsonModule": true
   },
-  "include": ["src", "env.ts"]
+  "include": ["src"]
 }
