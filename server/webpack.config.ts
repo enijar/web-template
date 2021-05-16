@@ -1,5 +1,6 @@
 import * as path from "path";
 const nodeExternals = require("webpack-node-externals");
+const WebpackShellPluginNext = require("webpack-shell-plugin-next");
 
 const DEV_MODE = process.env.NODE_ENV === "development";
 const SRC_DIR = path.resolve(__dirname, "src");
@@ -24,6 +25,15 @@ const config = {
       },
     ],
   },
+  plugins: [
+    new WebpackShellPluginNext({
+      onBuildEnd: {
+        scripts: ["node build/server.js"],
+        blocking: false,
+        parallel: true,
+      },
+    }),
+  ],
   resolve: {
     extensions: [".ts", ".js"],
   },
