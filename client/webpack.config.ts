@@ -14,7 +14,7 @@ const CACHE_DIR = path.resolve(__dirname, ".cache");
 
 const config = {
   mode: DEV_MODE ? "development" : "production",
-  target: "browserslist",
+  target: DEV_MODE ? "web" : "browserslist",
   stats: "minimal",
   devtool: DEV_MODE ? "eval-cheap-module-source-map" : "source-map",
   entry: path.join(SRC_DIR, "index.tsx"),
