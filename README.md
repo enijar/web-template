@@ -1,8 +1,17 @@
 # Web Template
 
-Template for scalable web projects
+Template for scalable web projects.
 
 ### Getting Started
+
+Set up a new project:
+
+```shell
+npx degit enijar/web-template project-name
+cd project-name
+```
+
+Run project:
 
 ```shell
 cp client/env.example.ts client/env.ts
