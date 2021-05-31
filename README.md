@@ -49,7 +49,7 @@ server {
     proxy_pass http://localhost:3000;
   }
 
-  # All routes are handled by the JS router
+  # All routes are handled by the client
   location / {
     index index.html;
     absolute_redirect off;
