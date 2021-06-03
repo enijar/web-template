@@ -1,9 +1,8 @@
 import { Column, Index, Model, Table, Unique } from "sequelize-typescript";
 
-@Table
+@Table({ tableName: "users" })
 export default class User extends Model {
-  @Unique
-  @Index
+  @Index({ name: "email", unique: true })
   @Column
   email: string;
 
