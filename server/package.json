@@ -1,7 +1,7 @@
 {
   "private": true,
   "scripts": {
-    "start": "NODE_ENV=development nodemon --watch ../shared --watch src src/index.ts",
+    "start": "NODE_ENV=development nodemon --watch ../shared --watch env.ts --watch src src/index.ts",
     "build": "NODE_ENV=production tsc -p tsconfig.json"
   },
   "devDependencies": {
