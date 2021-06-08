@@ -11,7 +11,7 @@ app.use(json());
 app.use(
   cors({
     origin(origin, next) {
-      if (!config.corsOrigins.includes(origin)) {
+      if (origin && !config.corsOrigins.includes(origin)) {
         return next(new Error("Not allowed by CORS"));
       }
       next(null, true);
