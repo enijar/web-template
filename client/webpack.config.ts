@@ -10,7 +10,6 @@ const DEV_MODE = process.env.NODE_ENV === "development";
 const SRC_DIR = path.resolve(__dirname, "src");
 const PUBLIC_DIR = path.resolve(__dirname, "public");
 const BUILD_DIR = path.resolve(__dirname, "build");
-const CACHE_DIR = path.resolve(__dirname, ".cache");
 
 const config = {
   mode: DEV_MODE ? "development" : "production",
@@ -33,14 +32,6 @@ const config = {
             options: {
               presets: ["@babel/preset-typescript", "@babel/preset-react"],
               plugins: DEV_MODE ? ["react-refresh/babel"] : [],
-            },
-          },
-          {
-            loader: "@linaria/webpack-loader",
-            options: {
-              sourceMap: DEV_MODE,
-              cacheDirectory: path.join(CACHE_DIR, ".linaria"),
-              displayName: DEV_MODE,
             },
           },
         ],
