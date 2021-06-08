@@ -8,7 +8,17 @@ import cookies from "../middleware/cookies";
 const app = express();
 
 app.use(json());
-app.use(cors({ origin: config.appUrl, credentials: true }));
+app.use(
+  cors({
+    origin(origin, next) {
+      if (!config.corsOrigins.includes(origin)) {
+        return next(new Error("Not allowed by CORS"));
+      }
+      next(null, true);
+    },
+    credentials: true,
+  })
+);
 app.use([cookies, router]);
 
 app.all("*", (req, res) => {
