@@ -4,6 +4,7 @@ import { loginModel } from "@app/shared";
 import api from "../../services/api";
 import { useAuth } from "../../state/auth";
 import useForm from "../../hooks/use-form";
+import useAuthRoute from "../../hooks/use-auth-route";
 
 export default function Login() {
   const history = useHistory();
@@ -21,6 +22,12 @@ export default function Login() {
       }
     }
   );
+
+  const { authenticated } = useAuthRoute({
+    redirect: "/",
+    type: "unauthenticated",
+  });
+  if (authenticated) return null;
 
   return (
     <main>

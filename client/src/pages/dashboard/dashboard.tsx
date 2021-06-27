@@ -1,7 +1,11 @@
 import React from "react";
 import config from "../../config";
+import useAuthRoute from "../../hooks/use-auth-route";
 
 export default function Dashboard() {
+  const { authenticated } = useAuthRoute();
+  if (!authenticated) return null;
+
   return (
     <main>
       <header>

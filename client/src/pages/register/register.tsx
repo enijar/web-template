@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { registerModel } from "@app/shared";
 import useForm from "../../hooks/use-form";
 import api from "../../services/api";
+import useAuthRoute from "../../hooks/use-auth-route";
 
 export default function Register() {
   const [messages, setMessages] = React.useState<{ [key: string]: string }>({});
@@ -17,6 +18,12 @@ export default function Register() {
       }
     }
   );
+
+  const { authenticated } = useAuthRoute({
+    redirect: "/",
+    type: "unauthenticated",
+  });
+  if (authenticated) return null;
 
   return (
     <main>

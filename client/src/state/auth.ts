@@ -11,7 +11,7 @@ export type UserState = {
 export const useAuth = create<UserState>((set) => {
   return {
     authenticating: true,
-    setAuthenticating: (authenticating: boolean) => {
+    setAuthenticating(authenticating: boolean) {
       set({ authenticating });
     },
     user: null,
