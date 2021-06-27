@@ -17,4 +17,15 @@ export default {
   jwt: {
     secret: `secret`,
   },
+  email: {
+    preview: true,
+    send: false,
+    from: `hello@example.com`,
+    smtp: {
+      host: `smtp.sendgrid.net`,
+      port: 587,
+      username: `apikey`,
+      password: `secret`,
+    },
+  },
 };
