@@ -7,7 +7,7 @@ type TokenData = {
   email: string;
 };
 
-export default {
+const auth = {
   sign(user: User) {
     return sign({ id: user.id, email: user.email }, config.jwt.secret, {
       expiresIn: "30d",
@@ -19,3 +19,5 @@ export default {
     return verify(token, config.jwt.secret);
   },
 };
+
+export default auth;

@@ -1,7 +1,7 @@
 import { Sequelize } from "sequelize-typescript";
 import config from "../config";
 
-export default new Sequelize({
+const database = new Sequelize({
   host: config.database.host,
   database: config.database.name,
   dialect: config.database.dialect,
@@ -11,3 +11,5 @@ export default new Sequelize({
   logging: false,
   models: config.database.entities,
 });
+
+export default database;
