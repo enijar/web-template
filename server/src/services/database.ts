@@ -9,5 +9,5 @@ export default new Sequelize({
   password: config.database.password,
   storage: config.database.storage,
   logging: false,
-  models: [config.database.entities],
+  models: config.database.entities,
 });
