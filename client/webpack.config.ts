@@ -31,7 +31,20 @@ const config = {
             loader: "babel-loader",
             options: {
               presets: ["@babel/preset-typescript", "@babel/preset-react"],
-              plugins: DEV_MODE ? ["react-refresh/babel"] : [],
+              plugins: [
+                "babel-plugin-macros",
+                [
+                  "babel-plugin-styled-components",
+                  {
+                    ssr: !DEV_MODE,
+                    fileName: false,
+                    displayName: DEV_MODE,
+                    minify: !DEV_MODE,
+                    pure: !DEV_MODE,
+                  },
+                ],
+                ...(DEV_MODE ? ["react-refresh/babel"] : []),
+              ],
             },
           },
         ],
