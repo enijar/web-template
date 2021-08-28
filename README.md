@@ -32,7 +32,7 @@ npm run build
 npm add -g pm2
 
 # Start the server process with pm2
-pm2 start --name app server/build/src/index.js
+pm2 start --name app server/build/index.js
 ```
 
 ### NGINX Config
