@@ -12,6 +12,6 @@
     "typescript": "^4.2.4"
   },
   "dependencies": {
-    "use-model-validation": "^0.1.6"
+    "use-model-validation": "^0.2.2"
   }
 }
