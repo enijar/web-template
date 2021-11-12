@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Switch } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import api from "../../services/api";
 import { useAuth } from "../../state/auth";
 
@@ -25,11 +25,11 @@ export default function App() {
 
   return (
     <React.Suspense fallback="Loading...">
-      <Switch>
-        <Route exact path="/" component={Dashboard} />
-        <Route exact path="/login" component={Login} />
-        <Route exact path="/register" component={Register} />
-      </Switch>
+      <Routes>
+        <Route path="/" element={<Dashboard />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+      </Routes>
     </React.Suspense>
   );
 }

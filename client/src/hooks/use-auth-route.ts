@@ -1,5 +1,5 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../state/auth";
 
 type Config = {
@@ -17,7 +17,7 @@ const defaultConfig = {
 };
 
 export default function useAuthRoute(config: Config = {}): UseAuthRoute {
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const { authenticating, user } = useAuth();
 
@@ -29,8 +29,8 @@ export default function useAuthRoute(config: Config = {}): UseAuthRoute {
     if (authenticating) return;
     if (configRef.current.type === "authenticated" && user !== null) return;
     if (configRef.current.type === "unauthenticated" && user === null) return;
-    history.push(configRef.current.redirect);
-  }, [authenticating, user, history]);
+    navigate(configRef.current.redirect);
+  }, [authenticating, user]);
 
   return { authenticated };
 }

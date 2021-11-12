@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { loginModel } from "@app/shared";
 import api from "../../services/api";
 import { useAuth } from "../../state/auth";
@@ -7,7 +7,7 @@ import useForm from "../../hooks/use-form";
 import useAuthRoute from "../../hooks/use-auth-route";
 
 export default function Login() {
-  const history = useHistory();
+  const navigate = useNavigate();
   const [messages, setMessages] = React.useState<{ [key: string]: string }>({});
   const { data, setData, errors, setErrors, onChange, onSubmit } = useForm(
     loginModel,
@@ -18,7 +18,7 @@ export default function Login() {
       if (res.ok) {
         useAuth.getState().setUser(res.data.user);
         setData({});
-        history.push("/");
+        navigate("/");
       }
     }
   );
