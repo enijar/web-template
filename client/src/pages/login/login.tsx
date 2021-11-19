@@ -1,10 +1,10 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { loginModel } from "@app/shared";
-import api from "../../services/api";
-import { useAuth } from "../../state/auth";
-import useForm from "../../hooks/use-form";
-import useAuthRoute from "../../hooks/use-auth-route";
+import api from "@/services/api";
+import { useAuth } from "@/state/auth";
+import useForm from "@/hooks/use-form";
+import useAuthRoute from "@/hooks/use-auth-route";
 
 export default function Login() {
   const navigate = useNavigate();

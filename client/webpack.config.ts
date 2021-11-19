@@ -3,8 +3,10 @@ import * as HtmlWebpackPlugin from "html-webpack-plugin";
 import * as CopyPlugin from "copy-webpack-plugin";
 import * as MiniCssExtractPlugin from "mini-css-extract-plugin";
 import * as ReactRefreshWebpackPlugin from "@pmmmwh/react-refresh-webpack-plugin";
+
 const HtmlInlineScriptPlugin = require("html-inline-script-webpack-plugin");
 const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
+const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
 
 const DEV_MODE = process.env.NODE_ENV === "development";
 const SRC_DIR = path.resolve(__dirname, "src");
@@ -90,6 +92,7 @@ const config = {
     new ReactRefreshWebpackPlugin(),
   ],
   resolve: {
+    plugins: [new TsconfigPathsPlugin({})],
     extensions: [".tsx", ".ts", ".js"],
   },
   output: {

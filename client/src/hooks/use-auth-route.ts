@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../state/auth";
+import { useAuth } from "@/state/auth";
 
 type Config = {
   redirect?: string;
