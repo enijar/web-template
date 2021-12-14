@@ -8,10 +8,10 @@
     "build": "NODE_ENV=production tsc -p tsconfig.json"
   },
   "devDependencies": {
-    "prettier": "^2.3.0",
-    "typescript": "^4.2.4"
+    "prettier": "^2.5.1",
+    "typescript": "^4.5.4"
   },
   "dependencies": {
-    "use-model-validation": "^0.2.2"
+    "use-model-validation": "^0.2.6"
   }
 }
