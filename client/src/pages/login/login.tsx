@@ -3,25 +3,25 @@ import { Link, useNavigate } from "react-router-dom";
 import { loginModel } from "@app/shared";
 import api from "@/services/api";
 import { useAuth } from "@/state/auth";
-import useForm from "@/hooks/use-form";
 import useAuthRoute from "@/hooks/use-auth-route";
+import useForm from "@/hooks/use-form";
 
 export default function Login() {
   const navigate = useNavigate();
   const [messages, setMessages] = React.useState<{ [key: string]: string }>({});
-  const { data, setData, errors, setErrors, onChange, onSubmit } = useForm(
-    loginModel,
-    async (data) => {
-      const res = await api.post("/api/login", data);
+  const form = useForm({
+    model: loginModel,
+    async onSubmit(form) {
+      const res = await api.post("/api/login", form.data);
       setMessages(res.messages);
-      setErrors(res.errors);
+      form.setErrors(res.errors);
       if (res.ok) {
         useAuth.getState().setUser(res.data.user);
-        setData({});
+        form.reset();
         navigate("/");
       }
-    }
-  );
+    },
+  });
 
   const { authenticated } = useAuthRoute({
     redirect: "/",
@@ -33,19 +33,19 @@ export default function Login() {
     <main>
       <h1>Login</h1>
 
-      <div>{errors.server}</div>
+      <div>{form.errors.server}</div>
       <div>{messages.server}</div>
 
-      <form onSubmit={onSubmit}>
+      <form onSubmit={form.onSubmit}>
         <div>
           <label htmlFor="email">Email</label>
           <input
             id="email"
             name="email"
-            onChange={onChange}
-            value={data.email ?? ""}
+            onChange={form.onChange}
+            value={form.data.email ?? ""}
           />
-          <div>{errors.email}</div>
+          <div>{form.errors.email}</div>
         </div>
         <div>
           <label htmlFor="password">Password</label>
@@ -53,10 +53,10 @@ export default function Login() {
             id="password"
             name="password"
             type="password"
-            onChange={onChange}
-            value={data.password ?? ""}
+            onChange={form.onChange}
+            value={form.data.password ?? ""}
           />
-          <div>{errors.password}</div>
+          <div>{form.errors.password}</div>
         </div>
         <div>
           <button>Login</button>

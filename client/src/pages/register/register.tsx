@@ -1,23 +1,23 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { registerModel } from "@app/shared";
-import useForm from "@/hooks/use-form";
 import api from "@/services/api";
 import useAuthRoute from "@/hooks/use-auth-route";
+import useForm from "@/hooks/use-form";
 
 export default function Register() {
   const [messages, setMessages] = React.useState<{ [key: string]: string }>({});
-  const { data, setData, errors, setErrors, onChange, onSubmit } = useForm(
-    registerModel,
-    async (data) => {
-      const res = await api.post("/api/register", data);
+  const form = useForm({
+    model: registerModel,
+    async onSubmit(form) {
+      const res = await api.post("/api/register", form.data);
       setMessages(res.messages);
-      setErrors(res.errors);
+      form.setErrors(res.errors);
       if (res.ok) {
-        setData({});
+        form.setData({});
       }
-    }
-  );
+    },
+  });
 
   const { authenticated } = useAuthRoute({
     redirect: "/",
@@ -29,19 +29,19 @@ export default function Register() {
     <main>
       <h1>Register</h1>
 
-      <div>{errors.server}</div>
+      <div>{form.errors.server}</div>
       <div>{messages.server}</div>
 
-      <form onSubmit={onSubmit}>
+      <form onSubmit={form.onSubmit}>
         <div>
           <label htmlFor="email">Email</label>
           <input
             id="email"
             name="email"
-            onChange={onChange}
-            value={data.email ?? ""}
+            onChange={form.onChange}
+            value={form.data.email ?? ""}
           />
-          <div>{errors.email}</div>
+          <div>{form.errors.email}</div>
         </div>
         <div>
           <label htmlFor="password">Password</label>
@@ -50,10 +50,10 @@ export default function Register() {
             name="password"
             type="password"
             autoComplete="new-password"
-            onChange={onChange}
-            value={data.password ?? ""}
+            onChange={form.onChange}
+            value={form.data.password ?? ""}
           />
-          <div>{errors.password}</div>
+          <div>{form.errors.password}</div>
         </div>
         <div>
           <label htmlFor="passwordConfirmation">Confirm Password</label>
@@ -62,13 +62,14 @@ export default function Register() {
             name="passwordConfirmation"
             type="password"
             autoComplete="new-password"
-            onChange={onChange}
-            value={data.passwordConfirmation ?? ""}
+            onChange={form.onChange}
+            value={form.data.passwordConfirmation ?? ""}
           />
-          <div>{errors.passwordConfirmation}</div>
+          <div>{form.errors.passwordConfirmation}</div>
         </div>
         <div>
-          <button>Register</button> or <Link to="/">Login</Link>
+          <button>Register</button>
+          or <Link to="/">Login</Link>
         </div>
       </form>
     </main>

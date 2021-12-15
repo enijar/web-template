@@ -33,5 +33,18 @@ export default createGlobalStyle`
     font-family: ${vars.fontBody};
     font-weight: normal;
     line-height: 1.2;
+    background-color: #1e1e1e;
+    color: #fefefe;
+  }
+
+  input, textarea, button {
+    background-color: #fefefe;
+    color: #1e1e1e;
+  }
+
+  button {
+    border: none;
+    padding: 0.25em 0.5em;
+    cursor: pointer;
   }
 `;
