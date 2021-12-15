@@ -6,10 +6,15 @@ import { useAuth } from "@/state/auth";
 import useAuthRoute from "@/hooks/use-auth-route";
 import useForm from "@/hooks/use-form";
 
+type Data = {
+  email: string;
+  password: string;
+};
+
 export default function Login() {
   const navigate = useNavigate();
   const [messages, setMessages] = React.useState<{ [key: string]: string }>({});
-  const form = useForm({
+  const form = useForm<Data>({
     model: loginModel,
     async onSubmit(form) {
       const res = await api.post("/api/login", form.data);

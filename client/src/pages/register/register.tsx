@@ -5,9 +5,15 @@ import api from "@/services/api";
 import useAuthRoute from "@/hooks/use-auth-route";
 import useForm from "@/hooks/use-form";
 
+type Data = {
+  email: string;
+  password: string;
+  passwordConfirmation: string;
+};
+
 export default function Register() {
   const [messages, setMessages] = React.useState<{ [key: string]: string }>({});
-  const form = useForm({
+  const form = useForm<Data>({
     model: registerModel,
     async onSubmit(form) {
       const res = await api.post("/api/register", form.data);
