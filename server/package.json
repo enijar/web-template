@@ -32,7 +32,7 @@
     "cookies": "^0.8.0",
     "cors": "^2.8.5",
     "ejs": "^3.1.6",
-    "email-templates": "^8.0.8",
+    "email-templates": "^8.0.9",
     "express": "^4.17.3",
     "jsonwebtoken": "^8.5.1",
     "reflect-metadata": "^0.1.13",
