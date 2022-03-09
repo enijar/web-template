@@ -32,8 +32,13 @@ const config = {
           {
             loader: "babel-loader",
             options: {
-              presets: ["@babel/preset-typescript", "@babel/preset-react"],
+              presets: [
+                "@babel/preset-typescript",
+                "@babel/preset-react",
+                "@babel/preset-env",
+              ],
               plugins: [
+                "@babel/plugin-transform-runtime",
                 "babel-plugin-macros",
                 [
                   "babel-plugin-styled-components",
