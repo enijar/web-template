@@ -1,6 +1,6 @@
 # Web Template
 
-Modern template for scalable web projects.
+Opinionated template for building modern and scalable web projects.
 
 ### Getting Started
 
