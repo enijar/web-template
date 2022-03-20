@@ -111,7 +111,9 @@ const config = {
 
 export default () => {
   if (!DEV_MODE) {
-    config.plugins.push(new HtmlInlineScriptPlugin([/main.+[.]js$/]));
+    config.plugins.push(
+      new HtmlInlineScriptPlugin({ scriptMatchPattern: [/main.+[.]js$/] })
+    );
   }
   return config;
 };
