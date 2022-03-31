@@ -1,8 +1,6 @@
-import { createGlobalStyle } from "styled-components/macro";
-import { fluidRange } from "polished";
-import vars from "./vars";
+import { createGlobalStyle } from "styled-components";
 
-export default createGlobalStyle`
+export const AppReset = createGlobalStyle`
   * {
     margin: 0;
     padding: 0;
@@ -21,16 +19,8 @@ export default createGlobalStyle`
   }
 
   html {
-    ${fluidRange(
-      {
-        prop: "font-size",
-        fromSize: `${vars.rootSize * 0.8}px`,
-        toSize: `${vars.rootSize}px`,
-      },
-      `${vars.responsiveMin}px`,
-      `${vars.responsiveMax}px`
-    )};
-    font-family: ${vars.fontBody};
+    font-size: 20px;
+    font-family: Arial, sans-serif;
     font-weight: normal;
     line-height: 1.2;
     background-color: #1e1e1e;
