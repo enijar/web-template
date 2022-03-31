@@ -41,10 +41,10 @@
   "dependencies": {
     "@app/shared": "file:../shared",
     "polished": "^4.1.4",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
     "react-router-dom": "^6.2.2",
-    "styled-components": "^5.3.3",
+    "styled-components": "^5.3.5",
     "use-model-validation": "^0.2.6",
     "zustand": "^3.7.1"
   }
