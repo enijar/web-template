@@ -12,6 +12,7 @@ const DEV_MODE = process.env.NODE_ENV === "development";
 const SRC_DIR = path.resolve(__dirname, "src");
 const PUBLIC_DIR = path.resolve(__dirname, "public");
 const BUILD_DIR = path.resolve(__dirname, "build");
+const PUBLIC_PATH = process.env.PUBLIC_PATH ?? "/";
 
 const config = {
   mode: DEV_MODE ? "development" : "production",
@@ -105,7 +106,7 @@ const config = {
     chunkFilename: "[name].[contenthash:8].chunk.js",
     path: BUILD_DIR,
     clean: true,
-    publicPath: "/",
+    publicPath: PUBLIC_PATH,
   },
 };
 
