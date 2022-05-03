@@ -1,6 +1,16 @@
 import { createGlobalStyle } from "styled-components";
 
 export const AppReset = createGlobalStyle`
+  :root {
+    --root-size: 3vh;
+    --root-min: 16px;
+    --root-max: 20px;
+  }
+
+  @media (orientation: portrait) {
+    --root-size: 3vw;
+  }
+
   * {
     margin: 0;
     padding: 0;
@@ -19,22 +29,11 @@ export const AppReset = createGlobalStyle`
   }
 
   html {
-    font-size: 20px;
+    font-size: clamp(var(--root-min), var(--root-size), var(--root-max));
     font-family: Arial, sans-serif;
     font-weight: normal;
-    line-height: 1.2;
+    line-height: 1em;
     background-color: #1e1e1e;
     color: #fefefe;
-  }
-
-  input, textarea, button {
-    background-color: #fefefe;
-    color: #1e1e1e;
-  }
-
-  button {
-    border: none;
-    padding: 0.25em 0.5em;
-    cursor: pointer;
   }
 `;
