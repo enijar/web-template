@@ -4,7 +4,7 @@ import * as Cookies from "cookies";
 export default async function cookies(
   req: Request,
   res: Response,
-  next: NextFunction,
+  next: NextFunction
 ) {
   try {
     req.cookies = new Cookies(req, res);
