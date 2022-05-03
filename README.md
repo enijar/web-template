@@ -16,8 +16,8 @@ Run project:
 ```shell
 cp client/env.example.ts client/env.ts
 cp server/env.example.ts server/env.ts
-npx npm@8.5.4 install
-npx npm@8.5.4 start
+npm install
+npm start
 ```
 
 ### Production Build
@@ -25,11 +25,11 @@ npx npm@8.5.4 start
 ```shell
 cp client/env.example.ts client/env.ts
 cp server/env.example.ts server/env.ts
-npx npm@8.5.4 install
-npx npm@8.5.4 run build
+npm install
+npm run build
 
 # Install PM2 globally to manage the server process
-npx npm@8.5.4 add -g pm2
+npm add -g pm2
 
 # Start the server process with pm2
 pm2 start --name app server/build/index.js
