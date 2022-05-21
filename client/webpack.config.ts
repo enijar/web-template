@@ -15,6 +15,9 @@ const BUILD_DIR = path.resolve(__dirname, "build");
 const PUBLIC_PATH = process.env.PUBLIC_PATH ?? "/";
 
 const config = {
+  cache: {
+    type: "filesystem",
+  },
   mode: DEV_MODE ? "development" : "production",
   target: DEV_MODE ? "web" : "browserslist",
   stats: "minimal",
@@ -33,6 +36,8 @@ const config = {
           {
             loader: "babel-loader",
             options: {
+              cacheCompression: false,
+              cacheDirectory: true,
               presets: [
                 "@babel/preset-typescript",
                 "@babel/preset-react",

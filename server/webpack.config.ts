@@ -7,6 +7,9 @@ const SRC_DIR = path.resolve(__dirname, "src");
 const BUILD_DIR = path.resolve(__dirname, "build");
 
 const config = {
+  cache: {
+    type: "filesystem",
+  },
   mode: DEV_MODE ? "development" : "production",
   target: "node",
   stats: "minimal",
