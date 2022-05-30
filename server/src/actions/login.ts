@@ -10,23 +10,20 @@ export default async function login(req: Request, res: Response) {
     const { valid, errors } = loginModel.fresh(data).validate();
 
     if (!valid) {
-      res.status(422).json({ errors });
-      return;
+      return res.status(422).json({ errors });
     }
 
     const user = await User.findOne({ where: { email: data.email } });
     if (user === null) {
-      res.status(401).json({ errors: { server: "Unauthorised" } });
-      return;
+      return res.status(401).json({ errors: { server: "Unauthorised" } });
     }
 
     const authenticated = await compare(data.password, user.password);
     if (!authenticated) {
-      res.status(401).json({ errors: { server: "Unauthorised" } });
-      return;
+      return res.status(401).json({ errors: { server: "Unauthorised" } });
     }
 
-    const authToken = await auth.sign(user);
+    const authToken = auth.sign(user);
 
     req.cookies.set("authToken", authToken);
 
