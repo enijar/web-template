@@ -3,7 +3,7 @@ import env from "../env";
 import User from "./entities/user";
 
 const paths = {
-  emails: path.resolve(__dirname, "emails"),
+  emails: path.resolve(__dirname, "..", "emails"),
 };
 
 export default {

@@ -1,6 +1,5 @@
 import * as path from "path";
 import * as nodeExternals from "webpack-node-externals";
-import * as CopyPlugin from "copy-webpack-plugin";
 
 const DEV_MODE = process.env.NODE_ENV === "development";
 const SRC_DIR = path.resolve(__dirname, "src");
@@ -22,16 +21,6 @@ const config = {
       },
     ],
   },
-  plugins: [
-    new CopyPlugin({
-      patterns: [
-        {
-          from: path.join(SRC_DIR, "emails"),
-          to: path.join(BUILD_DIR, "emails"),
-        },
-      ],
-    }),
-  ],
   resolve: {
     extensions: [".js", ".ts"],
   },
