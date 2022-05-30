@@ -16,6 +16,7 @@ Run project:
 ```shell
 cp client/env.example.ts client/env.ts
 cp server/env.example.ts server/env.ts
+nvm use # optional (uses the exact Node this project was tested against)
 npm install
 npm start
 ```
@@ -25,6 +26,7 @@ npm start
 ```shell
 cp client/env.example.ts client/env.ts
 cp server/env.example.ts server/env.ts
+nvm use # optional (uses the exact Node this project was tested against)
 npm install
 npm run build
 
