@@ -1,11 +1,11 @@
-import { sign, verify } from "jsonwebtoken";
+import { JwtPayload, sign, verify } from "jsonwebtoken";
 import config from "../config";
 import User from "../entities/user";
 
-type TokenData = {
+interface TokenData extends JwtPayload {
   id: number;
   email: string;
-};
+}
 
 const auth = {
   sign(user: User) {
@@ -14,9 +14,8 @@ const auth = {
     });
   },
 
-  async verify(token: string = ""): Promise<TokenData> {
-    // @ts-ignore
-    return verify(token, config.jwt.secret);
+  verify(token: string = ""): TokenData {
+    return verify(token, config.jwt.secret) as TokenData;
   },
 };
 
