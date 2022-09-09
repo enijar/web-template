@@ -8,6 +8,7 @@ import * as ReactRefreshWebpackPlugin from "@pmmmwh/react-refresh-webpack-plugin
 
 const HtmlInlineScriptPlugin = require("html-inline-script-webpack-plugin");
 const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
+const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
 const WatchExternalFilesPlugin = require("webpack-watch-external-files-plugin");
 
 const DEV_MODE = process.env.NODE_ENV === "development";
@@ -109,6 +110,7 @@ const config = {
     new ReactRefreshWebpackPlugin(),
   ],
   resolve: {
+    plugins: [new TsconfigPathsPlugin({})],
     extensions: [".tsx", ".ts", ".js"],
   },
   output: {

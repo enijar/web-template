@@ -2,9 +2,9 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter as Router } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
-import trpc from "./services/trpc";
-import config from "./config";
-import App from "./components/app/app";
+import trpc from "@/services/trpc";
+import config from "@/config";
+import App from "@/components/app/app";
 
 const rootElement = document.querySelector("#root");
 const root = ReactDOM.createRoot(rootElement!);
