@@ -1,17 +1,11 @@
 import { Request, Response } from "express";
 import { compare } from "bcrypt";
-import { loginModel } from "@app/shared";
 import User from "../entities/user";
 import auth from "../services/auth";
 
 export default async function login(req: Request, res: Response) {
   try {
     const data = req.body ?? {};
-    const { valid, errors } = loginModel.fresh(data).validate();
-
-    if (!valid) {
-      return res.status(422).json({ errors });
-    }
 
     const user = await User.findOne({ where: { email: data.email } });
     if (user === null) {

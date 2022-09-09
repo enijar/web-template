@@ -29,7 +29,6 @@
     "webpack-node-externals": "^3.0.0"
   },
   "dependencies": {
-    "@app/shared": "file:../shared",
     "bcrypt": "^5.0.1",
     "body-parser": "^1.20.0",
     "cookies": "^0.8.0",

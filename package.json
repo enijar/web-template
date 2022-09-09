@@ -1,9 +1,9 @@
 {
   "private": true,
   "scripts": {
-    "postinstall": "concurrently -n shared,server,client \"npm --prefix shared install\" \"npm --prefix server install\" \"npm --prefix client install\"",
-    "start": "concurrently -n shared,server,client \"npm --prefix shared start\" \"npm --prefix server start\" \"npm --prefix client start\"",
-    "build": "concurrently -n shared,server,client \"npm --prefix shared run build\" \"npm --prefix server run build\" \"npm --prefix client run build\""
+    "postinstall": "concurrently -n server,client \"npm --prefix server install\" \"npm --prefix client install\"",
+    "start": "concurrently -n server,client \"npm --prefix server start\" \"npm --prefix client start\"",
+    "build": "concurrently -n server,client \"npm --prefix server run build\" \"npm --prefix client run build\""
   },
   "devDependencies": {
     "concurrently": "^7.4.0",

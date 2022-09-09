@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import { hash } from "bcrypt";
-import { registerModel } from "@app/shared";
 import config from "../config";
 import User from "../entities/user";
 import mail from "../services/email";
@@ -8,12 +7,6 @@ import mail from "../services/email";
 export default async function register(req: Request, res: Response) {
   try {
     const data = req.body ?? {};
-    const { valid, errors } = registerModel.fresh(data).validate();
-
-    if (!valid) {
-      res.status(422).json({ errors });
-      return;
-    }
 
     const user = await User.findOne({ where: { email: data.email } });
     if (user !== null) {

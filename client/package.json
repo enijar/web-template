@@ -1,5 +1,4 @@
 {
-  "name": "@app/client",
   "private": true,
   "scripts": {
     "start": "NODE_ENV=development webpack serve --mode development",
@@ -40,7 +39,6 @@
     "webpack-dev-server": "^4.11.0"
   },
   "dependencies": {
-    "@app/shared": "file:../shared",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.3.0",

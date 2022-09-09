@@ -18,23 +18,31 @@ export const AppReset = createGlobalStyle`
     box-sizing: border-box;
     font-family: inherit;
     font-size: inherit;
+    font-weight: inherit;
     line-height: inherit;
     color: inherit;
   }
 
   html,
   body,
-  #root {
+  #root,
+  main {
     width: 100%;
     height: 100%;
   }
 
   html {
     font-size: clamp(var(--root-min), var(--root-size), var(--root-max));
-    font-family: Arial, sans-serif;
+    font-family: system-ui, sans-serif;
     font-weight: normal;
     line-height: 1em;
+    text-rendering: geometricPrecision;
     background-color: #1e1e1e;
     color: #fefefe;
+  }
+
+  main {
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
   }
 `;
