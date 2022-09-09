@@ -1,16 +1,12 @@
 {
   "compilerOptions": {
-    "outDir": "build",
+    "strict": true,
     "sourceMap": true,
-    "noImplicitAny": true,
     "module": "commonjs",
-    "target": "es6",
-    "jsx": "react-jsx",
-    "noEmit": true,
+    "target": "es2017",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
     "allowSyntheticDefaultImports": true,
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["./src/*"]
-    }
+    "jsx": "react-jsx"
   }
 }

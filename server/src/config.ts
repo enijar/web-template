@@ -17,7 +17,7 @@ const config = {
     models: [User],
   },
   jwt: {
-    secret: process.env.JWT_SECRET,
+    secret: process.env.JWT_SECRET ?? "secret",
   },
   email: {
     preview: process.env.EMAIL_PREVIEW === "true",

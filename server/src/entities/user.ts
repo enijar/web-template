@@ -4,10 +4,10 @@ import { Column, Index, Model, Table } from "sequelize-typescript";
 export default class User extends Model {
   @Index({ name: "email", unique: true })
   @Column
-  email: string;
+  email!: string;
 
   @Column
-  password: string;
+  password?: string;
 
   toJSON<T extends any>(): T {
     const data = super.toJSON<User>();

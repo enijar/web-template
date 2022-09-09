@@ -1,8 +1,8 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
-import { AppReset } from "@/components/app/app.styles";
+import { AppReset } from "./app.styles";
 
-const Home = React.lazy(() => import("@/pages/home/home"));
+const Home = React.lazy(() => import("../../pages/home/home"));
 
 export default function App() {
   return (

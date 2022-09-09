@@ -1,15 +1,9 @@
-import { Router } from "express";
-import authenticate from "./middleware/authenticate";
-import user from "./actions/user";
-import login from "./actions/login";
-import register from "./actions/register";
-import logout from "./actions/logout";
+import * as trpc from "@trpc/server";
+import { type AppContext } from "./services/app";
+import getServerTime from "./actions/get-server-time";
 
-const router = Router();
+const router = trpc.router<AppContext>().merge(getServerTime);
 
-router.get("/api/user", [authenticate], user);
-router.post("/api/login", login);
-router.post("/api/register", register);
-router.get("/api/logout", logout);
+export type Router = typeof router;
 
 export default router;

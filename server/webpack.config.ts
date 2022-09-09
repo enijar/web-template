@@ -5,7 +5,6 @@ import * as nodeExternals from "webpack-node-externals";
 
 const NodemonPlugin = require("nodemon-webpack-plugin");
 const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
-const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
 
 const DEV_MODE = process.env.NODE_ENV === "development";
 const SRC_DIR = path.resolve(__dirname, "src");
@@ -63,7 +62,6 @@ const config = {
     new ForkTsCheckerWebpackPlugin(),
   ],
   resolve: {
-    plugins: [new TsconfigPathsPlugin({})],
     extensions: [".ts", ".js"],
   },
   output: {

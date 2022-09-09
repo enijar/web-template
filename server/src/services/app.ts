@@ -1,9 +1,11 @@
 import * as express from "express";
 import { json } from "body-parser";
 import * as cors from "cors";
+import * as trpc from "@trpc/server";
+import * as trpcExpress from "@trpc/server/adapters/express";
 import config from "../config";
-import router from "../router";
 import cookies from "../middleware/cookies";
+import router from "../router";
 
 const app = express();
 
@@ -19,10 +21,25 @@ app.use(
     credentials: true,
   })
 );
-app.use([cookies, router]);
+app.use(cookies);
 
-app.all("*", (req, res) => {
-  res.status(404).json({ errors: { server: "Not found" } });
-});
+export const createContext = async ({
+  req,
+  res,
+}: trpcExpress.CreateExpressContextOptions) => {
+  const authToken = req.cookies.get("authToken");
+  //
+  return { req, res };
+};
+
+export type AppContext = trpc.inferAsyncReturnType<typeof createContext>;
+
+app.use(
+  "/trpc",
+  trpcExpress.createExpressMiddleware({
+    router,
+    createContext,
+  })
+);
 
 export default app;
