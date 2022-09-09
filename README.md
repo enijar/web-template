@@ -2,16 +2,14 @@
 
 Opinionated template for building modern and scalable web projects.
 
-### Getting Started
-
-Set up a new project:
+### Install
 
 ```shell
 npx degit enijar/web-template project-name
 cd project-name
 ```
 
-Run project:
+### Getting Started
 
 Set up `ENV_VARS`:
 
