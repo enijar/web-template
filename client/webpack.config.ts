@@ -1,4 +1,6 @@
+import "dotenv/config";
 import * as path from "path";
+import * as webpack from "webpack";
 import * as HtmlWebpackPlugin from "html-webpack-plugin";
 import * as CopyPlugin from "copy-webpack-plugin";
 import * as MiniCssExtractPlugin from "mini-css-extract-plugin";
@@ -15,9 +17,6 @@ const BUILD_DIR = path.resolve(__dirname, "build");
 const PUBLIC_PATH = process.env.PUBLIC_PATH ?? "/";
 
 const config = {
-  cache: {
-    type: "filesystem",
-  },
   mode: DEV_MODE ? "development" : "production",
   target: DEV_MODE ? "web" : "browserslist",
   stats: "minimal",
@@ -80,6 +79,10 @@ const config = {
     ],
   },
   plugins: [
+    // Add ENV_VARS here to make them available inside the app
+    new webpack.DefinePlugin({
+      "process.env.API_URL": JSON.stringify(process.env.API_URL),
+    }),
     new ForkTsCheckerWebpackPlugin(),
     new HtmlWebpackPlugin({
       template: path.join(PUBLIC_DIR, "index.html"),

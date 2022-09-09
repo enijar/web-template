@@ -1,40 +1,38 @@
 import * as path from "path";
-import env from "../env";
+import { Dialect } from "sequelize";
 import User from "./entities/user";
 
-const paths = {
-  emails: path.resolve(__dirname, "..", "emails"),
-};
-
-export default {
-  port: env.port,
-  appUrl: env.appUrl,
-  corsOrigins: env.corsOrigins,
-  bcryptRounds: env.bcryptRounds,
+const config = {
+  port: parseInt(process.env.PORT ?? "3000"),
+  appUrl: process.env.APP_URL ?? "http://localhost:8080",
+  corsOrigins: (process.env.CORS_ORIGINS ?? "").split(","),
+  bcryptRounds: parseInt(process.env.BCRYPT_ROUNDS ?? "12"),
   database: {
-    host: env.database.host,
-    name: env.database.name,
-    dialect: env.database.dialect,
-    username: env.database.username,
-    password: env.database.password,
-    storage: env.database.storage,
-    entities: [User],
+    host: process.env.DATABASE_HOST ?? "127.0.0.1",
+    name: process.env.DATABASE_NAME ?? "app",
+    dialect: (process.env.DATABASE_DIALECT ?? "sqlite") as Dialect,
+    username: process.env.DATABASE_USERNAME ?? "app",
+    password: process.env.DATABASE_PASSWORD ?? "secret",
+    storage: path.resolve(__dirname, "..", ".cache", "database.sqlite"),
+    models: [User],
   },
   jwt: {
-    secret: env.jwt.secret,
+    secret: process.env.JWT_SECRET,
   },
   email: {
-    preview: env.email.preview,
-    send: env.email.send,
-    from: env.email.from,
-    templates: paths.emails,
+    preview: process.env.EMAIL_PREVIEW === "true",
+    send: process.env.EMAIL_SEND === "true",
+    from: process.env.EMAIL_FROM,
+    templates: path.resolve(__dirname, "..", "emails"),
     transport: {
-      host: env.email.smtp.host,
-      port: env.email.smtp.port,
+      host: process.env.EMAIL_SMTP_HOST ?? "smtp.sendgrid.net",
+      port: parseInt(process.env.EMAIL_SMTP_PORT ?? "587"),
       auth: {
-        user: env.email.smtp.username,
-        pass: env.email.smtp.password,
+        user: process.env.EMAIL_SMTP_USERNAME ?? "apikey",
+        pass: process.env.EMAIL_SMTP_PASSWORD ?? "secret",
       },
     },
   },
 };
+
+export default config;
