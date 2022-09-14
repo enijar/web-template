@@ -1,6 +1,6 @@
 import { JwtPayload, sign, verify } from "jsonwebtoken";
 import config from "../config";
-import User from "../entities/user";
+import User from "../models/user";
 
 interface TokenData extends JwtPayload {
   id: number;

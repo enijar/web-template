@@ -1,6 +1,6 @@
 import * as path from "path";
 import { Dialect } from "sequelize";
-import User from "./entities/user";
+import User from "./models/user";
 
 const config = {
   port: parseInt(process.env.PORT ?? "3000"),
