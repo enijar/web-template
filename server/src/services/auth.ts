@@ -2,20 +2,21 @@ import { JwtPayload, sign, verify } from "jsonwebtoken";
 import config from "../config";
 import User from "../models/user";
 
+const secret = config.jwt.secret;
+const expiresIn = "30d";
+
 interface TokenData extends JwtPayload {
-  id: number;
-  email: string;
+  id: User["id"];
+  email: User["email"];
 }
 
 const auth = {
-  sign(user: User) {
-    return sign({ id: user.id, email: user.email }, config.jwt.secret, {
-      expiresIn: "30d",
-    });
+  sign(user: User): string {
+    return sign({ id: user.id, email: user.email }, secret, { expiresIn });
   },
 
   verify(token: string = ""): TokenData {
-    return verify(token, config.jwt.secret) as TokenData;
+    return verify(token, secret) as TokenData;
   },
 };
 

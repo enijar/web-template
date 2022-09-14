@@ -6,6 +6,8 @@ import * as trpcExpress from "@trpc/server/adapters/express";
 import config from "../config";
 import cookies from "../middleware/cookies";
 import router from "../router";
+import auth from "./auth";
+import User from "../models/user";
 
 const app = express();
 
@@ -27,9 +29,9 @@ export const createContext = async ({
   req,
   res,
 }: trpcExpress.CreateExpressContextOptions) => {
-  const authToken = req.cookies.get("authToken");
-  //
-  return { req, res };
+  const { id } = await auth.verify(req.cookies.get("authToken"));
+  const user = await User.findByPk(id);
+  return { req, res, user };
 };
 
 export type AppContext = trpc.inferAsyncReturnType<typeof createContext>;
