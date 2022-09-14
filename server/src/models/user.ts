@@ -9,9 +9,9 @@ export default class User extends Model {
   @Column
   password?: string;
 
-  toJSON<T extends any>(): T {
+  toJSON<T extends User["_attributes"]>() {
     const data = super.toJSON<User>();
     delete data.password;
-    return data as T;
+    return data;
   }
 }
