@@ -1,4 +1,4 @@
-import "dotenv/config";
+import * as dotenv from "dotenv";
 import * as path from "path";
 import * as webpack from "webpack";
 import * as HtmlWebpackPlugin from "html-webpack-plugin";
@@ -85,7 +85,7 @@ const config = {
     }),
     // Add ENV_VARS here to make them available inside the app
     new webpack.DefinePlugin({
-      "process.env.API_URL": JSON.stringify(process.env.API_URL),
+      "process.env": JSON.stringify(dotenv.config().parsed),
     }),
     new ForkTsCheckerWebpackPlugin(),
     new HtmlWebpackPlugin({
