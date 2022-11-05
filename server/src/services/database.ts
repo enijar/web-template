@@ -7,7 +7,6 @@ const database = new Sequelize({
   dialect: config.database.dialect,
   username: config.database.username,
   password: config.database.password,
-  storage: config.database.storage,
   logging: false,
   models: config.database.models,
 });

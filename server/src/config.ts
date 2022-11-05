@@ -8,12 +8,11 @@ const config = {
   corsOrigins: (process.env.CORS_ORIGINS ?? "").split(","),
   bcryptRounds: parseInt(process.env.BCRYPT_ROUNDS ?? "12"),
   database: {
-    host: process.env.DATABASE_HOST ?? "127.0.0.1",
+    host: process.env.DATABASE_HOST ?? ":memory:",
     name: process.env.DATABASE_NAME ?? "app",
     dialect: (process.env.DATABASE_DIALECT ?? "sqlite") as Dialect,
     username: process.env.DATABASE_USERNAME ?? "app",
     password: process.env.DATABASE_PASSWORD ?? "secret",
-    storage: path.resolve(__dirname, "..", ".cache", "database.sqlite"),
     models: [User],
   },
   jwt: {

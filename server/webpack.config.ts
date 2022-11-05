@@ -47,6 +47,7 @@ const config = {
 };
 
 export default () => {
+  // Production config
   if (!DEV_MODE) {
     // Modify config for production
   }

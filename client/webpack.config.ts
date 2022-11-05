@@ -123,6 +123,7 @@ const config = {
 };
 
 export default () => {
+  // Production config
   if (!DEV_MODE) {
     config.plugins.push(
       new HtmlInlineScriptPlugin({ scriptMatchPattern: [/main.+[.]js$/] })
