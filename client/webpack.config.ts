@@ -6,10 +6,10 @@ import * as CopyPlugin from "copy-webpack-plugin";
 import * as MiniCssExtractPlugin from "mini-css-extract-plugin";
 import * as ReactRefreshWebpackPlugin from "@pmmmwh/react-refresh-webpack-plugin";
 
+const WatchExternalFilesPlugin = require("webpack-watch-files-plugin").default;
 const HtmlInlineScriptPlugin = require("html-inline-script-webpack-plugin");
 const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
-const WatchExternalFilesPlugin = require("webpack-watch-external-files-plugin");
 
 const DEV_MODE = process.env.NODE_ENV === "development";
 const SRC_DIR = path.resolve(__dirname, "src");
@@ -81,7 +81,7 @@ const config = {
   },
   plugins: [
     new WatchExternalFilesPlugin({
-      files: [path.resolve(__dirname, "..", "server", "**", "*")],
+      files: [path.resolve(__dirname, "..", "server", "src", "**", "*")],
     }),
     // Add ENV_VARS here to make them available inside the app
     new webpack.DefinePlugin({
