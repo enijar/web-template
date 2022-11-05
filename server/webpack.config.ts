@@ -14,6 +14,7 @@ const config = {
   mode: DEV_MODE ? "development" : "production",
   target: "node",
   stats: "minimal",
+  devtool: DEV_MODE ? "eval-cheap-module-source-map" : "source-map",
   entry: path.join(SRC_DIR, "index.ts"),
   module: {
     rules: [

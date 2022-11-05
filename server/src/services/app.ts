@@ -29,8 +29,11 @@ export const createContext = async ({
   req,
   res,
 }: trpcExpress.CreateExpressContextOptions) => {
-  const { id } = await auth.verify(req.cookies.get("authToken"));
-  const user = await User.findByPk(id);
+  const data = await auth.verify(req.cookies.get("authToken"));
+  let user: User | null = null;
+  if (data !== null) {
+    user = await User.findByPk(data.id);
+  }
   return { req, res, user };
 };
 

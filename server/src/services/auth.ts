@@ -15,7 +15,10 @@ const auth = {
     return sign({ id: user.id, email: user.email }, secret, { expiresIn });
   },
 
-  verify(token: string = ""): TokenData {
+  verify(token: string = ""): TokenData | null {
+    if (token === "") {
+      return null;
+    }
     return verify(token, secret) as TokenData;
   },
 };
