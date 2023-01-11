@@ -2,15 +2,15 @@ import React from "react";
 import trpc from "@/services/trpc";
 
 export default function Home() {
-  const { data, mutate } = trpc.getServerTime.useMutation();
+  const getServerTime = trpc.getServerTime.useMutation();
 
   return (
     <main>
       <h1>Home</h1>
       <div>
-        <button onClick={() => mutate()}>Get Server Time</button>
+        <button onClick={() => getServerTime.mutate()}>Get Server Time</button>
       </div>
-      <time>{data}</time>
+      <time>{getServerTime.data}</time>
     </main>
   );
 }
