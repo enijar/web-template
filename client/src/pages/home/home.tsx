@@ -2,7 +2,7 @@ import React from "react";
 import trpc from "@/services/trpc";
 
 export default function Home() {
-  const { data, mutate } = trpc.useMutation(["getServerTime"]);
+  const { data, mutate } = trpc.getServerTime.useMutation();
 
   return (
     <main>

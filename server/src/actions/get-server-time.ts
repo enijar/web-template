@@ -1,10 +1,7 @@
-import * as trpc from "@trpc/server";
-import { type AppContext } from "../services/app";
+import trpc from "../services/trpc";
 
-const getServerTime = trpc.router<AppContext>().mutation("getServerTime", {
-  async resolve() {
-    return Date.now();
-  },
+const getServerTime = trpc.procedure.mutation(async () => {
+  return Date.now();
 });
 
 export default getServerTime;

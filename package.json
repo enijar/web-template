@@ -6,10 +6,7 @@
     "build": "concurrently -n server,client \"npm --prefix server run build\" \"npm --prefix client run build\""
   },
   "devDependencies": {
-    "concurrently": "^7.5.0",
-    "prettier": "^2.7.1"
-  },
-  "dependencies": {
-    "@trpc/server": "^9.27.4"
+    "concurrently": "^7.6.0",
+    "prettier": "^2.8.2"
   }
 }

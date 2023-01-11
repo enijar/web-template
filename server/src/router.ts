@@ -1,8 +1,9 @@
-import * as trpc from "@trpc/server";
-import { type AppContext } from "./services/app";
+import trpc from "./services/trpc";
 import getServerTime from "./actions/get-server-time";
 
-const router = trpc.router<AppContext>().merge(getServerTime);
+const router = trpc.router({
+  getServerTime,
+});
 
 export type Router = typeof router;
 

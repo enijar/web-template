@@ -1,7 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { httpBatchLink } from "@trpc/client";
 import { BrowserRouter as Router } from "react-router-dom";
-import { QueryClient, QueryClientProvider } from "react-query";
 import trpc from "@/services/trpc";
 import config from "@/config";
 import App from "@/components/app/app";
@@ -12,10 +13,11 @@ const root = ReactDOM.createRoot(rootElement!);
 const queryClient = new QueryClient();
 
 const trpcClient = trpc.createClient({
-  url: `${config.apiUrl}/trpc`,
-  fetch(url, options) {
-    return fetch(url, { ...options, credentials: "include" });
-  },
+  links: [
+    httpBatchLink({
+      url: `${config.apiUrl}/trpc`,
+    }),
+  ],
 });
 
 root.render(
