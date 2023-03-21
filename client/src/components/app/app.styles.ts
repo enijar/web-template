@@ -35,7 +35,7 @@ export const AppReset = createGlobalStyle`
     font-size: clamp(var(--root-min), var(--root-size), var(--root-max));
     font-family: system-ui, sans-serif;
     font-weight: normal;
-    line-height: 1em;
+    line-height: 1;
     text-rendering: geometricPrecision;
     background-color: #1e1e1e;
     color: #fefefe;
