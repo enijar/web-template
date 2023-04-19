@@ -7,8 +7,8 @@ const database = new Sequelize({
   dialect: config.database.dialect,
   username: config.database.username,
   password: config.database.password,
-  logging: false,
   models: config.database.models,
+  logging: false,
 });
 
 export default database;
