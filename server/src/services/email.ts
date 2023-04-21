@@ -9,7 +9,10 @@ const email = new Email({
       extension: "ejs",
     },
   },
-  preview: config.email.preview,
+  preview: {
+    open: config.email.preview,
+    openSimulator: false,
+  },
   send: config.email.send,
   message: {
     from: config.email.from,
