@@ -25,10 +25,7 @@ app.use(
 );
 app.use(cookies);
 
-export const createContext = async ({
-  req,
-  res,
-}: trpcExpress.CreateExpressContextOptions) => {
+export const createContext = async ({ req, res }: trpcExpress.CreateExpressContextOptions) => {
   const data = await auth.verify(req.cookies.get("authToken"));
   let user: User | null = null;
   if (data !== null) {
