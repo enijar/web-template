@@ -6,11 +6,13 @@ const Home = React.lazy(() => import("@/pages/home/home"));
 
 export default function App() {
   return (
-    <React.Suspense fallback="Loading...">
+    <>
       <AppReset />
-      <Routes>
-        <Route path="/" element={<Home />} />
-      </Routes>
-    </React.Suspense>
+      <React.Suspense fallback="Loading...">
+        <Routes>
+          <Route path="/" element={<Home />} />
+        </Routes>
+      </React.Suspense>
+    </>
   );
 }
