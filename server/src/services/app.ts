@@ -21,7 +21,7 @@ app.use(
       next(null, true);
     },
     credentials: true,
-  })
+  }),
 );
 app.use(cookies);
 
@@ -41,7 +41,7 @@ app.use(
   trpcExpress.createExpressMiddleware({
     router,
     createContext,
-  })
+  }),
 );
 
 export default app;

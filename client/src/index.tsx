@@ -27,5 +27,5 @@ root.render(
         <App />
       </Router>
     </QueryClientProvider>
-  </trpc.Provider>
+  </trpc.Provider>,
 );
