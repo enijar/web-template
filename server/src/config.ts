@@ -2,6 +2,8 @@ import * as path from "path";
 import { z } from "zod";
 import User from "./models/user";
 
+require("dotenv").config({ path: path.resolve(__dirname, "..", ".env") });
+
 const env = z.object({
   PORT: z.string(),
   APP_URL: z.string(),

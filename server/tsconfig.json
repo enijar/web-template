@@ -1,12 +1,17 @@
 {
   "compilerOptions": {
+    "outDir": "build",
+    "tsBuildInfoFile": ".tsbuildinfo",
+    "incremental": true,
     "strict": true,
     "sourceMap": true,
-    "module": "commonjs",
-    "target": "es2017",
+    "module": "CommonJS",
+    "target": "ES2020",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true
-  }
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "build"]
 }
