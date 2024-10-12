@@ -1,24 +1,16 @@
 {
   "compilerOptions": {
-    "target": "ES2020",
-    "useDefineForClassFields": true,
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
-    "module": "ESNext",
-    "skipLibCheck": true,
-    "moduleResolution": "bundler",
-    "allowImportingTsExtensions": true,
-    "allowSyntheticDefaultImports": true,
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "esModuleInterop": true,
-    "noEmit": true,
-    "jsx": "react-jsx",
     "strict": true,
-    "composite": true,
+    "sourceMap": true,
+    "module": "commonjs",
+    "target": "es2017",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "allowSyntheticDefaultImports": true,
+    "jsx": "react-jsx",
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["./src/*"]
     }
-  },
-  "include": ["vite.config.ts", "src"]
+  }
 }
