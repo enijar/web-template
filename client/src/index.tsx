@@ -7,8 +7,11 @@ import trpc from "@/services/trpc";
 import config from "@/config";
 import App from "@/components/app/app";
 
-const rootElement = document.querySelector("#root");
-const root = ReactDOM.createRoot(rootElement!);
+const root = document.querySelector("#root");
+
+if (root === null) {
+  throw new Error("No #root element");
+}
 
 const queryClient = new QueryClient();
 
@@ -20,7 +23,7 @@ const trpcClient = trpc.createClient({
   ],
 });
 
-root.render(
+ReactDOM.createRoot(root).render(
   <trpc.Provider client={trpcClient} queryClient={queryClient}>
     <QueryClientProvider client={queryClient}>
       <Router>
