@@ -37,10 +37,7 @@
     "webpack": "5.95.0",
     "webpack-cli": "5.1.4",
     "webpack-dev-server": "5.1.0",
-    "webpack-watch-files-plugin": "1.2.1",
-    "@vitejs/plugin-react": "4.3.2",
-    "vite": "5.4.8",
-    "vite-tsconfig-paths": "5.0.1"
+    "webpack-watch-files-plugin": "1.2.1"
   },
   "dependencies": {
     "@tanstack/react-query": "5.59.13",
