@@ -1,5 +1,5 @@
-import trpc from "./services/trpc";
-import getServerTime from "./actions/get-server-time";
+import trpc from "./services/trpc.js";
+import getServerTime from "./actions/get-server-time.js";
 
 const router = trpc.router({
   getServerTime,

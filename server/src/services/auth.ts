@@ -1,25 +1,28 @@
-import { JwtPayload, sign, verify } from "jsonwebtoken";
-import config from "../config";
-import User from "../models/user";
+import { SignJWT, JWTPayload, jwtVerify } from "jose";
+import config from "../config.js";
+import User from "../models/user.js";
 
 const secret = config.jwt.secret;
 const expiresIn = "30d";
 
-interface TokenData extends JwtPayload {
+interface Payload extends JWTPayload {
   id: User["id"];
   email: User["email"];
 }
 
 const auth = {
-  sign(user: User): string {
-    return sign({ id: user.id, email: user.email }, secret, { expiresIn });
+  sign(user: User) {
+    const jwt = new SignJWT({ id: user.id, email: user.email });
+    jwt.setExpirationTime(expiresIn);
+    return jwt.sign(config.jwt.secret);
   },
 
-  verify(token: string = ""): TokenData | null {
+  async verify(token: string = "") {
     if (token === "") {
       return null;
     }
-    return verify(token, secret) as TokenData;
+    const { payload } = await jwtVerify<Payload>(token, secret);
+    return payload;
   },
 };
 

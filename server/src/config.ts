@@ -1,8 +1,12 @@
-import * as path from "path";
+import path from "node:path";
+import url from "node:url";
+import { config as dotenv } from "dotenv";
 import { z } from "zod";
-import User from "./models/user";
 
-require("dotenv").config({ path: path.resolve(__dirname, "..", ".env") });
+const __filename = url.fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+dotenv({ path: path.resolve(__dirname, "..", ".env") });
 
 const env = z.object({
   PORT: z.string(),
@@ -10,8 +14,8 @@ const env = z.object({
   CORS_ORIGINS: z.string(),
   BCRYPT_ROUNDS: z.string(),
   DATABASE_HOST: z.string(),
+  DATABASE_PORT: z.string(),
   DATABASE_NAME: z.string(),
-  DATABASE_DIALECT: z.enum(["mysql", "sqlite"]),
   DATABASE_USERNAME: z.string(),
   DATABASE_PASSWORD: z.string(),
   JWT_SECRET: z.string(),
@@ -39,14 +43,14 @@ const config = {
   bcryptRounds: parseInt(process.env.BCRYPT_ROUNDS),
   database: {
     host: process.env.DATABASE_HOST,
+    port: parseInt(process.env.DATABASE_PORT),
     name: process.env.DATABASE_NAME,
-    dialect: process.env.DATABASE_DIALECT,
     username: process.env.DATABASE_USERNAME,
     password: process.env.DATABASE_PASSWORD,
-    models: [User],
+    models: path.resolve(__dirname, "models", "*.{ts,js}"),
   },
   jwt: {
-    secret: process.env.JWT_SECRET,
+    secret: new TextEncoder().encode(process.env.JWT_SECRET),
   },
   email: {
     preview: process.env.EMAIL_PREVIEW === "true",

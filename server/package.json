@@ -1,39 +1,35 @@
 {
+  "type": "module",
   "private": true,
   "scripts": {
-    "start": "nodemon src/index.ts",
-    "build": "rm -rf .tsbuildinfo build && tsc"
+    "start": "tsx --watch src/index.ts",
+    "build": "rm -rf .tsbuildinfo build && tsc -p tsconfig.build.json && tsconfig-replace-paths -p tsconfig.build.json"
   },
   "devDependencies": {
     "@types/bcrypt": "5.0.2",
-    "@types/body-parser": "1.19.5",
     "@types/cookies": "0.9.0",
     "@types/cors": "2.8.17",
     "@types/email-templates": "10.0.4",
     "@types/express": "5.0.0",
-    "@types/jsonwebtoken": "9.0.7",
     "@types/node": "22.10.1",
     "@types/validator": "13.12.2",
     "dotenv": "16.4.7",
-    "nodemon": "3.1.7",
     "ts-node": "10.9.2",
+    "tsconfig-replace-paths": "0.0.14",
+    "tsx": "4.19.2",
     "typescript": "5.7.2"
   },
   "dependencies": {
+    "@sequelize/core": "7.0.0-alpha.43",
+    "@sequelize/mysql": "7.0.0-alpha.43",
     "@trpc/server": "11.0.0-rc.571",
     "bcrypt": "5.1.1",
-    "body-parser": "1.20.3",
     "cookies": "0.9.1",
     "cors": "2.8.5",
     "ejs": "3.1.10",
     "email-templates": "12.0.1",
     "express": "4.21.2",
-    "jsonwebtoken": "9.0.2",
-    "mysql2": "3.11.5",
-    "reflect-metadata": "0.2.2",
-    "sequelize": "6.37.5",
-    "sequelize-typescript": "2.1.6",
-    "sqlite3": "5.1.7",
+    "jose": "5.9.6",
     "zod": "3.23.8"
   }
 }

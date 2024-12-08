@@ -7,9 +7,9 @@
     "experimentalDecorators": true,
     "strict": true,
     "skipLibCheck": true,
-    "composite": true,
     "declaration": true,
     "declarationDir": "build/types",
+    "outDir": "build",
     "rootDir": "src",
     "baseUrl": ".",
     "paths": {

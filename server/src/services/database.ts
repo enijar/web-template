@@ -1,14 +1,15 @@
-import { Sequelize } from "sequelize-typescript";
-import config from "../config";
+import { Sequelize, importModels } from "@sequelize/core";
+import { MySqlDialect } from "@sequelize/mysql";
+import config from "../config.js";
 
 const database = new Sequelize({
+  dialect: MySqlDialect,
   host: config.database.host,
+  port: config.database.port,
   database: config.database.name,
-  dialect: config.database.dialect,
-  username: config.database.username,
+  user: config.database.username,
   password: config.database.password,
-  models: config.database.models,
-  logging: false,
+  models: await importModels(config.database.models),
 });
 
 export default database;

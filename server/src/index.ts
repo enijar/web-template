@@ -1,6 +1,6 @@
-import config from "./config";
-import database from "./services/database";
-import app from "./services/app";
+import config from "./config.js";
+import database from "./services/database.js";
+import app from "./services/app.js";
 
 (async () => {
   try {

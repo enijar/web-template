@@ -1,17 +1,15 @@
-import * as express from "express";
-import { json } from "body-parser";
-import * as cors from "cors";
-import * as trpc from "@trpc/server";
-import * as trpcExpress from "@trpc/server/adapters/express";
-import config from "../config";
-import cookies from "../middleware/cookies";
-import router from "../router";
-import auth from "./auth";
-import User from "../models/user";
+import express from "express";
+import cors from "cors";
+import { type CreateExpressContextOptions, createExpressMiddleware } from "@trpc/server/adapters/express";
+import config from "../config.js";
+import cookies from "../middleware/cookies.js";
+import router from "../router.js";
+import auth from "./auth.js";
+import User from "../models/user.js";
 
 const app = express();
 
-app.use(json());
+app.use(express.json());
 app.use(
   cors({
     origin(origin, next) {
@@ -25,7 +23,7 @@ app.use(
 );
 app.use(cookies);
 
-export const createContext = async ({ req, res }: trpcExpress.CreateExpressContextOptions) => {
+export const createContext = async ({ req, res }: CreateExpressContextOptions) => {
   const data = await auth.verify(req.cookies.get("authToken"));
   let user: User | null = null;
   if (data !== null) {
@@ -34,14 +32,8 @@ export const createContext = async ({ req, res }: trpcExpress.CreateExpressConte
   return { req, res, user };
 };
 
-export type AppContext = trpc.inferAsyncReturnType<typeof createContext>;
+export type AppContext = Awaited<ReturnType<typeof createContext>>;
 
-app.use(
-  "/trpc",
-  trpcExpress.createExpressMiddleware({
-    router,
-    createContext,
-  }),
-);
+app.use("/trpc", createExpressMiddleware({ router, createContext }));
 
 export default app;

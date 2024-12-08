@@ -2,7 +2,7 @@
   "private": true,
   "scripts": {
     "start": "concurrently -n server,client \"npm --prefix server start\" \"npm --prefix client start\"",
-    "build": "concurrently -n server,client \"npm --prefix server run build\" \"npm --prefix client run build\"",
+    "build": "npm --prefix server run build && npm --prefix client run build",
     "format": "concurrently -n server,client \"prettier --write server/src\" \"prettier --write client/src\"",
     "postinstall": "concurrently -n server,client \"npm --prefix server install\" \"npm --prefix client install\""
   },

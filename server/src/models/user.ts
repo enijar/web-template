@@ -1,17 +1,19 @@
-import { Column, Index, Model, Table } from "sequelize-typescript";
+import { type CreationOptional, DataTypes, InferAttributes, InferCreationAttributes, Model } from "@sequelize/core";
+import { Attribute, AutoIncrement, Index, NotNull, PrimaryKey, Table, Unique } from "@sequelize/core/decorators-legacy";
 
 @Table({ tableName: "users" })
-export default class User extends Model {
+export default class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
+  @Attribute(DataTypes.INTEGER)
+  @PrimaryKey
+  @AutoIncrement
+  declare id: CreationOptional<number>;
+
+  @Attribute(DataTypes.STRING)
   @Index({ name: "email", unique: true })
-  @Column
-  email!: string;
+  @NotNull
+  declare email: string;
 
-  @Column
-  password?: string;
-
-  toJSON<T extends User["_attributes"]>() {
-    const data = super.toJSON<User>();
-    delete data.password;
-    return data;
-  }
+  @Attribute(DataTypes.STRING)
+  @NotNull
+  declare password?: string;
 }
