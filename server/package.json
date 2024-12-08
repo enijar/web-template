@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "start": "tsx --watch src/index.ts",
-    "build": "rm -rf .tsbuildinfo build && tsc -p tsconfig.build.json && tsconfig-replace-paths -p tsconfig.build.json"
+    "build": "rm -rf tsconfig.tsbuildinfo build && tsc -p tsconfig.build.json && tsconfig-replace-paths -p tsconfig.build.json"
   },
   "devDependencies": {
     "@types/bcrypt": "5.0.2",
