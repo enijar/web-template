@@ -26,12 +26,7 @@ const trpcClient = trpc.createClient({
 ReactDOM.createRoot(root).render(
   <trpc.Provider client={trpcClient} queryClient={queryClient}>
     <QueryClientProvider client={queryClient}>
-      <Router
-        future={{
-          v7_relativeSplatPath: true,
-          v7_startTransition: true,
-        }}
-      >
+      <Router>
         <App />
       </Router>
     </QueryClientProvider>
