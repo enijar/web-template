@@ -55,19 +55,19 @@ NGINX config:
 
 ```nginx configuration
 server {
-	server_name _;
-	listen 80;
+    server_name _;
+    listen 80;
     listen [::]:80;
-	client_max_body_size 500m;
+    client_max_body_size 500m;
 
-	index index.html;
-	root /var/www/project-name/client/build;
+    index index.html;
+    root /var/www/project-name/client/build;
 
-	location / {
-    	try_files $uri $uri/ /index.html =404;
+    location / {
+        try_files $uri $uri/ /index.html =404;
     }
 
-	location ~ ^/(api|trpc) {
+    location ~ ^/(api|trpc) {
         proxy_redirect off;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
