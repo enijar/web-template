@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "start": "vite",
-    "build": "rm -rf .tsbuildinfo build && tsc && vite build"
+    "build": "tsc && vite build"
   },
   "devDependencies": {
     "@types/react": "19.0.1",
