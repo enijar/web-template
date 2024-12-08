@@ -1,4 +1,4 @@
-import { SignJWT, JWTPayload, jwtVerify } from "jose";
+import { JWTPayload, jwtVerify, SignJWT } from "jose";
 import config from "../config.js";
 import User from "../models/user.js";
 

@@ -1,4 +1,4 @@
-import { Sequelize, importModels } from "@sequelize/core";
+import { importModels, Sequelize } from "@sequelize/core";
 import { MySqlDialect } from "@sequelize/mysql";
 import config from "../config.js";
 
