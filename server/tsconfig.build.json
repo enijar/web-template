@@ -9,11 +9,12 @@
     "skipLibCheck": true,
     "declaration": true,
     "declarationDir": "build/types",
+    "tsBuildInfoFile": "build/.tsbuildinfo",
     "outDir": "build",
     "rootDir": "src",
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"]
+      "~/*": ["src/*"]
     }
   },
   "include": ["src"],

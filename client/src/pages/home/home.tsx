@@ -1,5 +1,5 @@
 import React from "react";
-import trpc from "@/services/trpc";
+import trpc from "~/services/trpc";
 
 export default function Home() {
   const getServerTime = trpc.getServerTime.useMutation();

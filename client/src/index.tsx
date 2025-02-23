@@ -3,9 +3,9 @@ import ReactDOM from "react-dom/client";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { httpBatchLink } from "@trpc/client";
 import { BrowserRouter as Router } from "react-router-dom";
-import trpc from "@/services/trpc";
-import config from "@/config";
-import App from "@/components/app/app";
+import trpc from "~/services/trpc";
+import config from "~/config";
+import App from "~/components/app/app";
 
 const root = document.querySelector("#root");
 
