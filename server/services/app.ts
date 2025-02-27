@@ -1,11 +1,11 @@
 import express from "express";
 import cors from "cors";
 import { type CreateExpressContextOptions, createExpressMiddleware } from "@trpc/server/adapters/express";
-import config from "~/config.js";
-import cookies from "~/middleware/cookies.js";
-import router from "~/router.js";
-import auth from "~/services/auth.js";
-import User from "~/models/user.js";
+import config from "server/config.js";
+import cookies from "server/middleware/cookies.js";
+import router from "server/router.js";
+import auth from "server/services/auth.js";
+import User from "server/models/user.js";
 
 const app = express();
 

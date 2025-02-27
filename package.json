@@ -1,14 +1,39 @@
 {
   "private": true,
+  "type": "module",
   "scripts": {
-    "start": "concurrently -n server,client \"npm --prefix server start\" \"npm --prefix client start\"",
-    "build": "npm --prefix server run build && npm --prefix client run build",
-    "format": "concurrently -n server,client \"prettier --write server/src\" \"prettier --write client/src\"",
-    "postinstall": "concurrently -n server,client \"npm --prefix server install\" \"npm --prefix client install\""
+    "start": "conc -n server,client \"npm run server:start\" \"npm client:start\"",
+    "build": "npm server:build && npm client:build",
+    "format": "conc -n server,client \"prettier --write server\" \"prettier --write client\"",
+    "server:start": "tsx --watch server/index.ts",
+    "server:build": "tsc -p tsconfig.json && tsconfig-replace-paths -p tsconfig.json"
   },
   "devDependencies": {
+    "@types/bcrypt": "5.0.2",
+    "@types/cookies": "0.9.0",
+    "@types/cors": "2.8.17",
+    "@types/email-templates": "10.0.4",
+    "@types/express": "5.0.0",
+    "@types/node": "22.13.5",
+    "@types/validator": "13.12.2",
     "concurrently": "9.1.2",
+    "dotenv": "16.4.7",
     "prettier": "3.5.2",
+    "tsconfig-replace-paths": "0.0.14",
+    "tsx": "4.19.3",
     "typescript": "5.7.3"
+  },
+  "dependencies": {
+    "@sequelize/core": "7.0.0-alpha.45",
+    "@sequelize/mysql": "7.0.0-alpha.45",
+    "@trpc/server": "11.0.0-rc.571",
+    "bcrypt": "5.1.1",
+    "cookies": "0.9.1",
+    "cors": "2.8.5",
+    "ejs": "3.1.10",
+    "email-templates": "12.0.1",
+    "express": "4.21.2",
+    "jose": "6.0.8",
+    "zod": "3.24.2"
   }
 }

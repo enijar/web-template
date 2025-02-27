@@ -1,4 +1,10 @@
-import { type CreationOptional, DataTypes, InferAttributes, InferCreationAttributes, Model } from "@sequelize/core";
+import {
+  type CreationOptional,
+  DataTypes,
+  type InferAttributes,
+  type InferCreationAttributes,
+  Model,
+} from "@sequelize/core";
 import { Attribute, AutoIncrement, Index, NotNull, PrimaryKey, Table } from "@sequelize/core/decorators-legacy";
 
 @Table({ tableName: "users" })

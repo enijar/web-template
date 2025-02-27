@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "NodeNext",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "forceConsistentCasingInFileNames": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "declaration": true,
+    "types": ["@types/node"],
+    "tsBuildInfoFile": "server.build/.tsbuildinfo",
+    "outDir": "server.build",
+    "rootDir": "server",
+    "baseUrl": ".",
+    "paths": {
+      "server/*": ["server/*"]
+    }
+  },
+  "include": ["server"],
+  "exclude": ["node_modules", "server.build"]
+}

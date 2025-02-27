@@ -1,6 +1,6 @@
 import { JWTPayload, jwtVerify, SignJWT } from "jose";
-import config from "~/config.js";
-import User from "~/models/user.js";
+import config from "server/config.js";
+import User from "server/models/user.js";
 
 const secret = config.jwt.secret;
 const expiresIn = "30d";
