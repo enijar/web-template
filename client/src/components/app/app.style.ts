@@ -1,6 +1,6 @@
 import { createGlobalStyle } from "styled-components";
 
-export const AppReset = createGlobalStyle`
+export const Reset = createGlobalStyle`
   * {
     margin: 0;
     padding: 0;

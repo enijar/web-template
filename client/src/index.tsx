@@ -2,7 +2,6 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { httpBatchLink } from "@trpc/client";
-import { BrowserRouter as Router } from "react-router-dom";
 import trpc from "~/services/trpc";
 import config from "~/config";
 import App from "~/components/app/app";
@@ -26,9 +25,7 @@ const trpcClient = trpc.createClient({
 ReactDOM.createRoot(root).render(
   <trpc.Provider client={trpcClient} queryClient={queryClient}>
     <QueryClientProvider client={queryClient}>
-      <Router>
-        <App />
-      </Router>
+      <App />
     </QueryClientProvider>
   </trpc.Provider>,
 );

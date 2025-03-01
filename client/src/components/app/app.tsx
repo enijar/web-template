@@ -1,17 +1,15 @@
 import React from "react";
-import { Route, Routes } from "react-router-dom";
-import { AppReset } from "~/components/app/app.styles";
-
-const Home = React.lazy(() => import("~/pages/home/home"));
+import { RouterProvider } from "react-router-dom";
+import * as Style from "~/components/app/app.style";
+import router from "~/router";
+import Loading from "~/components/loading/loading";
 
 export default function App() {
   return (
     <>
-      <AppReset />
-      <React.Suspense fallback="Loading...">
-        <Routes>
-          <Route path="/" element={<Home />} />
-        </Routes>
+      <Style.Reset />
+      <React.Suspense fallback={<Loading />}>
+        <RouterProvider router={router} />
       </React.Suspense>
     </>
   );
