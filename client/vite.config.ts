@@ -35,7 +35,7 @@ const config: UserConfigFn = (env) => {
               "babel-plugin-styled-components",
               {
                 ssr: !DEV_MODE,
-                fileName: false,
+                fileName: DEV_MODE,
                 displayName: DEV_MODE,
                 minify: !DEV_MODE,
                 pure: !DEV_MODE,
