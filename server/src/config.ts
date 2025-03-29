@@ -3,66 +3,57 @@ import url from "node:url";
 import { config as dotenv } from "dotenv";
 import { z } from "zod";
 
-const __filename = url.fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
 
-dotenv({ path: path.resolve(__dirname, "..", ".env") });
-
-const env = z.object({
-  PORT: z.string(),
-  APP_URL: z.string(),
-  CORS_ORIGINS: z.string(),
-  BCRYPT_ROUNDS: z.string(),
-  DATABASE_HOST: z.string(),
-  DATABASE_PORT: z.string(),
-  DATABASE_NAME: z.string(),
-  DATABASE_USERNAME: z.string(),
-  DATABASE_PASSWORD: z.string(),
-  JWT_SECRET: z.string(),
-  EMAIL_PREVIEW: z.string(),
-  EMAIL_SEND: z.string(),
-  EMAIL_FROM: z.string(),
-  EMAIL_SMTP_HOST: z.string(),
-  EMAIL_SMTP_PORT: z.string(),
-  EMAIL_SMTP_USERNAME: z.string(),
-  EMAIL_SMTP_PASSWORD: z.string(),
-});
-
-env.parse(process.env);
-
-declare global {
-  namespace NodeJS {
-    interface ProcessEnv extends z.infer<typeof env> {}
-  }
-}
+const env = z
+  .object({
+    PORT: z.coerce.number().finite().gte(0).lte(65535),
+    APP_URL: z.string(),
+    CORS_ORIGINS: z.string(),
+    BCRYPT_ROUNDS: z.coerce.number().finite().gte(1),
+    DATABASE_HOST: z.string(),
+    DATABASE_PORT: z.coerce.number().finite().gte(0).lte(65535),
+    DATABASE_NAME: z.string(),
+    DATABASE_USERNAME: z.string(),
+    DATABASE_PASSWORD: z.string(),
+    JWT_SECRET: z.string(),
+    EMAIL_PREVIEW: z.string(),
+    EMAIL_SEND: z.string(),
+    EMAIL_FROM: z.string(),
+    EMAIL_SMTP_HOST: z.string(),
+    EMAIL_SMTP_PORT: z.coerce.number().gte(1),
+    EMAIL_SMTP_USERNAME: z.string(),
+    EMAIL_SMTP_PASSWORD: z.string(),
+  })
+  .parse(dotenv({ path: path.join(__dirname, "..", ".env") }).parsed);
 
 const config = {
-  port: parseInt(process.env.PORT),
-  appUrl: process.env.APP_URL,
-  corsOrigins: process.env.CORS_ORIGINS.split(","),
-  bcryptRounds: parseInt(process.env.BCRYPT_ROUNDS),
+  port: env.PORT,
+  appUrl: env.APP_URL,
+  corsOrigins: env.CORS_ORIGINS.split(","),
+  bcryptRounds: env.BCRYPT_ROUNDS,
   database: {
-    host: process.env.DATABASE_HOST,
-    port: parseInt(process.env.DATABASE_PORT),
-    name: process.env.DATABASE_NAME,
-    username: process.env.DATABASE_USERNAME,
-    password: process.env.DATABASE_PASSWORD,
-    models: path.resolve(__dirname, "models", "*.{ts,js}"),
+    host: env.DATABASE_HOST,
+    port: env.DATABASE_PORT,
+    name: env.DATABASE_NAME,
+    username: env.DATABASE_USERNAME,
+    password: env.DATABASE_PASSWORD,
+    models: path.join(__dirname, "models", "*.{ts,js}"),
   },
   jwt: {
-    secret: new TextEncoder().encode(process.env.JWT_SECRET),
+    secret: new TextEncoder().encode(env.JWT_SECRET),
   },
   email: {
-    preview: process.env.EMAIL_PREVIEW === "true",
-    send: process.env.EMAIL_SEND === "true",
-    from: process.env.EMAIL_FROM,
-    templates: path.resolve(__dirname, "..", "emails"),
+    preview: env.EMAIL_PREVIEW === "true",
+    send: env.EMAIL_SEND === "true",
+    from: env.EMAIL_FROM,
+    templates: path.join(__dirname, "..", "emails"),
     transport: {
-      host: process.env.EMAIL_SMTP_HOST,
-      port: parseInt(process.env.EMAIL_SMTP_PORT),
+      host: env.EMAIL_SMTP_HOST,
+      port: env.EMAIL_SMTP_PORT,
       auth: {
-        user: process.env.EMAIL_SMTP_USERNAME,
-        pass: process.env.EMAIL_SMTP_PASSWORD,
+        user: env.EMAIL_SMTP_USERNAME,
+        pass: env.EMAIL_SMTP_PASSWORD,
       },
     },
   },
