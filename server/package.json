@@ -10,9 +10,8 @@
     "@types/cookies": "0.9.0",
     "@types/cors": "2.8.17",
     "@types/email-templates": "10.0.4",
-    "@types/express": "5.0.0",
-    "@types/node": "22.13.8",
-    "@types/validator": "13.12.2",
+    "@types/express": "5.0.1",
+    "@types/node": "22.13.14",
     "dotenv": "16.4.7",
     "ts-node": "10.9.2",
     "tsconfig-replace-paths": "0.0.14",
@@ -20,16 +19,16 @@
     "typescript": "5.8.2"
   },
   "dependencies": {
-    "@sequelize/core": "7.0.0-alpha.45",
-    "@sequelize/mysql": "7.0.0-alpha.45",
-    "@trpc/server": "11.0.0-rc.571",
+    "@sequelize/core": "7.0.0-alpha.46",
+    "@sequelize/mysql": "7.0.0-alpha.46",
+    "@trpc/server": "11.0.1",
     "bcrypt": "5.1.1",
     "cookies": "0.9.1",
     "cors": "2.8.5",
     "ejs": "3.1.10",
     "email-templates": "12.0.2",
     "express": "4.21.2",
-    "jose": "6.0.8",
+    "jose": "6.0.10",
     "zod": "3.24.2"
   }
 }
