@@ -12,6 +12,7 @@
     "declaration": true,
     "declarationDir": "build/types",
     "tsBuildInfoFile": "build/.tsbuildinfo",
+    "types": ["node"],
     "rootDir": "src",
     "baseUrl": ".",
     "paths": {
