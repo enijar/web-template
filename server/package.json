@@ -2,30 +2,35 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "start": "tsx --watch src/index.ts",
-    "build": "rm -rf build && tsc -p tsconfig.build.json && tsconfig-replace-paths -p tsconfig.build.json"
+    "start": "NODE_ENV=development tsx --watch src/index.ts",
+    "build": "NODE_ENV=production rm -rf build && tsc -p tsconfig.build.json && tsconfig-replace-paths -p tsconfig.build.json",
+    "email": "email dev -d src/emails -p 3001"
   },
   "devDependencies": {
     "@types/bcrypt": "5.0.2",
-    "@types/email-templates": "10.0.4",
-    "@types/node": "22.13.14",
-    "dotenv": "16.4.7",
+    "@types/node": "22.14.1",
+    "@types/react": "19.1.1",
+    "@types/react-dom": "19.1.2",
+    "dotenv": "16.5.0",
+    "react-email": "4.0.7",
     "ts-node": "10.9.2",
     "tsconfig-replace-paths": "0.0.14",
     "tsx": "4.19.3",
-    "typescript": "5.8.2"
+    "typescript": "5.8.3"
   },
   "dependencies": {
-    "@hono/node-server": "1.14.0",
+    "@hono/node-server": "1.14.1",
     "@hono/trpc-server": "0.3.4",
+    "@react-email/components": "0.0.36",
+    "@sendgrid/mail": "8.1.5",
     "@sequelize/core": "7.0.0-alpha.46",
     "@sequelize/mysql": "7.0.0-alpha.46",
-    "@trpc/server": "11.0.1",
+    "@trpc/server": "11.1.0",
     "bcrypt": "5.1.1",
-    "ejs": "3.1.10",
-    "email-templates": "12.0.2",
-    "hono": "4.7.5",
+    "hono": "4.7.6",
     "jose": "6.0.10",
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
     "zod": "3.24.2"
   }
 }

@@ -10,6 +10,7 @@
     "declaration": true,
     "declarationDir": "build/types",
     "tsBuildInfoFile": "build/.tsbuildinfo",
+    "jsx": "react-jsx",
     "outDir": "build",
     "rootDir": "src",
     "baseUrl": ".",

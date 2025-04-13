@@ -17,13 +17,8 @@ const env = z
     DATABASE_USERNAME: z.string(),
     DATABASE_PASSWORD: z.string(),
     JWT_SECRET: z.string(),
-    EMAIL_PREVIEW: z.string(),
-    EMAIL_SEND: z.string(),
     EMAIL_FROM: z.string(),
-    EMAIL_SMTP_HOST: z.string(),
-    EMAIL_SMTP_PORT: z.coerce.number().gte(1),
-    EMAIL_SMTP_USERNAME: z.string(),
-    EMAIL_SMTP_PASSWORD: z.string(),
+    EMAIL_SMTP_API_KEY: z.string(),
   })
   .parse(dotenv({ path: path.join(__dirname, "..", ".env") }).parsed);
 
@@ -44,18 +39,8 @@ const config = {
     secret: new TextEncoder().encode(env.JWT_SECRET),
   },
   email: {
-    preview: env.EMAIL_PREVIEW === "true",
-    send: env.EMAIL_SEND === "true",
     from: env.EMAIL_FROM,
-    templates: path.join(__dirname, "..", "emails"),
-    transport: {
-      host: env.EMAIL_SMTP_HOST,
-      port: env.EMAIL_SMTP_PORT,
-      auth: {
-        user: env.EMAIL_SMTP_USERNAME,
-        pass: env.EMAIL_SMTP_PASSWORD,
-      },
-    },
+    apiKey: env.EMAIL_SMTP_API_KEY,
   },
 };
 
