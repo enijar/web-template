@@ -12,6 +12,7 @@
     "typescript": "5.8.3"
   },
   "engines": {
-    "node": ">=23"
+    "node": ">=23",
+    "npm": ">=10"
   }
 }
