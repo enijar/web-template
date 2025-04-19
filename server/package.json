@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "start": "NODE_ENV=development tsx --watch src/index.ts",
-    "build": "NODE_ENV=production rm -rf build && tsc -p tsconfig.build.json && tsconfig-replace-paths -p tsconfig.build.json",
+    "build": "NODE_ENV=production rm -rf build && tsc -p tsconfig.build.json && tsc-alias -p tsconfig.build.json",
     "email": "email dev -d src/emails -p 3001"
   },
   "devDependencies": {
@@ -14,7 +14,7 @@
     "dotenv": "16.5.0",
     "react-email": "4.0.7",
     "ts-node": "10.9.2",
-    "tsconfig-replace-paths": "0.0.14",
+    "tsc-alias": "1.8.15",
     "tsx": "4.19.3",
     "typescript": "5.8.3"
   },
@@ -26,7 +26,7 @@
     "@sequelize/core": "7.0.0-alpha.46",
     "@sequelize/mysql": "7.0.0-alpha.46",
     "@trpc/server": "11.1.0",
-    "bcrypt": "5.1.1",
+    "argon2": "0.41.1",
     "hono": "4.7.7",
     "jose": "6.0.10",
     "react": "19.1.0",

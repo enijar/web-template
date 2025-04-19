@@ -10,7 +10,6 @@ const env = z
     PORT: z.coerce.number().finite().gte(0).lte(65535),
     APP_URL: z.string(),
     CORS_ORIGINS: z.string(),
-    BCRYPT_ROUNDS: z.coerce.number().finite().gte(1),
     DATABASE_HOST: z.string(),
     DATABASE_PORT: z.coerce.number().finite().gte(0).lte(65535),
     DATABASE_NAME: z.string(),
@@ -26,7 +25,6 @@ const config = {
   port: env.PORT,
   appUrl: env.APP_URL,
   corsOrigins: env.CORS_ORIGINS.split(","),
-  bcryptRounds: env.BCRYPT_ROUNDS,
   database: {
     host: env.DATABASE_HOST,
     port: env.DATABASE_PORT,
