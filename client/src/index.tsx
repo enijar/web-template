@@ -3,7 +3,6 @@ import ReactDOM from "react-dom/client";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { httpBatchLink } from "@trpc/client";
 import trpc from "~/services/trpc";
-import config from "~/config";
 import App from "~/components/app/app";
 
 const root = document.querySelector("#root");
@@ -17,7 +16,7 @@ const queryClient = new QueryClient();
 const trpcClient = trpc.createClient({
   links: [
     httpBatchLink({
-      url: `${config.apiUrl}/trpc`,
+      url: "/trpc",
     }),
   ],
 });

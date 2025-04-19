@@ -12,6 +12,11 @@ const config: UserConfigFn = (env) => {
     server: {
       port: 8080,
       host: true,
+      proxy: {
+        "/api": {
+          target: "http://localhost:3000",
+        },
+      },
     },
     base: "/",
     publicDir: path.join(PROJECT_ROOT, "public"),

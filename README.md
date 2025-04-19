@@ -14,7 +14,6 @@ cd project-name
 Set up `ENV_VARS`:
 
 ```shell
-cp client/.env.example client/.env
 cp server/.env.example server/.env
 ```
 
@@ -31,7 +30,6 @@ npm start
 Set up `ENV_VARS`:
 
 ```shell
-cp client/.env.example client/.env
 cp server/.env.example server/.env
 ```
 
