@@ -2,15 +2,17 @@ import React from "react";
 import trpc from "~/services/trpc";
 
 export default function Home() {
-  const getServerTime = trpc.getServerTime.useMutation();
+  const { data, refetch } = trpc.getServerTime.useQuery();
 
   return (
     <main>
       <h1>Home</h1>
       <div>
-        <button onClick={() => getServerTime.mutate()}>Get Server Time</button>
+        <button onClick={() => refetch()}>Get Server Time</button>
       </div>
-      <time>{getServerTime.data}</time>
+      <p>
+        Server time: <time>{data}</time>
+      </p>
     </main>
   );
 }
