@@ -9,7 +9,7 @@
   "devDependencies": {
     "@types/bcrypt": "5.0.2",
     "@types/node": "22.14.1",
-    "@types/react": "19.1.1",
+    "@types/react": "19.1.2",
     "@types/react-dom": "19.1.2",
     "dotenv": "16.5.0",
     "react-email": "4.0.7",
@@ -27,10 +27,10 @@
     "@sequelize/mysql": "7.0.0-alpha.46",
     "@trpc/server": "11.1.0",
     "bcrypt": "5.1.1",
-    "hono": "4.7.6",
+    "hono": "4.7.7",
     "jose": "6.0.10",
     "react": "19.1.0",
     "react-dom": "19.1.0",
-    "zod": "3.24.2"
+    "zod": "3.24.3"
   }
 }
