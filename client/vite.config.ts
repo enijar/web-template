@@ -13,6 +13,9 @@ const config: UserConfigFn = (env) => {
       port: 8080,
       host: true,
       proxy: {
+        "/trpc": {
+          target: "http://localhost:3000",
+        },
         "/api": {
           target: "http://localhost:3000",
         },
