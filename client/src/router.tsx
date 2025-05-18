@@ -10,7 +10,6 @@ export const router = createBrowserRouter([
     hydrateFallbackElement: <Loading />,
     children: [
       {
-        id: "home",
         path: "/",
         Component: React.lazy(() => import("~/pages/home/home")),
       },

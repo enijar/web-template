@@ -8,29 +8,29 @@
   },
   "devDependencies": {
     "@types/bcrypt": "5.0.2",
-    "@types/node": "22.14.1",
-    "@types/react": "19.1.2",
-    "@types/react-dom": "19.1.2",
+    "@types/node": "22.15.18",
+    "@types/react": "19.1.4",
+    "@types/react-dom": "19.1.5",
     "dotenv": "16.5.0",
-    "react-email": "4.0.7",
+    "react-email": "4.0.14",
     "ts-node": "10.9.2",
-    "tsc-alias": "1.8.15",
-    "tsx": "4.19.3",
+    "tsc-alias": "1.8.16",
+    "tsx": "4.19.4",
     "typescript": "5.8.3"
   },
   "dependencies": {
     "@hono/node-server": "1.14.1",
     "@hono/trpc-server": "0.3.4",
-    "@react-email/components": "0.0.36",
+    "@react-email/components": "0.0.41",
     "@sendgrid/mail": "8.1.5",
     "@sequelize/core": "7.0.0-alpha.46",
     "@sequelize/mysql": "7.0.0-alpha.46",
-    "@trpc/server": "11.1.0",
-    "argon2": "0.41.1",
-    "hono": "4.7.7",
-    "jose": "6.0.10",
+    "@trpc/server": "11.1.2",
+    "argon2": "0.43.0",
+    "hono": "4.7.10",
+    "jose": "6.0.11",
     "react": "19.1.0",
     "react-dom": "19.1.0",
-    "zod": "3.24.3"
+    "zod": "3.24.4"
   }
 }

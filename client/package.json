@@ -6,23 +6,23 @@
     "build": "tsc && vite build"
   },
   "devDependencies": {
-    "@types/node": "22.14.1",
-    "@types/react": "19.1.2",
-    "@types/react-dom": "19.1.2",
+    "@types/node": "22.15.18",
+    "@types/react": "19.1.4",
+    "@types/react-dom": "19.1.5",
     "@vitejs/plugin-react": "4.4.1",
     "babel-plugin-styled-components": "2.1.4",
     "typescript": "5.8.3",
-    "vite": "6.3.2",
+    "vite": "6.3.5",
     "vite-tsconfig-paths": "5.1.4"
   },
   "dependencies": {
-    "@tanstack/react-query": "5.74.4",
-    "@trpc/client": "11.1.0",
-    "@trpc/react-query": "11.1.0",
+    "@tanstack/react-query": "5.76.1",
+    "@trpc/client": "11.1.2",
+    "@trpc/react-query": "11.1.2",
     "react": "19.1.0",
     "react-dom": "19.1.0",
-    "react-router-dom": "7.5.1",
-    "styled-components": "6.1.17",
-    "zustand": "5.0.3"
+    "react-router-dom": "7.6.0",
+    "styled-components": "6.1.18",
+    "zustand": "5.0.4"
   }
 }
