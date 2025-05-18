@@ -9,7 +9,6 @@ const env = z
   .object({
     PORT: z.coerce.number().finite().gte(0).lte(65535),
     APP_URL: z.string(),
-    CORS_ORIGINS: z.string(),
     DATABASE_HOST: z.string(),
     DATABASE_PORT: z.coerce.number().finite().gte(0).lte(65535),
     DATABASE_NAME: z.string(),
@@ -24,7 +23,6 @@ const env = z
 const config = {
   port: env.PORT,
   appUrl: env.APP_URL,
-  corsOrigins: env.CORS_ORIGINS.split(","),
   database: {
     host: env.DATABASE_HOST,
     port: env.DATABASE_PORT,
