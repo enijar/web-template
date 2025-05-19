@@ -1,7 +1,5 @@
-import trpc from "~/services/trpc.js";
+import { publicProcedure } from "~/services/trpc.js";
 
-const getServerTime = trpc.procedure.query(() => {
+export const getServerTime = publicProcedure.query(() => {
   return Date.now();
 });
-
-export default getServerTime;

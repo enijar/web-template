@@ -2,8 +2,7 @@ import React from "react";
 import trpc from "~/services/trpc";
 
 export default function Home() {
-  const { data, refetch } = trpc.getServerTime.useQuery();
-
+  const { data, refetch } = trpc.getServerTime.useQuery(undefined, { suspense: true });
   return (
     <main>
       <h1>Home</h1>
