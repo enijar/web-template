@@ -2,16 +2,9 @@
 
 Opinionated template for building modern and scalable web projects.
 
-### Install
+### Development Mode
 
-```shell
-npx degit enijar/web-template project-name
-cd project-name
-```
-
-### Getting Started
-
-Set up `ENV_VARS`:
+Set up environment variables:
 
 ```shell
 cp server/.env.example server/.env
@@ -20,14 +13,13 @@ cp server/.env.example server/.env
 Start app in development mode:
 
 ```shell
-nvm use # uses supported Node version for this project
 npm install
 npm start
 ```
 
 ### Production Build
 
-Set up `ENV_VARS`:
+Set up environment variables:
 
 ```shell
 cp server/.env.example server/.env
@@ -36,7 +28,6 @@ cp server/.env.example server/.env
 Build app in production mode:
 
 ```shell
-nvm use # uses supported Node version for this project
 npm install
 npm run build
 ```

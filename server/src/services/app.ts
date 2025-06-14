@@ -1,6 +1,6 @@
 import { Hono } from "hono";
 import { cors } from "hono/cors";
-import { trpcServer } from "@hono/trpc-server";
+import { trpcServer } from "~/services/trpc.js";
 import router from "~/router.js";
 
 async function createContext() {
