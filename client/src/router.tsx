@@ -1,9 +1,9 @@
 import React from "react";
-import { createBrowserRouter, Outlet } from "react-router-dom";
+import { createBrowserRouter as createRouter, Outlet } from "react-router-dom";
 import ErrorPage from "~/components/error/error";
 import Loading from "~/components/loading/loading";
 
-export const router = createBrowserRouter([
+export const router = createRouter([
   {
     element: <Outlet />,
     errorElement: <ErrorPage />,
