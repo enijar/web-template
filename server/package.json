@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "start": "NODE_ENV=development tsx --watch src/index.ts",
-    "build": "NODE_ENV=production rm -rf build && tsc -p tsconfig.build.json && tsc-alias -p tsconfig.build.json",
+    "build": "NODE_ENV=production rm -rf build && tsc && tsc-alias",
     "email": "email dev -d src/emails -p 3001"
   },
   "devDependencies": {
