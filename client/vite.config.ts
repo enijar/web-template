@@ -1,23 +1,30 @@
 import * as path from "node:path";
-import { defineConfig, loadEnv, type UserConfigFn } from "vite";
+import { defineConfig, type UserConfigFn } from "vite";
 import react from "@vitejs/plugin-react";
 import tsconfigPaths from "vite-tsconfig-paths";
+import { config as dotenv } from "dotenv";
+import z from "zod";
+
+const env = z
+  .object({
+    PORT: z.coerce.number().finite().gte(0).lte(65535),
+  })
+  .parse(dotenv({ path: path.join(import.meta.dirname, "..", ".env") }).parsed);
 
 const PROJECT_ROOT = path.resolve(__dirname);
 const DEV_MODE = process.env.NODE_ENV === "development";
 
-const config: UserConfigFn = (env) => {
-  process.env = { ...process.env, ...loadEnv(env.mode, process.cwd()) };
+const config: UserConfigFn = () => {
   return defineConfig({
     server: {
       port: 8080,
       host: true,
       proxy: {
         "/trpc": {
-          target: "http://localhost:3000",
+          target: `http://localhost:${env.PORT}`,
         },
         "/api": {
-          target: "http://localhost:3000",
+          target: `http://localhost:${env.PORT}`,
         },
       },
     },

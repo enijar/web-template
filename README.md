@@ -7,7 +7,7 @@ Opinionated template for building modern and scalable web projects.
 Set up environment variables:
 
 ```shell
-cp server/.env.example server/.env
+cp .env.example .env
 ```
 
 Start app in development mode:
@@ -22,7 +22,7 @@ npm start
 Set up environment variables:
 
 ```shell
-cp server/.env.example server/.env
+cp env.example env
 ```
 
 Build app in production mode:

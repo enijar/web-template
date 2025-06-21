@@ -2,6 +2,8 @@ import path from "node:path";
 import { config as dotenv } from "dotenv";
 import { z } from "zod";
 
+console.log(path.join(import.meta.dirname, "..", "..", ".env"));
+
 const env = z
   .object({
     PORT: z.coerce.number().finite().gte(0).lte(65535),
@@ -15,7 +17,7 @@ const env = z
     EMAIL_FROM: z.string().nonempty().email(),
     EMAIL_SMTP_API_KEY: z.string().nonempty(),
   })
-  .parse(dotenv({ path: path.join(import.meta.dirname, "..", ".env") }).parsed);
+  .parse(dotenv({ path: path.join(import.meta.dirname, "..", "..", ".env") }).parsed);
 
 const config = {
   port: env.PORT,
