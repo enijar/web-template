@@ -7,11 +7,12 @@ import type { AppContext } from "~/services/app.js";
 
 export const trpc = initTRPC.context<AppContext>().create({
   errorFormatter({ shape, error }) {
+    let response: any = shape;
     if (error.cause instanceof z.ZodError) {
       const { fieldErrors } = error.cause.flatten();
       const allMessages = Object.values(fieldErrors).flat().filter(Boolean);
-      const message = allMessages.length ? allMessages.join("; ") : shape.message;
-      return {
+      const message = allMessages.length ? allMessages.join('; ') : shape.message;
+      response = {
         ...shape,
         message,
         data: {
@@ -20,7 +21,7 @@ export const trpc = initTRPC.context<AppContext>().create({
         },
       };
     }
-    return shape;
+    return response;
   },
 });
 

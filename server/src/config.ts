@@ -1,20 +1,20 @@
 import path from "node:path";
 import { config as dotenv } from "dotenv";
-import { z } from "zod";
+import z from "zod/v4";
 
 console.log(path.join(import.meta.dirname, "..", "..", ".env"));
 
 const env = z
   .object({
-    PORT: z.coerce.number().finite().gte(0).lte(65535),
-    APP_URL: z.string().nonempty().url(),
+    PORT: z.coerce.number().gte(0).lte(65535),
+    APP_URL: z.url().nonempty(),
     DATABASE_HOST: z.string().nonempty(),
-    DATABASE_PORT: z.coerce.number().finite().gte(0).lte(65535),
+    DATABASE_PORT: z.coerce.number().gte(0).lte(65535),
     DATABASE_NAME: z.string().nonempty(),
     DATABASE_USERNAME: z.string().nonempty(),
     DATABASE_PASSWORD: z.string(),
     JWT_SECRET: z.string().nonempty(),
-    EMAIL_FROM: z.string().nonempty().email(),
+    EMAIL_FROM: z.email().nonempty(),
     EMAIL_SMTP_API_KEY: z.string().nonempty(),
   })
   .parse(dotenv({ path: path.join(import.meta.dirname, "..", "..", ".env") }).parsed);
