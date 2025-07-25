@@ -22,7 +22,7 @@ npm start
 Set up environment variables:
 
 ```shell
-cp env.example env
+cp .env.example .env
 ```
 
 Build app in production mode:
