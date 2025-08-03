@@ -4,6 +4,7 @@
   "scripts": {
     "start": "NODE_ENV=development tsx --watch src/index.ts",
     "build": "NODE_ENV=production rm -rf build && tsc && tsc-alias",
+    "test": "NODE_ENV=test vitest run",
     "email": "email dev -d src/emails -p 3001"
   },
   "devDependencies": {
@@ -16,7 +17,9 @@
     "ts-node": "10.9.2",
     "tsc-alias": "1.8.16",
     "tsx": "4.20.3",
-    "typescript": "5.9.2"
+    "typescript": "5.9.2",
+    "vite-tsconfig-paths": "5.1.4",
+    "vitest": "3.2.4"
   },
   "dependencies": {
     "@hono/node-server": "1.18.1",
