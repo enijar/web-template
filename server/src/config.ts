@@ -2,8 +2,6 @@ import path from "node:path";
 import { config as dotenv } from "dotenv";
 import z from "zod/v4";
 
-console.log(path.join(import.meta.dirname, "..", "..", ".env"));
-
 const env = z
   .object({
     PORT: z.coerce.number().gte(0).lte(65535),
