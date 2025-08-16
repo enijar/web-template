@@ -9,9 +9,9 @@ export const trpc = initTRPC.context<AppContext>().create({
   errorFormatter({ shape, error }) {
     let response: any = shape;
     if (error.cause instanceof z.ZodError) {
-      const { fieldErrors } = error.cause.flatten();
+      const fieldErrors = z.treeifyError(error.cause);
       const allMessages = Object.values(fieldErrors).flat().filter(Boolean);
-      const message = allMessages.length ? allMessages.join('; ') : shape.message;
+      const message = allMessages.length ? allMessages.join("; ") : shape.message;
       response = {
         ...shape,
         message,
@@ -47,29 +47,31 @@ type tRPCOptions = Omit<FetchHandlerRequestOptions<AnyRouter>, "req" | "endpoint
 export const trpcServer = ({ endpoint = "/trpc", createContext, ...rest }: tRPCOptions): MiddlewareHandler => {
   const bodyProps = new Set(["arrayBuffer", "blob", "formData", "json", "text"] as const);
   type BodyProp = typeof bodyProps extends Set<infer T> ? T : never;
-  return async (c) => {
-    const canWithBody = c.req.method === "GET" || c.req.method === "HEAD";
+  return async (ctx) => {
+    const canWithBody = ctx.req.method === "GET" || ctx.req.method === "HEAD";
     return fetchRequestHandler({
       ...rest,
-      createContext: async (opts) => ({
-        ...(createContext ? await createContext(opts, c) : {}),
-        // propagate env by default
-        env: c.env,
-      }),
+      async createContext(opts) {
+        return {
+          ...(createContext ? await createContext(opts, ctx) : {}),
+          // propagate env by default
+          env: ctx.env,
+        };
+      },
       endpoint,
       req: canWithBody
-        ? c.req.raw
-        : new Proxy(c.req.raw, {
+        ? ctx.req.raw
+        : new Proxy(ctx.req.raw, {
             get(t, p, _r) {
               if (bodyProps.has(p as BodyProp)) {
-                return () => c.req[p as BodyProp]();
+                return () => ctx.req[p as BodyProp]();
               }
               return Reflect.get(t, p, t);
             },
           }),
     }).then((res) =>
       // @ts-expect-error c.body accepts both ReadableStream and null but is not typed well
-      c.body(res.body, res),
+      ctx.body(res.body, res),
     );
   };
 };

@@ -3,11 +3,11 @@ import { defineConfig, type UserConfigFn } from "vite";
 import react from "@vitejs/plugin-react";
 import tsconfigPaths from "vite-tsconfig-paths";
 import { config as dotenv } from "dotenv";
-import z from "zod";
+import z from "zod/v4";
 
 const env = z
   .object({
-    PORT: z.coerce.number().finite().gte(0).lte(65535),
+    PORT: z.coerce.number().gte(0).lte(65535),
   })
   .parse(dotenv({ path: path.join(import.meta.dirname, "..", ".env") }).parsed);
 
