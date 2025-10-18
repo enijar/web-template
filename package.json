@@ -7,9 +7,9 @@
     "postinstall": "conc -n server,client \"npm --prefix server install\" \"npm --prefix client install\""
   },
   "devDependencies": {
-    "concurrently": "9.2.0",
+    "concurrently": "9.2.1",
     "prettier": "3.6.2",
-    "typescript": "5.9.2"
+    "typescript": "5.9.3"
   },
   "engines": {
     "node": ">=23",
