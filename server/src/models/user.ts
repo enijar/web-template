@@ -3,7 +3,7 @@ import { Attribute, AutoIncrement, Index, NotNull, PrimaryKey, Table } from "@se
 
 @Table({ tableName: "users" })
 export default class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
-  @Attribute(DataTypes.INTEGER)
+  @Attribute(DataTypes.INTEGER.UNSIGNED)
   @PrimaryKey
   @AutoIncrement
   declare id: CreationOptional<number>;
@@ -15,5 +15,5 @@ export default class User extends Model<InferAttributes<User>, InferCreationAttr
 
   @Attribute(DataTypes.STRING)
   @NotNull
-  declare password?: string;
+  declare password: string;
 }
