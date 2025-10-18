@@ -2,9 +2,6 @@ import { JWTPayload, jwtVerify, SignJWT } from "jose";
 import config from "~/config.js";
 import User from "~/models/user.js";
 
-const secret = config.jwt.secret;
-const expiresIn = "30d";
-
 interface Payload extends JWTPayload {
   id: User["id"];
   email: User["email"];
@@ -13,15 +10,15 @@ interface Payload extends JWTPayload {
 const auth = {
   sign(user: User) {
     const jwt = new SignJWT({ id: user.id, email: user.email });
-    jwt.setExpirationTime(expiresIn);
+    jwt.setProtectedHeader({ alg: "HS256" });
+    jwt.setExpirationTime("30d");
     return jwt.sign(config.jwt.secret);
   },
-
   async verify(token: string = "") {
     if (token === "") {
       return null;
     }
-    const { payload } = await jwtVerify<Payload>(token, secret);
+    const { payload } = await jwtVerify<Payload>(token, config.jwt.secret);
     return payload;
   },
 };
