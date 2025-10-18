@@ -1,6 +1,6 @@
 import path from "node:path";
 import { config as dotenv } from "dotenv";
-import z from "zod/v4";
+import { z } from "zod/v4";
 
 const env = z
   .object({

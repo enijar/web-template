@@ -1,5 +1,5 @@
 import { initTRPC, TRPCError, AnyRouter } from "@trpc/server";
-import z from "zod";
+import { z } from "zod/v4";
 import type { FetchCreateContextFnOptions, FetchHandlerRequestOptions } from "@trpc/server/adapters/fetch";
 import { fetchRequestHandler } from "@trpc/server/adapters/fetch";
 import type { Context, MiddlewareHandler } from "hono";
