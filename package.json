@@ -1,10 +1,10 @@
 {
   "private": true,
   "scripts": {
-    "start": "conc -n server,client \"npm --prefix server start\" \"npm --prefix client start\"",
+    "start": "concurrently -n server,client \"npm --prefix server start\" \"npm --prefix client start\"",
     "build": "npm --prefix server run build && npm --prefix client run build",
-    "format": "conc -n server,client \"prettier --write server/src\" \"prettier --write client/src\"",
-    "postinstall": "conc -n server,client \"npm --prefix server install\" \"npm --prefix client install\""
+    "format": "concurrently -n server,client \"prettier --write server/src\" \"prettier --write client/src\"",
+    "postinstall": "concurrently -n server,client \"npm --prefix server install\" \"npm --prefix client install\""
   },
   "devDependencies": {
     "concurrently": "9.2.1",
