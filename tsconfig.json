@@ -1,0 +1,28 @@
+{
+  "files": [],
+  "references": [{ "path": "packages/client" }, { "path": "packages/config" }, { "path": "packages/server" }],
+  "compilerOptions": {
+    "types": ["node", "react", "react-dom"],
+    "sourceMap": true,
+    "composite": false,
+    "declaration": true,
+    "noEmit": true,
+    "target": "ESNext",
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "module": "NodeNext",
+    "moduleResolution": "nodenext",
+    "resolveJsonModule": true,
+    "jsx": "react-jsx",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "baseUrl": ".",
+    "paths": {
+      "client/*": ["packages/client/src/*"],
+      "config/*": ["packages/config/src/*"],
+      "server/*": ["packages/server/src/*"]
+    }
+  }
+}

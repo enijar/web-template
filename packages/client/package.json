@@ -1,0 +1,23 @@
+{
+  "type": "module",
+  "private": true,
+  "name": "client",
+  "scripts": {
+    "start": "vite",
+    "build": "tsc --noEmit && vite build",
+    "test": "exit 0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "5.1.1",
+    "babel-plugin-styled-components": "2.1.4",
+    "vite": "7.2.2",
+    "vite-tsconfig-paths": "5.1.4"
+  },
+  "dependencies": {
+    "@tanstack/react-query": "5.90.9",
+    "@trpc/client": "11.7.1",
+    "@trpc/react-query": "11.7.1",
+    "react-router-dom": "7.9.6",
+    "styled-components": "6.1.19"
+  }
+}

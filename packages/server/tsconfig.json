@@ -1,0 +1,16 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "declarationDir": "build/types",
+    "tsBuildInfoFile": "build/.tsbuildinfo",
+    "experimentalDecorators": true,
+    "noEmit": false,
+    "composite": true,
+    "outDir": "build",
+    "rootDir": "src"
+  },
+  "include": ["src"],
+  "references": [
+    { "path": "../config" }
+  ]
+}

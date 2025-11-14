@@ -1,0 +1,14 @@
+{
+  "type": "module",
+  "private": true,
+  "name": "config",
+  "scripts": {
+    "build": "rm -rf build && tsc && tsc-alias"
+  },
+  "dependencies": {
+    "dotenv": "17.2.3"
+  },
+  "devDependencies": {
+    "tsc-alias": "1.8.16"
+  }
+}
