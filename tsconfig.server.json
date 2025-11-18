@@ -6,8 +6,7 @@
     "moduleResolution": "nodenext",
     "outDir": "build",
     "tsBuildInfoFile": "build/server/.tsbuildinfo",
-    "declaration": false,
-    "experimentalDecorators": true
+    "declaration": false
   },
   "exclude": ["src/client"]
 }
