@@ -17,8 +17,9 @@
     "baseUrl": "./src",
     "paths": {
       "client/*": ["client/*"],
-      "server/*": ["server/*"],
-      "config/*": ["config/*"]
+      "config/*": ["config/*"],
+      "emails/*": ["emails/*"],
+      "server/*": ["server/*"]
     },
     "noEmit": true
   },

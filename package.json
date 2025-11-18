@@ -2,10 +2,10 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "start": "NODE_ENV=development conc -n client,server \"npm run start:client\" \"npm run start:server\"",
+    "start": "NODE_ENV=development conc -n client,server,emails \"npm run start:client\" \"npm run start:server\" \"npm run start:emails\"",
     "build": "NODE_ENV=production npm run build:client && npm run build:server",
     "test": "NODE_ENV=test exit 0",
-    "email": "email dev -d src/server/emails -p 9999",
+    "start:emails": "email dev -d src/emails -p 9999",
     "start:client": "vite",
     "start:server": "tsx --watch src/server/index.ts",
     "build:client": "vite build",
@@ -32,6 +32,7 @@
     "zod": "4.1.12"
   },
   "devDependencies": {
+    "@react-email/preview-server": "5.0.4",
     "@types/node": "24.10.1",
     "@types/react": "19.2.6",
     "@types/react-dom": "19.2.3",
