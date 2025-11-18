@@ -1,0 +1,13 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "module": "NodeNext",
+    "moduleResolution": "nodenext",
+    "outDir": "build",
+    "tsBuildInfoFile": "build/server/.tsbuildinfo",
+    "declaration": false,
+    "experimentalDecorators": true
+  },
+  "exclude": ["src/client"]
+}

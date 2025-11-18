@@ -15,7 +15,7 @@ const env = z
     EMAIL_FROM: z.email().nonempty(),
     EMAIL_SMTP_API_KEY: z.string().nonempty(),
   })
-  .parse(dotenv({ path: path.join(import.meta.dirname, "..", "..", "..", ".env") }).parsed);
+  .parse(dotenv({ path: path.join(import.meta.dirname, "..", "..", ".env") }).parsed);
 
 const config = {
   port: env.PORT,

@@ -2,7 +2,7 @@ import path from "node:path";
 import { defineConfig, type UserConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import tsconfigPaths from "vite-tsconfig-paths";
-import config from "../config/src";
+import config from "./src/config/index";
 
 const DEV_MODE = process.env.NODE_ENV === "development";
 const SERVER_URL = `http://localhost:${config.port}`;
@@ -24,14 +24,14 @@ export default function (): UserConfig {
     base: "/",
     publicDir: path.join(import.meta.dirname, "public"),
     build: {
-      outDir: path.join(import.meta.dirname, "build"),
+      outDir: path.join(import.meta.dirname, "build", "client"),
       emptyOutDir: true,
     },
     esbuild: {
       legalComments: "none",
     },
     appType: "spa",
-    root: "src",
+    root: path.join("src", "client"),
     clearScreen: false,
     plugins: [
       tsconfigPaths(),

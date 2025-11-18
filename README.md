@@ -37,7 +37,7 @@ Run app in production:
 ```shell
 # Install PM2 globally to manage the server process
 npm add -g pm2
-pm2 start --name app server/build/index.js
+pm2 start --name app build/server/index.js
 ```
 
 NGINX config:
@@ -50,7 +50,7 @@ server {
     client_max_body_size 500m;
 
     index index.html;
-    root /var/www/project-name/client/build;
+    root /var/www/project-name/build/client;
 
     location / {
         try_files $uri $uri/ /index.html =404;

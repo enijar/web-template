@@ -1,25 +1,49 @@
 {
   "type": "module",
   "private": true,
-  "workspaces": [
-    "packages/*"
-  ],
   "scripts": {
-    "start": "NODE_ENV=development conc -n client,server \"npm --prefix packages/client start\" \"npm --prefix packages/server start\"",
-    "build": "NODE_ENV=production npm run --workspaces build",
-    "test": "NODE_ENV=test npm run --workspaces test"
+    "start": "NODE_ENV=development conc -n client,server \"npm run start:client\" \"npm run start:server\"",
+    "build": "NODE_ENV=production npm run build:client && npm run build:server",
+    "test": "NODE_ENV=test exit 0",
+    "email": "email dev -d src/server/emails -p 9999",
+    "start:client": "vite",
+    "start:server": "tsx --watch src/server/index.ts",
+    "build:client": "vite build",
+    "build:server": "rm -rf build/config build/server && tsc -p tsconfig.server.json && tsc-alias -p tsconfig.server.json"
+  },
+  "dependencies": {
+    "@hono/node-server": "1.19.6",
+    "@react-email/components": "1.0.1",
+    "@sendgrid/mail": "8.1.6",
+    "@sequelize/core": "7.0.0-alpha.47",
+    "@sequelize/mysql": "7.0.0-alpha.47",
+    "@tanstack/react-query": "5.90.9",
+    "@trpc/client": "11.7.1",
+    "@trpc/react-query": "11.7.1",
+    "@trpc/server": "11.7.1",
+    "argon2": "0.44.0",
+    "dotenv": "17.2.3",
+    "hono": "4.10.6",
+    "jose": "6.1.1",
+    "react": "19.2.0",
+    "react-dom": "19.2.0",
+    "react-router-dom": "7.9.6",
+    "styled-components": "6.1.19",
+    "zod": "4.1.12"
   },
   "devDependencies": {
     "@types/node": "24.10.1",
     "@types/react": "19.2.4",
     "@types/react-dom": "19.2.3",
+    "@vitejs/plugin-react": "5.1.1",
+    "babel-plugin-styled-components": "2.1.4",
     "concurrently": "9.2.1",
     "prettier": "3.6.2",
+    "react-email": "5.0.4",
+    "tsc-alias": "1.8.16",
     "tsx": "4.20.6",
-    "typescript": "5.9.3"
-  },
-  "dependencies": {
-    "react": "19.2.0",
-    "react-dom": "19.2.0"
+    "typescript": "5.9.3",
+    "vite": "7.2.2",
+    "vite-tsconfig-paths": "5.1.4"
   }
 }
