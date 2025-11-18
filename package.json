@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@hono/node-server": "1.19.6",
+    "@hono/trpc-server": "0.4.0",
     "@react-email/components": "1.0.1",
     "@sendgrid/mail": "8.1.6",
     "@sequelize/core": "7.0.0-alpha.47",
@@ -29,7 +30,8 @@
     "react-dom": "19.2.0",
     "react-router-dom": "7.9.6",
     "styled-components": "6.1.19",
-    "zod": "4.1.12"
+    "zod": "4.1.12",
+    "zustand": "5.0.8"
   },
   "devDependencies": {
     "@react-email/preview-server": "5.0.4",
