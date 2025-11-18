@@ -26,7 +26,7 @@ const config = {
     name: env.DATABASE_NAME,
     username: env.DATABASE_USERNAME,
     password: env.DATABASE_PASSWORD,
-    models: path.join(import.meta.dirname, "models", "*.{ts,js}"),
+    models: path.join(import.meta.dirname, "..", "server", "models", "*.{ts,js}"),
   },
   jwt: {
     secret: new TextEncoder().encode(env.JWT_SECRET),
