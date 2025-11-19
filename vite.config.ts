@@ -5,7 +5,6 @@ import tsconfigPaths from "vite-tsconfig-paths";
 import config from "./src/config/index";
 
 const DEV_MODE = process.env.NODE_ENV === "development";
-const SERVER_URL = `http://localhost:${config.port}`;
 
 export default function (): UserConfig {
   return defineConfig({
@@ -13,11 +12,8 @@ export default function (): UserConfig {
       port: 8080,
       host: true,
       proxy: {
-        "/trpc": {
-          target: SERVER_URL,
-        },
         "/api": {
-          target: SERVER_URL,
+          target: `http://localhost:${config.PORT}`,
         },
       },
     },

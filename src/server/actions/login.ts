@@ -2,7 +2,7 @@ import { z } from "zod/v4";
 import { TRPCError } from "@trpc/server";
 import argon2 from "argon2";
 import { publicProcedure } from "server/services/trpc.js";
-import User from "server/models/user";
+import User from "server/models/user.js";
 
 export const login = publicProcedure
   .input(

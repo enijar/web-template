@@ -1,7 +1,7 @@
 import trpc from "server/services/trpc.js";
 
 const router = trpc.router({
-  ...(await import("server/actions/login")),
+  ...(await import("server/actions/login.js")),
 });
 
 export type Router = typeof router;

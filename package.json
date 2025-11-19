@@ -9,7 +9,7 @@
     "start:client": "vite",
     "start:server": "tsx --watch src/server/index.ts",
     "build:client": "vite build",
-    "build:server": "rm -rf build/config build/server && tsc -p tsconfig.server.json && tsc-alias -p tsconfig.server.json"
+    "build:server": "rm -rf build/{config,server} && tsc -p tsconfig.server.json && tsc-alias -p tsconfig.server.json"
   },
   "dependencies": {
     "@hono/node-server": "1.19.6",

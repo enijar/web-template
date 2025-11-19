@@ -4,7 +4,7 @@ import { render } from "@react-email/components";
 import type { MailData } from "@sendgrid/helpers/classes/mail.js";
 import config from "config/index.js";
 
-sendgrid.setApiKey(config.email.apiKey);
+sendgrid.setApiKey(config.EMAIL_SMTP_API_KEY);
 
 const email = {
   async send(email: React.ReactElement, options: MailData) {
@@ -12,7 +12,7 @@ const email = {
     return sendgrid.send({
       ...options,
       to: options.to,
-      from: options.from ?? { email: config.email.from },
+      from: options.from ?? { email: config.EMAIL_FROM },
       subject: options.subject,
       html,
     });

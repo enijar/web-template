@@ -13,6 +13,6 @@ const app = new Hono();
 
 app.use(cors());
 
-app.use("/trpc/*", trpcServer({ router, createContext }));
+app.use("/api/trpc/*", trpcServer({ router, createContext }));
 
 export default app;

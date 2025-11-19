@@ -12,13 +12,13 @@ const auth = {
     const jwt = new SignJWT({ id: user.id, email: user.email });
     jwt.setProtectedHeader({ alg: "HS256" });
     jwt.setExpirationTime("30d");
-    return jwt.sign(config.jwt.secret);
+    return jwt.sign(config.JWT_SECRET);
   },
   async verify(token: string = "") {
     if (token === "") {
       return null;
     }
-    const { payload } = await jwtVerify<Payload>(token, config.jwt.secret);
+    const { payload } = await jwtVerify<Payload>(token, config.JWT_SECRET);
     return payload;
   },
 };
