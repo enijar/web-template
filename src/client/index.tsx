@@ -2,8 +2,8 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { httpLink } from "@trpc/client";
-import trpc from "client/services/trpc";
-import App from "client/components/app/app";
+import trpc from "client/services/trpc.js";
+import App from "client/components/app/app.js";
 
 const root = document.querySelector("#root");
 

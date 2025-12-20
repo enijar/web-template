@@ -1,8 +1,8 @@
 import React from "react";
 import { TRPCClientError } from "@trpc/client";
-import { appState } from "client/state/app-state";
-import trpc from "client/services/trpc";
-import Form from "client/components/form/form";
+import { appState } from "client/state/app-state.js";
+import trpc from "client/services/trpc.js";
+import Form from "client/components/form/form.js";
 
 export default function Home() {
   const user = appState((state) => state.user);

@@ -1,7 +1,7 @@
 import React from "react";
 import { createBrowserRouter as createRouter, Outlet } from "react-router-dom";
-import ErrorPage from "client/components/error/error";
-import Loading from "client/components/loading/loading";
+import ErrorPage from "client/components/error/error.js";
+import Loading from "client/components/loading/loading.js";
 
 export const router = createRouter([
   {
@@ -11,7 +11,7 @@ export const router = createRouter([
     children: [
       {
         path: "/",
-        Component: React.lazy(() => import("client/pages/home/home")),
+        Component: React.lazy(() => import("client/pages/home/home.js")),
       },
     ],
   },

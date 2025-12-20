@@ -1,8 +1,8 @@
 import React from "react";
 import { RouterProvider } from "react-router-dom";
-import * as Style from "client/components/app/app.style";
-import router from "client/router";
-import Loading from "client/components/loading/loading";
+import * as Style from "client/components/app/app.style.js";
+import router from "client/router.js";
+import Loading from "client/components/loading/loading.js";
 
 export default function App() {
   return (

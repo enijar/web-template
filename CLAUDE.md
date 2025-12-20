@@ -46,12 +46,17 @@ TypeScript path aliases are configured in tsconfig.json:
 - `config/*` → `src/config/*`
 - `emails/*` → `src/emails/*`
 
-Use these aliases consistently throughout the codebase.
+Use these aliases consistently throughout the codebase. **IMPORTANT**: All imports using path aliases must include `.js` extensions.
 
 ### Build System
 Two separate TypeScript configurations:
-- `tsconfig.json` - Client-side code (noEmit: true, used by Vite)
-- `tsconfig.server.json` - Server-side code (module: NodeNext, outputs to `build/`)
+- `tsconfig.json` - Base config with NodeNext module resolution (enforces `.js` extensions)
+- `tsconfig.server.json` - Server-side code (extends base, outputs to `build/`)
+
+Both configs use `"moduleResolution": "NodeNext"` which:
+- Enforces explicit `.js` extensions in imports (Node.js ES module requirement)
+- Works across all editors/IDEs for consistent auto-import behavior
+- Vite and tsc both handle this correctly at build time
 
 Client build uses Vite → `build/client/`
 Server build uses tsc + tsc-alias → `build/server/` and `build/config/`
@@ -151,5 +156,9 @@ Required environment variables:
 ### Module System
 
 All code uses ES modules (`"type": "module"` in package.json):
-- Use `.js` extensions in imports even for `.ts` files (TypeScript/Node.js convention)
-- Server imports use path aliases, resolved at runtime by compiled output
+- **REQUIRED**: Use `.js` extensions in ALL imports, even for `.ts`/`.tsx` files
+- This is enforced by `"moduleResolution": "NodeNext"` in tsconfig.json
+- IDEs will automatically add `.js` extensions when using auto-import
+- Path aliases (`client/*`, `server/*`, etc.) also require `.js` extensions
+- Example: `import config from "config/index.js"` ✓
+- Example: `import config from "config/index"` ✗ (will cause build errors)
