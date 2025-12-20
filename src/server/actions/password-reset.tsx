@@ -3,9 +3,9 @@ import { z } from "zod/v4";
 import { TRPCError } from "@trpc/server";
 import { publicProcedure } from "server/services/trpc.js";
 import User from "server/models/user.js";
-import config from "config/index";
+import config from "config/index.js";
 import email from "server/services/email.js";
-import PasswordReset from "emails/password-reset";
+import PasswordReset from "emails/password-reset.js";
 
 export const passwordReset = publicProcedure
   .input(
