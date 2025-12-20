@@ -77,6 +77,11 @@ Server build uses tsc + tsc-alias → `build/server/` and `build/config/`
 - tRPC server mounted at `/trpc/*`
 - Context created per-request via `createContext()`
 
+**tRPC Service**: `src/server/services/trpc.ts`
+- Initializes tRPC with context typing
+- Custom error formatter that prettifies Zod validation errors
+- Creates `publicProcedure` as base middleware
+
 **Adding New Endpoints**:
 1. Create file in `src/server/actions/` with exported tRPC procedures
 2. Import in `src/server/router.ts` using dynamic import pattern
@@ -87,27 +92,34 @@ Server build uses tsc + tsc-alias → `build/server/` and `build/config/`
 **Entry Point**: `src/client/index.tsx`
 - React Query + tRPC client setup
 - tRPC client uses `/trpc` endpoint (proxied by Vite in dev)
+- Provider nesting: tRPC Provider wraps QueryClientProvider
 
 **Client tRPC Setup**: `src/client/services/trpc.ts`
-- Imports `Router` type from `server/router`
-- Creates type-safe tRPC React hooks
+- Imports `Router` type from `server/router.js`
+- Creates type-safe tRPC React hooks via `createTRPCReact<Router>()`
 
 **Routing**: React Router v7 configured in `src/client/router.tsx`
+- Uses lazy-loaded pages with `React.lazy()` for code splitting
 
 **State Management**: Zustand store in `src/client/state/app-state.ts`
+- Tracks currently logged-in user (id)
+- Server state managed by tRPC with React Query
 
 **Styling**: styled-components with babel plugin for SSR-ready output
+
+**Forms**: Use native HTML FormData API rather than form libraries
+- Generic `Form` component in `src/client/components/form/`
 
 ### Database (Sequelize v7)
 
 **Connection**: `src/server/services/database.ts`
 - MySQL dialect
-- Auto-imports models from `src/server/models/*.{ts,js}`
+- Auto-imports models from `src/server/models/*.{ts,js}` using `importModels()`
 - Database credentials from config
 
 **Models**: Use Sequelize v7 decorator syntax
 - Located in `src/server/models/`
-- Example: `User` model with `@Table`, `@Attribute`, `@PrimaryKey` decorators
+- Example: `User` model with `@Table`, `@Attribute`, `@PrimaryKey`, `@Index` decorators
 
 ### Authentication
 
@@ -115,16 +127,32 @@ Server build uses tsc + tsc-alias → `build/server/` and `build/config/`
 - `auth.sign(user)` - Creates 30-day JWT
 - `auth.verify(token)` - Verifies and decodes JWT
 - Uses HS256 algorithm with secret from config
+- Currently not integrated into procedures (context is empty)
+
+**Login Flow**: `src/server/actions/login.ts`
+- `publicProcedure` mutation accepting FormData
+- Zod validation for email format and non-empty password
+- Queries User by email, verifies password with Argon2
+- Returns user id and email on success
+- Throws UNAUTHORIZED error with generic message on failure
 
 ### Email System
 
 **Service**: `src/server/services/email.ts`
 - SendGrid integration
 - `email.send(reactElement, mailData)` - Renders React Email component and sends
+- Accepts React components, renders to HTML with `@react-email/components`
 
 **Templates**: `src/emails/`
 - React components using @react-email/components
 - Preview at http://localhost:9999 with `npm run start:emails`
+- Example: `PasswordReset` component with `url` and `token` props
+
+**Password Reset Flow**: `src/server/actions/password-reset.tsx`
+- `publicProcedure` mutation accepting FormData
+- Generates random UUID as reset token
+- Renders PasswordReset React component with reset URL + token
+- Sends HTML email via SendGrid
 
 ### Configuration Management
 
