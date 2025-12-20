@@ -21,7 +21,7 @@ export default function (): UserConfig {
         },
       },
     },
-    base: "/",
+    base: config.BASE_PATH,
     publicDir: path.join(import.meta.dirname, "public"),
     build: {
       outDir: path.join(import.meta.dirname, "build", "client"),

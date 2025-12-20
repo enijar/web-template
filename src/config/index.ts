@@ -17,6 +17,7 @@ const config = z
       .transform((arg) => new TextEncoder().encode(arg)),
     EMAIL_FROM: z.email().nonempty(),
     EMAIL_SMTP_API_KEY: z.string().nonempty(),
+    BASE_PATH: z.string().nonempty(),
   })
   .parse(dotenv({ path: path.join(import.meta.dirname, "..", "..", ".env") }).parsed);
 
