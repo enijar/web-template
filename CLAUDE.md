@@ -25,6 +25,14 @@ npm run build:client  # Vite build for client only
 npm run build:server  # TypeScript compilation for server with tsc-alias
 ```
 
+### Formatting
+```bash
+npm run format  # Format all src files
+npm run format:client  # Format client files only
+npm run format:server  # Format server files only
+npm run format:emails  # Format email templates only
+```
+
 ### Testing
 ```bash
 npm test  # Currently exits 0 (no tests configured)
@@ -167,6 +175,7 @@ Required environment variables:
 - DATABASE_HOST, DATABASE_PORT, DATABASE_NAME, DATABASE_USERNAME, DATABASE_PASSWORD
 - JWT_SECRET
 - EMAIL_FROM, EMAIL_SMTP_API_KEY
+- BASE_PATH
 
 ### Development vs Production
 
