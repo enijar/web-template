@@ -1,5 +1,6 @@
 import React from "react";
 import { TRPCClientError } from "@trpc/client";
+import * as Style from "client/pages/home/home.style.js";
 import { appState } from "client/state/app-state.js";
 import trpc from "client/services/trpc.js";
 import Form from "client/components/form/form.js";
@@ -11,7 +12,7 @@ export default function Home() {
   const [formError, setFormError] = React.useState<string | null>(null);
   const [forgotPassword, setForgotPassword] = React.useState(false);
   return (
-    <main>
+    <Style.Wrapper>
       <h1>Home</h1>
       <div>
         {user === null ? (
@@ -46,6 +47,6 @@ export default function Home() {
           <button>Logout</button>
         )}
       </div>
-    </main>
+    </Style.Wrapper>
   );
 }
