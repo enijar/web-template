@@ -35,6 +35,7 @@ npm run format:emails  # Format email templates only
 
 ### Testing
 ```bash
+npm run check # Check for type errors
 npm test  # Currently exits 0 (no tests configured)
 ```
 
