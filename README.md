@@ -1,41 +1,25 @@
 # Web Template
 
-Opinionated template for building modern and scalable web projects.
+A full-stack TypeScript template with React, Hono, and tRPC.
 
-## Set up
-
-Set up environment variables and install dependencies:
+## Quick Start
 
 ```shell
 cp .env.example .env
 npm install
-```
-
-## Development
-
-Start the client (localhost:8080) and server (localhost:3000):
-
-```shell
 npm start
 ```
 
-## Production Build
+This starts the client at `localhost:8080` and the server at `localhost:3000`.
 
-Build app in production mode:
+## Production
 
 ```shell
 npm run build
-```
-
-Run app in production:
-
-```shell
-# Install PM2 globally to manage the server process
-npm add -g pm2
 pm2 start --name app build/server/index.js
 ```
 
-NGINX config:
+Example NGINX config:
 
 ```nginx configuration
 server {
