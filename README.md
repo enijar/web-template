@@ -2,33 +2,28 @@
 
 Opinionated template for building modern and scalable web projects.
 
-### Development Mode
+## Set up
 
-Set up environment variables:
+Set up environment variables and install dependencies:
 
 ```shell
 cp .env.example .env
+npm install
 ```
 
-Start app in development mode:
+## Development
+
+Start the client (localhost:8080) and server (localhost:3000):
 
 ```shell
-npm install
 npm start
 ```
 
-### Production Build
-
-Set up environment variables:
-
-```shell
-cp .env.example .env
-```
+## Production Build
 
 Build app in production mode:
 
 ```shell
-npm install
 npm run build
 ```
 
