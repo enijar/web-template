@@ -6,11 +6,8 @@ const config = z
   .object({
     PORT: z.coerce.number().gte(0).lte(65535),
     APP_URL: z.url().nonempty(),
-    DATABASE_HOST: z.string().nonempty(),
-    DATABASE_PORT: z.coerce.number().gte(0).lte(65535),
-    DATABASE_NAME: z.string().nonempty(),
-    DATABASE_USERNAME: z.string().nonempty(),
-    DATABASE_PASSWORD: z.string(),
+    DATABASE_DIALECT: z.enum(["sqlite3", "mysql"]),
+    DATABASE_URL: z.string().nonempty(),
     JWT_SECRET: z
       .string()
       .nonempty()
