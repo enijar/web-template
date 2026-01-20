@@ -66,7 +66,7 @@ import { WelcomeEmail } from 'emails/welcome.js'
 
 ## Environment Variables
 
-Copy `.env.example` to `.env` for local development. Key variables:
+Environment variables are managed using [dotenvx](https://dotenvx.com/). Copy `.env.example` to `.env.local` for local development. Key variables:
 
 - `PORT` - Server port (default: 3000)
 - `APP_URL` - Frontend URL

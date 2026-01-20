@@ -2,15 +2,21 @@
 
 A full-stack TypeScript template with React, Hono, and tRPC.
 
-## Quick Start
+## Quickstart
 
 ```shell
-cp .env.example .env
+cp .env.example .env.local
 npm install
 npm start
 ```
 
 This starts the client at `localhost:8080` and the server at `localhost:3000`.
+
+## Environment Variables
+
+[Dotenvx](https://dotenvx.com/docs) is used for storing encrypted environment variables in version control. This makes
+deployment and sharing configs easier. Ensure .env.keys is never committed, and that when decrypting the .env.\* files,
+they are encrypted before committing them. Use .env.local to override existing variables with your own values.
 
 ## Production
 

@@ -3,6 +3,7 @@
 node_modules/
 build/
 .DS_Store
-.env
+.env.keys
+.env.local
 tsconfig.tsbuildinfo
 database.sqlite

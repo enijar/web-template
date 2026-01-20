@@ -7,16 +7,18 @@
     "check": "tsc --noEmit",
     "test": "NODE_ENV=test exit 0",
     "format": "prettier --write src",
-    "format:emails": "prettier --write src/emails",
-    "format:client": "prettier --write src/client",
-    "format:server": "prettier --write src/server",
     "start:emails": "email dev -d src/emails -p 9999",
     "start:client": "vite",
     "start:server": "tsx --watch src/server/index.ts",
     "build:client": "vite build",
-    "build:server": "rm -rf build/{config,server} && tsc -p tsconfig.server.json && tsc-alias -p tsconfig.server.json"
+    "build:server": "rm -rf build/{config,server} && tsc -p tsconfig.server.json && tsc-alias -p tsconfig.server.json",
+    "env:encrypt:dev": "dotenvx encrypt -f .env.dev",
+    "env:encrypt:prod": "dotenvx encrypt -f .env.prod",
+    "env:decrypt:dev": "dotenvx decrypt -f .env.dev",
+    "env:decrypt:prod": "dotenvx decrypt -f .env.prod"
   },
   "dependencies": {
+    "@dotenvx/dotenvx": "1.51.4",
     "@hono/node-server": "1.19.9",
     "@hono/trpc-server": "0.4.2",
     "@react-email/components": "1.0.4",

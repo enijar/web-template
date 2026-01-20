@@ -11,6 +11,7 @@ switch (config.DATABASE_DIALECT) {
     database = new Sequelize({
       dialect: MySqlDialect,
       url: config.DATABASE_URL,
+      ssl: config.DATABASE_URL.match(/[?&]ssl=true/) ? { rejectUnauthorized: true } : undefined,
     });
     break;
   default:

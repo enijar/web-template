@@ -1,6 +1,18 @@
 import path from "node:path";
-import { config as dotenv } from "dotenv";
+import fs from "node:fs";
+import { config as dotenv } from "@dotenvx/dotenvx";
 import { z } from "zod/v4";
+
+const envFiles = {
+  dev: path.join(import.meta.dirname, "..", "..", ".env.dev"),
+  prod: path.join(import.meta.dirname, "..", "..", ".env.prod"),
+  local: path.join(import.meta.dirname, "..", "..", ".env.local"),
+};
+let envFile = process.env.NODE_ENV === "development" ? envFiles.dev : envFiles.prod;
+let env = dotenv({ path: envFile, quiet: true }).parsed ?? {};
+if (process.env.NODE_ENV === "development" && fs.existsSync(envFiles.local)) {
+  env = { ...env, ...(dotenv({ path: envFiles.local, quiet: true, override: true }).parsed ?? {}) };
+}
 
 const config = z
   .object({
@@ -16,6 +28,6 @@ const config = z
     EMAIL_SMTP_API_KEY: z.string().nonempty(),
     BASE_PATH: z.string().nonempty(),
   })
-  .parse(dotenv({ path: path.join(import.meta.dirname, "..", "..", ".env") }).parsed);
+  .parse({ ...env, ...process.env });
 
 export default config;
