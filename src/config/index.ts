@@ -9,7 +9,10 @@ const envFiles = {
   local: path.join(import.meta.dirname, "..", "..", ".env.local"),
 };
 let envFile = process.env.NODE_ENV === "development" ? envFiles.dev : envFiles.prod;
-let env = dotenv({ path: envFile, quiet: true }).parsed ?? {};
+let env = {};
+if (fs.existsSync(envFile)) {
+  env = dotenv({ path: envFile, quiet: true }).parsed ?? {};
+}
 if (process.env.NODE_ENV === "development" && fs.existsSync(envFiles.local)) {
   env = { ...env, ...(dotenv({ path: envFiles.local, quiet: true, override: true }).parsed ?? {}) };
 }
