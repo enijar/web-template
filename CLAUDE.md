@@ -48,7 +48,7 @@ flowchart TD
 
 ### Client
 
-- **Pages**: Each page lives in `src/client/pages/{name}/` with `{name}.tsx` and `{name}.style.ts`. Styles imported as namespace (`import * as Style from './{name}.style.js'`).
+- **Pages**: Each page lives in `src/client/pages/{name}/` with `{name}.tsx` and `{name}.style.ts`. Styles imported as namespace (`import * as Style from "client/pages/{name}/{name}.style.js"`).
 - **Components**: Each component lives in `src/client/components/{name}/` with `{name}.tsx`. Add a `.style.ts` when styling is needed.
 - **State**: Zustand stores in `src/client/state/`, named exports using `create()`.
 
