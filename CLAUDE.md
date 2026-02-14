@@ -12,6 +12,7 @@ Full-stack TypeScript web template with React 19 + Vite frontend and Hono + tRPC
 npm start                 # Runs client (8080) + server (3000) + email preview (9999) concurrently
 npm run check             # TypeScript type checking (tsc --noEmit)
 npm run format            # Prettier formatting
+npm test                  # Run test suite
 npm run build             # Production build (client + server)
 npm run start:client      # Vite dev server only
 npm run start:server      # Backend with tsx --watch
@@ -20,23 +21,14 @@ npm run start:emails      # Email preview server
 
 ## Architecture
 
-```
-┌─────────────────────────────────────┐
-│  React 19 + Vite (localhost:8080)   │
-│  TanStack Query + tRPC Client       │
-│  Zustand state, Styled Components   │
-└─────────────────────────────────────┘
-                ↓ /api, /trpc
-┌─────────────────────────────────────┐
-│  Hono Server (localhost:3000)       │
-│  tRPC Router for type-safe RPC      │
-└─────────────────────────────────────┘
-                ↓
-┌─────────────────────────────────────┐
-│  Sequelize ORM (SQLite3/MySQL)      │
-│  Password hashing with Argon2       │
-│  JWT auth with jose library         │
-└─────────────────────────────────────┘
+```mermaid
+flowchart TD
+    Client["React 19 + Vite (localhost:8080)\nTanStack Query + tRPC Client\nZustand state, Styled Components"]
+    Server["Hono Server (localhost:3000)\ntRPC Router for type-safe RPC"]
+    DB["Sequelize ORM (SQLite3/MySQL)\nPassword hashing with Argon2\nJWT auth with jose library"]
+
+    Client -- "/api, /trpc" --> Server
+    Server --> DB
 ```
 
 ## Source Structure
@@ -46,12 +38,39 @@ npm run start:emails      # Email preview server
 - `src/config/` - Environment config with Zod validation
 - `src/emails/` - React Email templates
 
-## Key Patterns
+## File Structure Patterns
 
-- **tRPC mutations** accept FormData and validate with Zod schemas
-- **Styled Components** co-located as `.style.ts` files next to components
-- **Database models** in `src/server/models/` auto-loaded by Sequelize service
+### Naming Conventions
+
+- **Directories and files**: kebab-case (e.g., `forgot-password/`, `forgot-password.tsx`)
+- **Import extensions**: Use `.js` extensions in import paths (NodeNext module resolution)
 - **Path aliases**: `client/*`, `server/*`, `config/*`, `emails/*` map to `src/` subdirs
+
+### Client
+
+- **Pages**: Each page lives in `src/client/pages/{name}/` with `{name}.tsx` and `{name}.style.ts`. Styles imported as namespace (`import * as Style from './{name}.style.js'`).
+- **Components**: Each component lives in `src/client/components/{name}/` with `{name}.tsx`. Add a `.style.ts` when styling is needed.
+- **State**: Zustand stores in `src/client/state/`, named exports using `create()`.
+
+### Server
+
+- **Actions**: Each action in `src/server/actions/{name}.ts`, exported as named export using `publicProcedure`, aggregated in router via dynamic imports with spread.
+- **Models**: Each model in `src/server/models/{name}.ts`, default export extending Sequelize `Model`, auto-loaded by database service.
+- **Services**: Singleton services in `src/server/services/`, default exports.
+
+### Shared
+
+- **Config**: Single `src/config/index.ts` with Zod-validated env vars.
+- **Emails**: React Email templates in `src/emails/`, default exports, typed props.
+- **tRPC mutations** accept FormData and validate with Zod schemas.
+
+## Completion Rules
+
+Before considering any task complete, the following must pass:
+
+- `npm run check` — TypeScript type checking
+- `npm test` — test suite
+- `npm run format` — code formatting
 
 ## Environment
 
