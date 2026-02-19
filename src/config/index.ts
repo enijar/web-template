@@ -13,7 +13,7 @@ let env = {};
 if (fs.existsSync(envFile)) {
   env = dotenv({ path: envFile, quiet: true }).parsed ?? {};
 }
-if (process.env.NODE_ENV === "development" && fs.existsSync(envFiles.local)) {
+if (fs.existsSync(envFiles.local)) {
   env = { ...env, ...(dotenv({ path: envFiles.local, quiet: true, override: true }).parsed ?? {}) };
 }
 
