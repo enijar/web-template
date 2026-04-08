@@ -16,12 +16,11 @@
     "forceConsistentCasingInFileNames": true,
     "experimentalDecorators": true,
     "sourceMap": true,
-    "baseUrl": "./src",
     "paths": {
-      "client/*": ["client/*"],
-      "config/*": ["config/*"],
-      "emails/*": ["emails/*"],
-      "server/*": ["server/*"]
+      "client/*": ["./src/client/*"],
+      "config/*": ["./src/config/*"],
+      "emails/*": ["./src/emails/*"],
+      "server/*": ["./src/server/*"]
     },
     "noEmit": true
   },

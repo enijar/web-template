@@ -3,6 +3,7 @@
   "compilerOptions": {
     "noEmit": false,
     "module": "NodeNext",
+    "rootDir": "./src",
     "outDir": "build",
     "tsBuildInfoFile": "build/server/.tsbuildinfo",
     "declaration": false

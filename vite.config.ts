@@ -1,7 +1,6 @@
 import path from "node:path";
 import { defineConfig, type UserConfig } from "vite";
 import react from "@vitejs/plugin-react";
-import tsconfigPaths from "vite-tsconfig-paths";
 import config from "./src/config/index.js";
 
 const DEV_MODE = process.env.NODE_ENV === "development";
@@ -27,14 +26,13 @@ export default function (): UserConfig {
       outDir: path.join(import.meta.dirname, "build", "client"),
       emptyOutDir: true,
     },
-    esbuild: {
-      legalComments: "none",
-    },
     appType: "spa",
     root: path.join("src", "client"),
     clearScreen: false,
+    resolve: {
+      tsconfigPaths: true,
+    },
     plugins: [
-      tsconfigPaths(),
       react({
         include: /\.(tsx?)$/,
         babel: {
