@@ -49,7 +49,7 @@ export default function (): UserConfig {
             ],
           ],
         },
-      }),
+      } as Record<string, unknown>),
     ],
   });
 }
