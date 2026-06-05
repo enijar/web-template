@@ -14,11 +14,13 @@ switch (config.DATABASE_DIALECT) {
       ssl: config.DATABASE_URL.match(/[?&]ssl=true/) ? { rejectUnauthorized: true } : undefined,
     });
     break;
-  default:
+  default: {
+    const storage = config.DATABASE_URL.replace(/^sqlite3:/, "");
     database = new Sequelize({
       dialect: SqliteDialect,
-      storage: config.DATABASE_URL.replace("sqlite3:", ""),
+      storage: path.isAbsolute(storage) ? storage : path.join(import.meta.dirname, "..", "..", "..", storage),
     });
+  }
 }
 
 database.addModels(await importModels(path.join(import.meta.dirname, "..", "models", "*.{ts,js}")));
