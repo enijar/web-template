@@ -22,7 +22,7 @@ they are encrypted before committing them. Use .env.local to override existing v
 
 ```shell
 npm run build
-pm2 start ecosystem.config.cjs
+pm2 startOrReload ecosystem.config.cjs
 ```
 
 Example NGINX config:
