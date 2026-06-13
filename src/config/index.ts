@@ -30,6 +30,7 @@ const config = z
     EMAIL_FROM: z.email().nonempty(),
     EMAIL_SMTP_API_KEY: z.string().nonempty(),
     BASE_PATH: z.string().nonempty(),
+    NODE_ENV: z.enum(["development", "production"]).default("production"),
   })
   .parse({ ...env, ...process.env });
 
