@@ -1,5 +1,5 @@
 import React from "react";
-import * as Email from "@react-email/components";
+import * as Email from "react-email";
 
 type Props = Readonly<{
   url: string;
