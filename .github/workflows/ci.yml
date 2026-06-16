@@ -24,6 +24,8 @@ jobs:
           node-version-file: .nvmrc
           cache: npm
 
+      # Cache node_modules keyed on the lockfile + node version so a warm
+      # cache skips npm ci entirely (native binaries are ABI-stable here).
       - name: Cache node_modules
         id: node-modules-cache
         uses: actions/cache@v5
