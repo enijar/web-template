@@ -98,3 +98,5 @@ jobs:
           name: deploy
           path: deploy.tar.gz
           retention-days: 7
+          # Tarball is already gzip-compressed; skip the redundant zip pass.
+          compression-level: 0
