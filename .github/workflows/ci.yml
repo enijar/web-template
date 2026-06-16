@@ -86,8 +86,10 @@ jobs:
       #       "set -e; export NVM_DIR=\"\$HOME/.nvm\"; [ -s \"\$NVM_DIR/nvm.sh\" ] && . \"\$NVM_DIR/nvm.sh\"; cd \"$DEPLOY_PATH\"; pm2 startOrReload ecosystem.config.cjs --time --update-env"
 
       - name: Package artefacts
+        # pigz = multi-core gzip; keeps the .tar.gz format but uses every
+        # core, so packaging node_modules isn't bottlenecked on one thread.
         run: >-
-          tar -czf deploy.tar.gz
+          tar --use-compress-program="pigz -p $(nproc)" -cf deploy.tar.gz
           build node_modules package.json ecosystem.config.cjs .nvmrc
 
       - name: Upload artefacts
