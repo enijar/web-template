@@ -11,7 +11,7 @@ on:
 
 jobs:
   deploy:
-    if: ${{ !github.event.repository.is_template }}
+    # if: ${{ !github.event.repository.is_template }}
     runs-on: ubuntu-latest
 
     steps:
@@ -35,33 +35,45 @@ jobs:
           npx concurrently --names client,server --kill-others-on-fail
           "npm run build:client" "npm run build:server"
 
-      - name: Configure SSH access
-        env:
-          HOST: ${{ secrets.HOST }}
-          PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
-        run: |
-          mkdir -p ~/.ssh
-          chmod 700 ~/.ssh
-          printf '%s\n' "$PRIVATE_KEY" > ~/.ssh/deploy_key
-          chmod 600 ~/.ssh/deploy_key
-          ssh-keyscan -H "$HOST" >> ~/.ssh/known_hosts 2>/dev/null
+      # - name: Configure SSH access
+      #   env:
+      #     HOST: ${{ secrets.HOST }}
+      #     PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+      #   run: |
+      #     mkdir -p ~/.ssh
+      #     chmod 700 ~/.ssh
+      #     printf '%s\n' "$PRIVATE_KEY" > ~/.ssh/deploy_key
+      #     chmod 600 ~/.ssh/deploy_key
+      #     ssh-keyscan -H "$HOST" >> ~/.ssh/known_hosts 2>/dev/null
 
-      - name: Rsync artefacts to server
-        env:
-          HOST: ${{ secrets.HOST }}
-          USERNAME: ${{ secrets.USERNAME }}
-          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+      # - name: Rsync artefacts to server
+      #   env:
+      #     HOST: ${{ secrets.HOST }}
+      #     USERNAME: ${{ secrets.USERNAME }}
+      #     DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+      #   run: >-
+      #     rsync -avz --delete
+      #     -e "ssh -i ~/.ssh/deploy_key"
+      #     build node_modules package.json ecosystem.config.cjs .nvmrc
+      #     "$USERNAME@$HOST:$DEPLOY_PATH/"
+
+      # - name: Reload app with pm2
+      #   env:
+      #     HOST: ${{ secrets.HOST }}
+      #     USERNAME: ${{ secrets.USERNAME }}
+      #     DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+      #   run: |
+      #     ssh -i ~/.ssh/deploy_key "$USERNAME@$HOST" \
+      #       "set -e; export NVM_DIR=\"\$HOME/.nvm\"; [ -s \"\$NVM_DIR/nvm.sh\" ] && . \"\$NVM_DIR/nvm.sh\"; cd \"$DEPLOY_PATH\"; pm2 startOrReload ecosystem.config.cjs --time --update-env"
+
+      - name: Package artefacts
         run: >-
-          rsync -avz --delete
-          -e "ssh -i ~/.ssh/deploy_key"
+          tar -czf deploy.tar.gz
           build node_modules package.json ecosystem.config.cjs .nvmrc
-          "$USERNAME@$HOST:$DEPLOY_PATH/"
 
-      - name: Reload app with pm2
-        env:
-          HOST: ${{ secrets.HOST }}
-          USERNAME: ${{ secrets.USERNAME }}
-          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
-        run: |
-          ssh -i ~/.ssh/deploy_key "$USERNAME@$HOST" \
-            "set -e; export NVM_DIR=\"\$HOME/.nvm\"; [ -s \"\$NVM_DIR/nvm.sh\" ] && . \"\$NVM_DIR/nvm.sh\"; cd \"$DEPLOY_PATH\"; pm2 startOrReload ecosystem.config.cjs --time --update-env"
+      - name: Upload artefacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: deploy
+          path: deploy.tar.gz
+          retention-days: 7
