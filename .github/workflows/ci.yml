@@ -11,7 +11,7 @@ on:
 
 jobs:
   deploy:
-    # if: ${{ !github.event.repository.is_template }}
+    if: ${{ !github.event.repository.is_template }}
     runs-on: ubuntu-latest
 
     steps:
@@ -24,8 +24,6 @@ jobs:
           node-version-file: .nvmrc
           cache: npm
 
-      # Cache node_modules keyed on the lockfile + node version so a warm
-      # cache skips npm ci entirely (native binaries are ABI-stable here).
       - name: Cache node_modules
         id: node-modules-cache
         uses: actions/cache@v5
@@ -38,66 +36,40 @@ jobs:
         run: npm ci
 
       - name: Build client and server
-        # Test values so the zod-validated config in vite.config.ts passes.
-        # Real deploys decrypt .env.prod via DOTENV_PRIVATE_KEY_PROD instead.
         env:
           NODE_ENV: production
-          PORT: 3000
-          APP_URL: http://localhost:8080
-          DATABASE_DIALECT: sqlite3
-          DATABASE_URL: sqlite3:database.sqlite
-          JWT_SECRET: secret
-          EMAIL_FROM: hello@example.com
-          EMAIL_SMTP_API_KEY: secret
-          BASE_PATH: /
+          DOTENV_PRIVATE_KEY_PROD: ${{ secrets.DOTENV_PRIVATE_KEY_PROD }}
         run: >-
           npx concurrently --names client,server --kill-others-on-fail
           "npm run build:client" "npm run build:server"
 
-      # - name: Configure SSH access
-      #   env:
-      #     HOST: ${{ secrets.HOST }}
-      #     PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
-      #   run: |
-      #     mkdir -p ~/.ssh
-      #     chmod 700 ~/.ssh
-      #     printf '%s\n' "$PRIVATE_KEY" > ~/.ssh/deploy_key
-      #     chmod 600 ~/.ssh/deploy_key
-      #     ssh-keyscan -H "$HOST" >> ~/.ssh/known_hosts 2>/dev/null
+      - name: Configure SSH access
+        env:
+          HOST: ${{ secrets.HOST }}
+          PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+        run: |
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+          printf '%s\n' "$PRIVATE_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -H "$HOST" >> ~/.ssh/known_hosts 2>/dev/null
 
-      # - name: Rsync artefacts to server
-      #   env:
-      #     HOST: ${{ secrets.HOST }}
-      #     USERNAME: ${{ secrets.USERNAME }}
-      #     DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
-      #   run: >-
-      #     rsync -avz --delete
-      #     -e "ssh -i ~/.ssh/deploy_key"
-      #     build node_modules package.json ecosystem.config.cjs .nvmrc
-      #     "$USERNAME@$HOST:$DEPLOY_PATH/"
-
-      # - name: Reload app with pm2
-      #   env:
-      #     HOST: ${{ secrets.HOST }}
-      #     USERNAME: ${{ secrets.USERNAME }}
-      #     DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
-      #   run: |
-      #     ssh -i ~/.ssh/deploy_key "$USERNAME@$HOST" \
-      #       "set -e; export NVM_DIR=\"\$HOME/.nvm\"; [ -s \"\$NVM_DIR/nvm.sh\" ] && . \"\$NVM_DIR/nvm.sh\"; cd \"$DEPLOY_PATH\"; pm2 startOrReload ecosystem.config.cjs --time --update-env"
-
-      - name: Package artefacts
-        # pigz = multi-core gzip; keeps the .tar.gz format (extract with
-        # `tar -xzf deploy.tar.gz`) but uses every core, so packaging
-        # node_modules isn't bottlenecked on a single thread.
+      - name: Rsync artefacts to server
+        env:
+          HOST: ${{ secrets.HOST }}
+          USERNAME: ${{ secrets.USERNAME }}
+          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
         run: >-
-          tar --use-compress-program="pigz -p $(nproc)" -cf deploy.tar.gz
+          rsync -avz --delete
+          -e "ssh -i ~/.ssh/deploy_key"
           build node_modules package.json ecosystem.config.cjs .nvmrc
+          "$USERNAME@$HOST:$DEPLOY_PATH/"
 
-      - name: Upload artefacts
-        uses: actions/upload-artifact@v7
-        with:
-          name: deploy
-          path: deploy.tar.gz
-          retention-days: 7
-          # Tarball is already gzip-compressed; skip the redundant zip pass.
-          compression-level: 0
+      - name: Reload app with pm2
+        env:
+          HOST: ${{ secrets.HOST }}
+          USERNAME: ${{ secrets.USERNAME }}
+          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+        run: |
+          ssh -i ~/.ssh/deploy_key "$USERNAME@$HOST" \
+            "set -e; export NVM_DIR=\"\$HOME/.nvm\"; [ -s \"\$NVM_DIR/nvm.sh\" ] && . \"\$NVM_DIR/nvm.sh\"; cd \"$DEPLOY_PATH\"; pm2 startOrReload ecosystem.config.cjs --time --update-env"
