@@ -21,11 +21,11 @@
     "env:decrypt:prod": "dotenvx decrypt -f .env.prod"
   },
   "dependencies": {
-    "@dotenvx/dotenvx": "1.71.3",
-    "@hono/node-server": "2.0.4",
+    "@dotenvx/dotenvx": "1.73.1",
+    "@hono/node-server": "2.0.5",
     "@hono/trpc-server": "0.4.2",
     "@react-email/body": "0.3.0",
-    "@react-email/ui": "6.6.0",
+    "@react-email/ui": "6.6.3",
     "@sendgrid/mail": "8.1.6",
     "@sequelize/core": "7.0.0-alpha.48",
     "@sequelize/mysql": "7.0.0-alpha.48",
@@ -40,7 +40,7 @@
     "jose": "6.2.3",
     "react": "19.2.7",
     "react-dom": "19.2.7",
-    "react-router-dom": "7.17.0",
+    "react-router-dom": "7.18.0",
     "styled-components": "6.4.2",
     "zod": "4.4.3",
     "zustand": "5.0.14"
@@ -53,7 +53,7 @@
     "babel-plugin-styled-components": "2.3.0",
     "concurrently": "10.0.3",
     "prettier": "3.8.4",
-    "react-email": "6.6.0",
+    "react-email": "6.6.3",
     "tsc-alias": "1.8.17",
     "tsx": "4.22.4",
     "typescript": "6.0.3",
