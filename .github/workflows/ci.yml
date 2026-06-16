@@ -12,11 +12,7 @@ on:
 jobs:
   deploy:
     # if: ${{ !github.event.repository.is_template }}
-    # macos-15-intel: free standard Intel x86_64 runner, so the bundled
-    # native sqlite3 binary loads on an Intel Mac. macos-latest is arm64.
-    # NOTE: switch back to ubuntu-latest before re-enabling the SSH deploy
-    # steps, as those Mac binaries won't run on the Linux server.
-    runs-on: macos-15-intel
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
