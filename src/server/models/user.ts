@@ -16,4 +16,10 @@ export default class User extends Model<InferAttributes<User>, InferCreationAttr
   @Attribute(DataTypes.STRING)
   @NotNull
   declare password: string;
+
+  @Attribute(DataTypes.STRING)
+  declare passwordResetToken: CreationOptional<string | null>;
+
+  @Attribute(DataTypes.DATE)
+  declare passwordResetExpiresAt: CreationOptional<Date | null>;
 }

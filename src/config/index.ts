@@ -8,7 +8,7 @@ const envFiles = {
   prod: path.join(import.meta.dirname, "..", "..", ".env.prod"),
   local: path.join(import.meta.dirname, "..", "..", ".env.local"),
 };
-let envFile = process.env.NODE_ENV === "development" ? envFiles.dev : envFiles.prod;
+const envFile = process.env.NODE_ENV === "development" ? envFiles.dev : envFiles.prod;
 let env = {};
 if (fs.existsSync(envFile)) {
   env = dotenv({ path: envFile, quiet: true }).parsed ?? {};

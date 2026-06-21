@@ -26,7 +26,7 @@ const queryClient = new QueryClient({
 const trpcClient = trpc.createClient({
   links: [
     httpLink({
-      url: "/trpc",
+      url: `${import.meta.env.BASE_URL.replace(/\/+$/, "")}/trpc`,
     }),
   ],
 });

@@ -25,6 +25,8 @@ npm run build
 pm2 startOrReload ecosystem.config.cjs --time --update-env
 ```
 
+The CI workflow builds on the GitHub runner, rsyncs `build` and `node_modules` to the server, then reloads pm2. Because `node_modules` is copied as-is, the runner and the server must share the same OS and CPU architecture so native modules such as `argon2` stay compatible. If they differ, run `npm rebuild` on the server after syncing, or change the workflow to run `npm ci` on the server instead.
+
 Example NGINX config:
 
 ```nginx configuration

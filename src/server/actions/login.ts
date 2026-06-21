@@ -3,6 +3,7 @@ import { TRPCError } from "@trpc/server";
 import argon2 from "argon2";
 import { publicProcedure } from "server/services/trpc.js";
 import User from "server/models/user.js";
+import auth from "server/services/auth.js";
 
 export const login = publicProcedure
   .input(
@@ -34,6 +35,7 @@ export const login = publicProcedure
     if (!authenticated) {
       throw new TRPCError({ code: "UNAUTHORIZED", message: "Incorrect email and password, try again" });
     }
+    opts.ctx.resHeaders.append("set-cookie", auth.cookie(await auth.sign(user)));
     return {
       id: user.id,
       email: user.email,

@@ -8,5 +8,6 @@
     "tsBuildInfoFile": "build/server/.tsbuildinfo",
     "declaration": false
   },
+  "include": ["src"],
   "exclude": ["src/client"]
 }

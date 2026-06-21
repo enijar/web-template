@@ -7,9 +7,12 @@ import Form from "client/components/form/form.js";
 
 export default function Home() {
   const user = appState((state) => state.user);
+  const setUser = appState((state) => state.setUser);
   const login = trpc.login.useMutation();
   const passwordReset = trpc.passwordReset.useMutation();
+  const logout = trpc.logout.useMutation();
   const [formError, setFormError] = React.useState<string | null>(null);
+  const [notice, setNotice] = React.useState<string | null>(null);
   const [forgotPassword, setForgotPassword] = React.useState(false);
   return (
     <Style.Wrapper>
@@ -20,22 +23,29 @@ export default function Home() {
             onSubmit={async (form) => {
               try {
                 setFormError(null);
+                setNotice(null);
                 if (forgotPassword) {
                   await passwordReset.mutateAsync(form.data);
+                  form.element.reset();
+                  setForgotPassword(false);
+                  setNotice("If that email is registered, a reset link is on its way.");
                 } else {
-                  await login.mutateAsync(form.data);
+                  setUser(await login.mutateAsync(form.data));
+                  form.element.reset();
                 }
-                form.element.reset();
               } catch (err) {
                 setFormError(err instanceof TRPCClientError ? err.message : "Something went wrong");
               }
             }}
           >
             {formError !== null && <pre>{formError}</pre>}
-            <input type="email" name="email" />
+            {notice !== null && <p>{notice}</p>}
+            <label htmlFor="email">Email</label>
+            <input id="email" type="email" name="email" autoComplete="email" />
             {!forgotPassword && (
               <>
-                <input type="password" name="password" />
+                <label htmlFor="password">Password</label>
+                <input id="password" type="password" name="password" autoComplete="current-password" />
                 <button type="button" onClick={() => setForgotPassword(true)}>
                   Forgot Password?
                 </button>
@@ -44,7 +54,17 @@ export default function Home() {
             <button>{forgotPassword ? "Reset password" : "Login"}</button>
           </Form>
         ) : (
-          <button>Logout</button>
+          <>
+            <p>Signed in as {user.email}</p>
+            <button
+              onClick={async () => {
+                await logout.mutateAsync();
+                setUser(null);
+              }}
+            >
+              Logout
+            </button>
+          </>
         )}
       </div>
     </Style.Wrapper>

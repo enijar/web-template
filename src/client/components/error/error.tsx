@@ -1,9 +1,5 @@
 import React from "react";
 
-export default function Error() {
-  return (
-    <>
-      <p>Oops! Something went wrong.</p>
-    </>
-  );
+export default function ErrorPage() {
+  return <p>Oops! Something went wrong.</p>;
 }
