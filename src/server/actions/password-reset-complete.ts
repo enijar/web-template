@@ -2,25 +2,15 @@ import crypto from "node:crypto";
 import { z } from "zod/v4";
 import { Op } from "@sequelize/core";
 import { TRPCError } from "@trpc/server";
-import { publicProcedure } from "server/services/trpc.js";
+import { formInput, publicProcedure } from "server/services/trpc.js";
 import User from "server/models/user.js";
 
 export const passwordResetComplete = publicProcedure
   .input(
-    z
-      .instanceof(FormData)
-      .transform((arg) => {
-        return {
-          token: arg.get("token"),
-          password: arg.get("password"),
-        };
-      })
-      .pipe(
-        z.object({
-          token: z.string().nonempty("Invalid token"),
-          password: z.string().min(8, "Password must be at least 8 characters"),
-        }),
-      ),
+    formInput({
+      token: z.string().nonempty("Invalid token"),
+      password: z.string().min(8, "Password must be at least 8 characters"),
+    }),
   )
   .mutation(async (opts) => {
     const passwordResetToken = crypto.createHash("sha256").update(opts.input.token).digest("hex");

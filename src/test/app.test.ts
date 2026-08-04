@@ -3,19 +3,27 @@ import { createApp } from "server/services/app.js";
 import { COOKIE_NAME, createAuthService } from "server/services/auth.js";
 import { createDatabase } from "server/services/database.js";
 import { createEmailService } from "server/services/email.js";
+import { createRateLimiter } from "server/services/rate-limiter.js";
 import { reactEmailRenderer } from "server/adapters/react-email.js";
+import { createMemoryRateLimitStore } from "server/adapters/memory.js";
 import models from "server/models/index.js";
-import { createMemoryTransport, createTestConfig, fakeHasher } from "./helpers.js";
+import { createMemoryLogger, createMemoryTransport, createTestConfig, fakeHasher } from "./helpers.js";
 
 const config = createTestConfig();
 const database = createDatabase({ dialect: config.DATABASE_DIALECT, url: config.DATABASE_URL, models });
-const email = createEmailService({
-  renderer: reactEmailRenderer,
-  transport: createMemoryTransport().transport,
-  defaultFrom: config.EMAIL_FROM,
-});
+const services = {
+  config,
+  database,
+  email: createEmailService({
+    renderer: reactEmailRenderer,
+    transport: createMemoryTransport().transport,
+    defaultFrom: config.EMAIL_FROM,
+  }),
+  logger: createMemoryLogger().logger,
+  rateLimiter: createRateLimiter({ store: createMemoryRateLimitStore() }),
+};
 const auth = createAuthService({ secret: config.JWT_SECRET, secureCookies: false, hasher: fakeHasher });
-const app = createApp({ config, auth, database, email });
+const app = createApp({ ...services, auth });
 
 describe("app", () => {
   it("rejects private procedures without a session cookie", async () => {
@@ -45,7 +53,7 @@ describe("app", () => {
         hasher: fakeHasher,
         sessionTtl: 1,
       });
-      const shortApp = createApp({ config, auth: shortAuth, database, email });
+      const shortApp = createApp({ ...services, auth: shortAuth });
       const headers = { cookie: `${COOKIE_NAME}=${await shortAuth.sign({ id: 1, email: "user@example.com" })}` };
       const before = await shortApp.request("/trpc/me", { headers });
       expect(before.status).toBe(200);
@@ -55,5 +63,21 @@ describe("app", () => {
     } finally {
       vi.useRealTimers();
     }
+  });
+});
+
+describe("health", () => {
+  it("reports ok when the database responds", async () => {
+    const res = await app.request("/api/health");
+    expect(res.status).toBe(200);
+    expect(await res.json()).toEqual({ status: "ok" });
+  });
+
+  it("reports unavailable when the database does not respond", async () => {
+    const query = vi.spyOn(database, "query").mockRejectedValueOnce(new Error("connection lost"));
+    const res = await app.request("/api/health");
+    expect(res.status).toBe(503);
+    expect(await res.json()).toEqual({ status: "unavailable" });
+    query.mockRestore();
   });
 });

@@ -1,6 +1,7 @@
 import type { AppConfig } from "config/index.js";
 import type { PasswordHasher } from "server/services/auth.js";
 import type { EmailMessage, EmailTransport } from "server/services/email.js";
+import type { LoggerService, LogLevel } from "server/services/logger.js";
 
 export function createTestConfig(overrides: Partial<AppConfig> = {}): AppConfig {
   return {
@@ -34,6 +35,24 @@ export function createMemoryTransport() {
     },
   };
   return { messages, transport };
+}
+
+export type LogEntry = { level: LogLevel; message: string; meta?: Record<string, unknown> };
+
+export function createMemoryLogger() {
+  const entries: LogEntry[] = [];
+  function log(level: LogLevel) {
+    return (message: string, meta?: Record<string, unknown>) => {
+      entries.push({ level, message, meta });
+    };
+  }
+  const logger: LoggerService = {
+    debug: log("debug"),
+    info: log("info"),
+    warn: log("warn"),
+    error: log("error"),
+  };
+  return { entries, logger };
 }
 
 export function formData(fields: Record<string, string>) {

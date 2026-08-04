@@ -15,6 +15,19 @@ export const trpc = initTRPC.context<AppContext>().create({
   },
 });
 
+export function formInput<Shape extends z.ZodRawShape>(shape: Shape) {
+  return z
+    .instanceof(FormData)
+    .transform((form): unknown => {
+      const values: Record<string, unknown> = {};
+      for (const key of Object.keys(shape)) {
+        values[key] = form.get(key);
+      }
+      return values;
+    })
+    .pipe(z.object(shape));
+}
+
 export const publicProcedure = trpc.procedure.use(
   trpc.middleware(async (opts) => {
     return await opts.next();
