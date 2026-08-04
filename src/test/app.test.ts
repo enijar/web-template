@@ -1,4 +1,4 @@
-import { describe, expect, it, vi } from "vitest";
+import { beforeAll, describe, expect, it, vi } from "vitest";
 import { createApp } from "server/services/app.js";
 import { COOKIE_NAME, createAuthService } from "server/services/auth.js";
 import { createDatabase } from "server/services/database.js";
@@ -7,6 +7,7 @@ import { createRateLimiter } from "server/services/rate-limiter.js";
 import { reactEmailRenderer } from "server/adapters/react-email.js";
 import { createMemoryRateLimitStore } from "server/adapters/memory.js";
 import models from "server/models/index.js";
+import User from "server/models/user.js";
 import { createMemoryLogger, createMemoryTransport, createTestConfig, fakeHasher } from "./helpers.js";
 
 const config = createTestConfig();
@@ -25,6 +26,11 @@ const services = {
 const auth = createAuthService({ secret: config.JWT_SECRET, secureCookies: false, hasher: fakeHasher });
 const app = createApp({ ...services, auth });
 
+beforeAll(async () => {
+  await database.sync();
+  await User.create({ email: "user@example.com", password: await fakeHasher.hash("password123") });
+});
+
 describe("app", () => {
   it("rejects private procedures without a session cookie", async () => {
     const res = await app.request("/trpc/me");
@@ -32,7 +38,7 @@ describe("app", () => {
   });
 
   it("resolves the user from the session cookie", async () => {
-    const token = await auth.sign({ id: 1, email: "user@example.com" });
+    const token = await auth.sign({ id: 1, email: "user@example.com", tokenVersion: 0 });
     const res = await app.request("/trpc/me", { headers: { cookie: `${COOKIE_NAME}=${token}` } });
     expect(res.status).toBe(200);
     const body = await res.json();
@@ -54,7 +60,9 @@ describe("app", () => {
         sessionTtl: 1,
       });
       const shortApp = createApp({ ...services, auth: shortAuth });
-      const headers = { cookie: `${COOKIE_NAME}=${await shortAuth.sign({ id: 1, email: "user@example.com" })}` };
+      const headers = {
+        cookie: `${COOKIE_NAME}=${await shortAuth.sign({ id: 1, email: "user@example.com", tokenVersion: 0 })}`,
+      };
       const before = await shortApp.request("/trpc/me", { headers });
       expect(before.status).toBe(200);
       vi.advanceTimersByTime(2000);
@@ -79,5 +87,13 @@ describe("health", () => {
     expect(res.status).toBe(503);
     expect(await res.json()).toEqual({ status: "unavailable" });
     query.mockRestore();
+  });
+});
+
+describe("body limit", () => {
+  it("rejects trpc bodies over 1 MB", async () => {
+    const large = "x".repeat(1024 * 1024 + 1);
+    const res = await app.request("/trpc/login", { method: "POST", body: large });
+    expect(res.status).toBe(413);
   });
 });

@@ -3,7 +3,8 @@ import { TRPCError } from "@trpc/server";
 import { formInput, publicProcedure } from "server/services/trpc.js";
 import User from "server/models/user.js";
 
-const RATE_LIMIT = { max: 10, windowMs: 15 * 60 * 1000 }; // 10 attempts per 15 minutes per email
+const EMAIL_RATE_LIMIT = { max: 10, windowMs: 15 * 60 * 1000 }; // 10 attempts per 15 minutes per email
+const IP_RATE_LIMIT = { max: 30, windowMs: 15 * 60 * 1000 }; // 30 attempts per 15 minutes per ip
 
 export const login = publicProcedure
   .input(
@@ -13,7 +14,9 @@ export const login = publicProcedure
     }),
   )
   .mutation(async (opts) => {
-    const allowed = await opts.ctx.rateLimiter.limit(`login:${opts.input.email}`, RATE_LIMIT);
+    const allowed =
+      (await opts.ctx.rateLimiter.limit(`login:ip:${opts.ctx.ip}`, IP_RATE_LIMIT)) &&
+      (await opts.ctx.rateLimiter.limit(`login:email:${opts.input.email}`, EMAIL_RATE_LIMIT));
     if (!allowed) {
       throw new TRPCError({ code: "TOO_MANY_REQUESTS", message: "Too many attempts, try again later" });
     }

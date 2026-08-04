@@ -14,7 +14,7 @@ function createAuth(secureCookies = false, secret = "test-secret") {
 describe("auth service", () => {
   it("signs a token that verifies back to the user payload", async () => {
     const auth = createAuth();
-    const token = await auth.sign({ id: 1, email: "user@example.com" });
+    const token = await auth.sign({ id: 1, email: "user@example.com", tokenVersion: 0 });
     const payload = await auth.verify(token);
     expect(payload).toMatchObject({ id: 1, email: "user@example.com" });
   });
@@ -28,7 +28,7 @@ describe("auth service", () => {
   it("rejects a token signed with a different secret", async () => {
     const auth = createAuth();
     const other = createAuth(false, "other-secret");
-    const token = await other.sign({ id: 1, email: "user@example.com" });
+    const token = await other.sign({ id: 1, email: "user@example.com", tokenVersion: 0 });
     await expect(auth.verify(token)).rejects.toThrow();
   });
 
@@ -50,7 +50,7 @@ describe("auth service", () => {
       hasher: fakeHasher,
       sessionTtl: 60,
     });
-    const token = await auth.sign({ id: 1, email: "user@example.com" });
+    const token = await auth.sign({ id: 1, email: "user@example.com", tokenVersion: 0 });
     const payload = await auth.verify(token);
     const expected = Math.floor(Date.now() / 1000) + 60;
     expect(payload?.exp).toBeGreaterThanOrEqual(expected - 5);
@@ -71,7 +71,7 @@ describe("auth service", () => {
   it("starts a session by appending a signed cookie to the response headers", async () => {
     const auth = createAuth();
     const headers = new Headers();
-    await auth.startSession({ id: 1, email: "user@example.com" }, headers);
+    await auth.startSession({ id: 1, email: "user@example.com", tokenVersion: 0 }, headers);
     const cookie = headers.get("set-cookie");
     expect(cookie).toContain(`${COOKIE_NAME}=`);
     const token = cookie?.match(new RegExp(`${COOKIE_NAME}=([^;]+)`))?.[1];

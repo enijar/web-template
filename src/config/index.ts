@@ -30,6 +30,8 @@ const config = z
     EMAIL_FROM: z.email().nonempty(),
     EMAIL_SMTP_API_KEY: z.string().nonempty(),
     BASE_PATH: z.string().nonempty(),
+    // Trust x-real-ip/x-forwarded-for for the client IP; disable if the server is exposed without a reverse proxy
+    TRUST_PROXY: z.stringbool().default(true),
     NODE_ENV: z.enum(["development", "production"]).default("production"),
   })
   .parse({ ...env, ...process.env });

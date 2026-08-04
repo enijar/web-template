@@ -26,6 +26,7 @@ export const passwordResetComplete = publicProcedure
     user.password = await opts.ctx.auth.hashPassword(opts.input.password);
     user.passwordResetToken = null;
     user.passwordResetExpiresAt = null;
+    user.tokenVersion += 1; // revoke every session issued before the reset
     await user.save();
     return { success: true };
   });

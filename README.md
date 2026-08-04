@@ -30,6 +30,10 @@ The database is the deliberate exception: `createDatabase` is a factory (so test
 SQLite instance), but models are used directly in Active Record style — Sequelize itself is the abstraction over
 database providers.
 
+Request bodies on `/trpc/*` are capped at 1 MB because tRPC buffers inputs into memory before handlers run. If you
+add routes that need large bodies (e.g. file uploads), give them their own route-scoped `bodyLimit` and stream the
+body rather than buffering it.
+
 To add a service:
 
 1. Define the service factory and its adapter interfaces in `src/server/services/<name>.ts`.

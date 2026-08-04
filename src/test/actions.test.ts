@@ -31,6 +31,7 @@ function createContext(user: AppContext["user"] = null, overrides: Partial<AppCo
     rateLimiter: createRateLimiter({ store: createMemoryRateLimitStore() }),
     resHeaders,
     user,
+    ip: "127.0.0.1",
     ...overrides,
   });
   return { caller, resHeaders };
@@ -94,8 +95,36 @@ describe("me", () => {
   });
 
   it("returns the authenticated user", async () => {
-    const { caller } = createContext({ id: 1, email: "user@example.com" });
+    const { caller } = createContext({ id: 1, email: "user@example.com", tokenVersion: 0 });
     expect(await caller.me()).toEqual({ id: 1, email: "user@example.com" });
+  });
+
+  it("rejects a session whose token version is stale", async () => {
+    const { caller } = createContext({ id: 1, email: "user@example.com", tokenVersion: 99 });
+    await expect(caller.me()).rejects.toThrow("Unauthorized");
+  });
+});
+
+describe("register", () => {
+  it("creates an account and starts a session", async () => {
+    const { caller, resHeaders } = createContext();
+    const user = await caller.register(formData({ email: "new-user@example.com", password: "password123" }));
+    expect(user).toEqual({ id: expect.any(Number), email: "new-user@example.com" });
+    expect(resHeaders.get("set-cookie")).toContain("token=");
+    const login = await caller.login(formData({ email: "new-user@example.com", password: "password123" }));
+    expect(login.email).toBe("new-user@example.com");
+  });
+
+  it("rejects an email that is already registered", async () => {
+    const { caller } = createContext();
+    await expect(caller.register(formData({ email: "user@example.com", password: "password123" }))).rejects.toThrow(
+      "already exists",
+    );
+  });
+
+  it("rejects a short password", async () => {
+    const { caller } = createContext();
+    await expect(caller.register(formData({ email: "short-pass@example.com", password: "short" }))).rejects.toThrow();
   });
 });
 
@@ -147,6 +176,24 @@ describe("password reset", () => {
       expect(memoryLogger.entries.some((entry) => entry.level === "error")).toBe(true);
     });
   });
+
+  it("revokes existing sessions when the password is reset", async () => {
+    const user = await User.findOne({ where: { email: "user@example.com" } });
+    const session = createContext({ id: user!.id, email: user!.email, tokenVersion: user!.tokenVersion });
+    expect(await session.caller.me()).toEqual({ id: user!.id, email: user!.email });
+    const memory = createMemoryTransport();
+    const resetEmail = createEmailService({
+      renderer: reactEmailRenderer,
+      transport: memory.transport,
+      defaultFrom: config.EMAIL_FROM,
+    });
+    const { caller } = createContext(null, { email: resetEmail });
+    await caller.passwordReset(formData({ email: "user@example.com" }));
+    await vi.waitFor(() => expect(memory.messages).toHaveLength(1));
+    const token = memory.messages[0].html.match(/token=([a-f0-9]+)/)?.[1];
+    await caller.passwordResetComplete(formData({ token: token!, password: "revoked-password-1" }));
+    await expect(session.caller.me()).rejects.toThrow("Unauthorized");
+  });
 });
 
 describe("rate limiting", () => {
@@ -169,6 +216,28 @@ describe("rate limiting", () => {
     }
     await expect(caller.passwordReset(formData({ email: "reset-limit@example.com" }))).rejects.toThrow(
       "Too many reset requests",
+    );
+  });
+
+  it("blocks repeated registrations from one ip", async () => {
+    const { caller } = createContext();
+    for (let attempt = 0; attempt < 5; attempt++) {
+      await caller.register(formData({ email: `register-limit-${attempt}@example.com`, password: "password123" }));
+    }
+    await expect(
+      caller.register(formData({ email: "register-limit-5@example.com", password: "password123" })),
+    ).rejects.toThrow("Too many attempts");
+  });
+
+  it("tracks login limits per ip as well as per email", async () => {
+    const { caller } = createContext(null, { ip: "10.0.0.9" });
+    for (let attempt = 0; attempt < 30; attempt++) {
+      await expect(
+        caller.login(formData({ email: `spray-${attempt}@example.com`, password: "wrong" })),
+      ).rejects.toThrow("Incorrect email or password");
+    }
+    await expect(caller.login(formData({ email: "spray-31@example.com", password: "wrong" }))).rejects.toThrow(
+      "Too many attempts",
     );
   });
 });

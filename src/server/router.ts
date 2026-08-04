@@ -6,6 +6,7 @@ const router = trpc.router({
   ...(await import("server/actions/me.js")),
   ...(await import("server/actions/password-reset.js")),
   ...(await import("server/actions/password-reset-complete.js")),
+  ...(await import("server/actions/register.js")),
 });
 
 export type Router = typeof router;

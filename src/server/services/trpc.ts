@@ -1,6 +1,7 @@
 import { z } from "zod/v4";
 import { initTRPC, TRPCError } from "@trpc/server";
 import type { AppContext } from "server/services/app.js";
+import User from "server/models/user.js";
 
 export const trpc = initTRPC.context<AppContext>().create({
   errorFormatter(opts) {
@@ -39,7 +40,13 @@ export const privateProcedure = trpc.procedure.use(
     if (opts.ctx.user === null) {
       throw new TRPCError({ code: "UNAUTHORIZED", message: "Unauthorized" });
     }
-    return await opts.next({ ctx: { user: opts.ctx.user } });
+    // A JWT outlives account changes, so re-check it against the database: a
+    // mismatched tokenVersion means the user's sessions have been revoked
+    const user = await User.findByPk(opts.ctx.user.id);
+    if (user === null || user.tokenVersion !== opts.ctx.user.tokenVersion) {
+      throw new TRPCError({ code: "UNAUTHORIZED", message: "Unauthorized" });
+    }
+    return await opts.next({ ctx: { user } });
   }),
 );
 

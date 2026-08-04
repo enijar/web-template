@@ -13,6 +13,7 @@ export function createTestConfig(overrides: Partial<AppConfig> = {}): AppConfig 
     EMAIL_FROM: "noreply@example.com",
     EMAIL_SMTP_API_KEY: "test-api-key",
     BASE_PATH: "/",
+    TRUST_PROXY: true,
     NODE_ENV: "development",
     ...overrides,
   };

@@ -9,7 +9,10 @@ const DEFAULT_SESSION_TTL = 60 * 60 * 24 * 30; // 30 days
 interface Payload extends JWTPayload {
   id: User["id"];
   email: User["email"];
+  tokenVersion: User["tokenVersion"];
 }
+
+type SessionUser = Pick<User, "id" | "email" | "tokenVersion">;
 
 export type PasswordHasher = {
   hash(password: string): Promise<string>;
@@ -28,8 +31,8 @@ export type AuthService = ReturnType<typeof createAuthService>;
 export function createAuthService(options: AuthServiceOptions) {
   const sessionTtl = options.sessionTtl ?? DEFAULT_SESSION_TTL;
   const auth = {
-    sign(user: Pick<User, "id" | "email">) {
-      const jwt = new SignJWT({ id: user.id, email: user.email });
+    sign(user: SessionUser) {
+      const jwt = new SignJWT({ id: user.id, email: user.email, tokenVersion: user.tokenVersion });
       jwt.setProtectedHeader({ alg: "HS256" });
       jwt.setExpirationTime(`${sessionTtl}s`);
       return jwt.sign(options.secret);
@@ -56,7 +59,7 @@ export function createAuthService(options: AuthServiceOptions) {
     verifyPassword(hash: string, password: string) {
       return options.hasher.verify(hash, password);
     },
-    async startSession(user: Pick<User, "id" | "email">, headers: Headers) {
+    async startSession(user: SessionUser, headers: Headers) {
       headers.append("set-cookie", auth.cookie(await auth.sign(user)));
     },
     endSession(headers: Headers) {

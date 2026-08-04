@@ -7,7 +7,8 @@ import PasswordReset from "emails/password-reset.js";
 
 const TOKEN_TTL = 60 * 60 * 1000; // 1 hour
 
-const RATE_LIMIT = { max: 3, windowMs: 60 * 60 * 1000 }; // 3 reset emails per hour per email
+const EMAIL_RATE_LIMIT = { max: 3, windowMs: 60 * 60 * 1000 }; // 3 reset emails per hour per email
+const IP_RATE_LIMIT = { max: 10, windowMs: 60 * 60 * 1000 }; // 10 reset requests per hour per ip
 
 export const passwordReset = publicProcedure
   .input(
@@ -16,7 +17,9 @@ export const passwordReset = publicProcedure
     }),
   )
   .mutation(async (opts) => {
-    const allowed = await opts.ctx.rateLimiter.limit(`password-reset:${opts.input.email}`, RATE_LIMIT);
+    const allowed =
+      (await opts.ctx.rateLimiter.limit(`password-reset:ip:${opts.ctx.ip}`, IP_RATE_LIMIT)) &&
+      (await opts.ctx.rateLimiter.limit(`password-reset:email:${opts.input.email}`, EMAIL_RATE_LIMIT));
     if (!allowed) {
       throw new TRPCError({ code: "TOO_MANY_REQUESTS", message: "Too many reset requests, try again later" });
     }
