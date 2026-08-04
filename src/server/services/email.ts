@@ -1,28 +1,49 @@
-import React from "react";
-import sendgrid from "@sendgrid/mail";
-import { render, toPlainText } from "react-email";
-import type { MailData } from "@sendgrid/helpers/classes/mail.js";
-import config from "config/index.js";
+import type React from "react";
 
-sendgrid.setApiKey(config.EMAIL_SMTP_API_KEY);
-
-const email = {
-  async send(email: React.ReactElement, options: MailData) {
-    const html = await render(email);
-    const text = toPlainText(html);
-    if (config.NODE_ENV === "development") {
-      console.log(text);
-      return;
-    }
-    return sendgrid.send({
-      ...options,
-      to: options.to,
-      from: options.from ?? { email: config.EMAIL_FROM },
-      subject: options.subject,
-      html,
-      text,
-    });
-  },
+export type EmailContent = {
+  html: string;
+  text: string;
 };
 
-export default email;
+export type EmailMessage = EmailContent & {
+  to: string;
+  from: string;
+  subject: string;
+};
+
+export type SendOptions = {
+  to: string;
+  from?: string;
+  subject: string;
+};
+
+export type EmailRenderer = {
+  render(email: React.ReactElement): Promise<EmailContent>;
+};
+
+export type EmailTransport = {
+  send(message: EmailMessage): Promise<unknown>;
+};
+
+export type EmailServiceOptions = {
+  renderer: EmailRenderer;
+  transport: EmailTransport;
+  defaultFrom: string;
+};
+
+export type EmailService = ReturnType<typeof createEmailService>;
+
+export function createEmailService(options: EmailServiceOptions) {
+  return {
+    async send(email: React.ReactElement, sendOptions: SendOptions) {
+      const { html, text } = await options.renderer.render(email);
+      return options.transport.send({
+        to: sendOptions.to,
+        from: sendOptions.from ?? options.defaultFrom,
+        subject: sendOptions.subject,
+        html,
+        text,
+      });
+    },
+  };
+}

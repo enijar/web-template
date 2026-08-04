@@ -9,5 +9,5 @@
     "declaration": false
   },
   "include": ["src"],
-  "exclude": ["src/client"]
+  "exclude": ["src/client", "src/test"]
 }

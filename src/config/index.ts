@@ -34,4 +34,6 @@ const config = z
   })
   .parse({ ...env, ...process.env });
 
+export type AppConfig = typeof config;
+
 export default config;

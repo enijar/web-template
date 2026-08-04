@@ -2,7 +2,6 @@ import crypto from "node:crypto";
 import { z } from "zod/v4";
 import { Op } from "@sequelize/core";
 import { TRPCError } from "@trpc/server";
-import argon2 from "argon2";
 import { publicProcedure } from "server/services/trpc.js";
 import User from "server/models/user.js";
 
@@ -34,7 +33,7 @@ export const passwordResetComplete = publicProcedure
     if (user === null) {
       throw new TRPCError({ code: "BAD_REQUEST", message: "This reset link is invalid or has expired" });
     }
-    user.password = await argon2.hash(opts.input.password);
+    user.password = await opts.ctx.auth.hashPassword(opts.input.password);
     user.passwordResetToken = null;
     user.passwordResetExpiresAt = null;
     await user.save();

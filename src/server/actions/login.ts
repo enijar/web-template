@@ -1,9 +1,7 @@
 import { z } from "zod/v4";
 import { TRPCError } from "@trpc/server";
-import argon2 from "argon2";
 import { publicProcedure } from "server/services/trpc.js";
 import User from "server/models/user.js";
-import auth from "server/services/auth.js";
 
 export const login = publicProcedure
   .input(
@@ -17,8 +15,8 @@ export const login = publicProcedure
       })
       .pipe(
         z.object({
-          email: z.email("Invalid email"),
-          password: z.string().nonempty("Can't be empty"),
+          email: z.email("Email is invalid").nonempty("Email is required"),
+          password: z.string().nonempty("Password is required"),
         }),
       ),
   )
@@ -29,13 +27,13 @@ export const login = publicProcedure
       },
     });
     if (user === null) {
-      throw new TRPCError({ code: "UNAUTHORIZED", message: "Incorrect email and password, try again" });
+      throw new TRPCError({ code: "UNAUTHORIZED", message: "Incorrect email or password, try again" });
     }
-    const authenticated = await argon2.verify(user.password, opts.input.password);
+    const authenticated = await opts.ctx.auth.verifyPassword(user.password, opts.input.password);
     if (!authenticated) {
-      throw new TRPCError({ code: "UNAUTHORIZED", message: "Incorrect email and password, try again" });
+      throw new TRPCError({ code: "UNAUTHORIZED", message: "Incorrect email or password, try again" });
     }
-    opts.ctx.resHeaders.append("set-cookie", auth.cookie(await auth.sign(user)));
+    await opts.ctx.auth.startSession(user, opts.ctx.resHeaders);
     return {
       id: user.id,
       email: user.email,

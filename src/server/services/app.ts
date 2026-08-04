@@ -3,25 +3,39 @@ import { cors } from "hono/cors";
 import { getCookie } from "hono/cookie";
 import { trpcServer } from "@hono/trpc-server";
 import router from "server/router.js";
-import auth, { COOKIE_NAME } from "server/services/auth.js";
-import config from "config/index.js";
+import { COOKIE_NAME, type AuthService } from "server/services/auth.js";
+import type { DatabaseService } from "server/services/database.js";
+import type { EmailService } from "server/services/email.js";
+import type { AppConfig } from "config/index.js";
 
-async function createContext(opts: { resHeaders: Headers }, c: Context) {
-  let user: Awaited<ReturnType<typeof auth.verify>>;
-  try {
-    user = await auth.verify(getCookie(c, COOKIE_NAME));
-  } catch {
-    user = null;
+export type AppServices = {
+  config: AppConfig;
+  auth: AuthService;
+  database: DatabaseService;
+  email: EmailService;
+};
+
+export type AppContext = AppServices & {
+  resHeaders: Headers;
+  user: Awaited<ReturnType<AuthService["verify"]>>;
+};
+
+export function createApp(services: AppServices) {
+  async function createContext(opts: { resHeaders: Headers }, c: Context): Promise<AppContext> {
+    let user: Awaited<ReturnType<AuthService["verify"]>>;
+    try {
+      user = await services.auth.verify(getCookie(c, COOKIE_NAME));
+    } catch {
+      user = null;
+    }
+    return { ...services, resHeaders: opts.resHeaders, user };
   }
-  return { resHeaders: opts.resHeaders, user };
+
+  const app = new Hono();
+
+  app.use(cors({ origin: services.config.APP_URL, credentials: true }));
+
+  app.use("/trpc/*", trpcServer({ router, createContext }));
+
+  return app;
 }
-
-export type AppContext = Awaited<ReturnType<typeof createContext>>;
-
-const app = new Hono();
-
-app.use(cors({ origin: config.APP_URL, credentials: true }));
-
-app.use("/trpc/*", trpcServer({ router, createContext }));
-
-export default app;

@@ -12,6 +12,40 @@ npm start
 
 This starts the client at `localhost:8080` and the server at `localhost:3000`.
 
+## Architecture
+
+Third-party integrations follow a ports-and-adapters pattern so providers can be swapped, and faked in tests:
+
+- `src/server/services` — provider-agnostic services. Each service is a `create*` factory that declares the
+  interfaces it depends on (e.g. the email service needs an `EmailRenderer` and an `EmailTransport`, the auth service
+  needs a `PasswordHasher`). Services never read env config directly.
+- `src/server/adapters` — one file per provider, implementing a service interface (`sendgrid.ts`, `argon2.ts`,
+  `console.ts`, ...). Swapping providers means writing a new adapter; services and actions don't change.
+- `src/server/index.ts` — the composition root, and the only module that reads `config` at runtime. It decides which
+  adapter each service uses (e.g. emails go to the console in development and SendGrid in production).
+- `createApp` passes the services (and `config`) to every tRPC action via context, so actions use
+  `opts.ctx.email.send(...)` and tests can inject fakes.
+
+The database is the deliberate exception: `createDatabase` is a factory (so tests can run an isolated in-memory
+SQLite instance), but models are used directly in Active Record style — Sequelize itself is the abstraction over
+database providers.
+
+To add a service:
+
+1. Define the service factory and its adapter interfaces in `src/server/services/<name>.ts`.
+2. Implement a provider in `src/server/adapters/<provider>.ts`.
+3. Add it to `AppServices` in `src/server/services/app.ts` and wire it up in `src/server/index.ts`.
+
+## Testing
+
+```shell
+npm test
+```
+
+Vitest specs live in `src/test`, with shared fakes in `src/test/helpers.ts`. Services are unit tested against fake
+adapters, and `actions.test.ts` runs the full login and password-reset flows through a tRPC caller backed by an
+in-memory SQLite database and an in-memory email transport.
+
 ## Environment Variables
 
 [Dotenvx](https://dotenvx.com/docs) is used for storing encrypted environment variables in version control. This makes

@@ -1,28 +1,43 @@
 import path from "node:path";
-import { importModels, Sequelize } from "@sequelize/core";
+import { Sequelize, type ModelStatic } from "@sequelize/core";
 import { MySqlDialect } from "@sequelize/mysql";
 import { SqliteDialect } from "@sequelize/sqlite3";
-import config from "config/index.js";
 
-let database: Sequelize;
+export type DatabaseOptions = {
+  dialect: "sqlite3" | "mysql";
+  url: string;
+  models: ModelStatic[];
+};
 
-switch (config.DATABASE_DIALECT) {
-  case "mysql":
-    database = new Sequelize({
-      dialect: MySqlDialect,
-      url: config.DATABASE_URL,
-      ssl: config.DATABASE_URL.match(/[?&]ssl=true/) ? { rejectUnauthorized: true } : undefined,
-    });
-    break;
-  default: {
-    const storage = config.DATABASE_URL.replace(/^sqlite3:/, "");
-    database = new Sequelize({
-      dialect: SqliteDialect,
-      storage: path.isAbsolute(storage) ? storage : path.join(import.meta.dirname, "..", "..", "..", storage),
-    });
+export type DatabaseService = Sequelize;
+
+function resolveSqliteStorage(url: string) {
+  const storage = url.replace(/^sqlite3:/, "");
+  if (storage === ":memory:" || path.isAbsolute(storage)) {
+    return storage;
   }
+  return path.join(import.meta.dirname, "..", "..", "..", storage);
 }
 
-database.addModels(await importModels(path.join(import.meta.dirname, "..", "models", "*.{ts,js}")));
-
-export default database;
+export function createDatabase(options: DatabaseOptions): DatabaseService {
+  let database: Sequelize;
+  switch (options.dialect) {
+    case "mysql":
+      database = new Sequelize({
+        dialect: MySqlDialect,
+        url: options.url,
+        ssl: options.url.match(/[?&]ssl=true/) ? { rejectUnauthorized: true } : undefined,
+      });
+      break;
+    default: {
+      const storage = resolveSqliteStorage(options.url);
+      database = new Sequelize({
+        dialect: SqliteDialect,
+        storage,
+        pool: storage === ":memory:" ? { max: 1, idle: Infinity, maxUses: Infinity } : undefined,
+      });
+    }
+  }
+  database.addModels(options.models);
+  return database;
+}

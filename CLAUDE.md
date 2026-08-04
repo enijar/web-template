@@ -1,3 +1,4 @@
-- Before marking any task complete, run and verify: `npm run format`, `npm run check`
+- Before marking any task complete, run and verify: `npm run format`, `npm run check`, `npm run test`
+- Third-party integrations follow ports-and-adapters: service factories in `src/server/services` declare interfaces, providers implement them in `src/server/adapters`, and `src/server/index.ts` (the composition root) is the only module that reads `config` at runtime — see README.md § Architecture
 - Don't destructure `react` imports; use `React` as a namespace (e.g. `React.useState`, `React.useRef`)
 - Use exact versions in `package.json` (e.g. `"1.2.3"` not `"^1.2.3"`)

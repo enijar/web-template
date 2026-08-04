@@ -2,8 +2,6 @@ import crypto from "node:crypto";
 import { z } from "zod/v4";
 import { publicProcedure } from "server/services/trpc.js";
 import User from "server/models/user.js";
-import config from "config/index.js";
-import email from "server/services/email.js";
 import PasswordReset from "emails/password-reset.js";
 
 const TOKEN_TTL = 60 * 60 * 1000; // 1 hour
@@ -34,10 +32,9 @@ export const passwordReset = publicProcedure
       user.passwordResetToken = crypto.createHash("sha256").update(token).digest("hex");
       user.passwordResetExpiresAt = new Date(Date.now() + TOKEN_TTL);
       await user.save();
-      email
-        .send(<PasswordReset url={config.APP_URL} token={token} />, {
+      opts.ctx.email
+        .send(<PasswordReset url={opts.ctx.config.APP_URL} token={token} />, {
           to: user.email,
-          from: config.EMAIL_FROM,
           subject: "Reset your password",
         })
         .catch((err) => {
