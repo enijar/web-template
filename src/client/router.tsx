@@ -17,6 +17,10 @@ export const router = createRouter(
           Component: React.lazy(() => import("client/pages/home/home.js")),
         },
         {
+          path: "/register",
+          Component: React.lazy(() => import("client/pages/register/register.js")),
+        },
+        {
           path: "/reset-password",
           Component: React.lazy(() => import("client/pages/reset-password/reset-password.js")),
         },

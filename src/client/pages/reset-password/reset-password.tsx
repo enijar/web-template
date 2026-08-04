@@ -1,7 +1,7 @@
 import React from "react";
-import { useSearchParams } from "react-router-dom";
-import { TRPCClientError } from "@trpc/client";
+import { Link, useSearchParams } from "react-router-dom";
 import * as Style from "client/pages/reset-password/reset-password.style.js";
+import { errorMessage } from "client/services/errors.js";
 import trpc from "client/services/trpc.js";
 import Form from "client/components/form/form.js";
 
@@ -15,7 +15,9 @@ export default function ResetPassword() {
     <Style.Wrapper>
       <h1>Reset password</h1>
       {done ? (
-        <p>Your password has been reset. You can now log in.</p>
+        <p>
+          Your password has been reset. <Link to="/">Log in</Link>
+        </p>
       ) : (
         <Form
           onSubmit={async (form) => {
@@ -24,7 +26,7 @@ export default function ResetPassword() {
               await passwordResetComplete.mutateAsync(form.data);
               setDone(true);
             } catch (err) {
-              setFormError(err instanceof TRPCClientError ? err.message : "Something went wrong");
+              setFormError(errorMessage(err));
             }
           }}
         >

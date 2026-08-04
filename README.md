@@ -30,6 +30,13 @@ The database is the deliberate exception: `createDatabase` is a factory (so test
 SQLite instance), but models are used directly in Active Record style — Sequelize itself is the abstraction over
 database providers.
 
+The client mirrors the same idea. `createApi` in `src/client/services/api.ts` builds the tRPC and React Query
+clients and declares what it depends on: a `fetch` (so tests can route requests to an in-memory server) and an
+`onUnauthorized` callback (so an expired or revoked session signs the user out everywhere, wherever the failure
+surfaces). `src/client/index.tsx` is the client's composition root and wires those to the real network and app
+state. Auth state transitions live in the `useAuth` hook (`src/client/hooks/use-auth.ts`) — pages call
+`auth.login(...)`/`auth.register(...)`/`auth.logout()` and never touch the user state directly.
+
 Request bodies on `/trpc/*` are capped at 1 MB because tRPC buffers inputs into memory before handlers run. If you
 add routes that need large bodies (e.g. file uploads), give them their own route-scoped `bodyLimit` and stream the
 body rather than buffering it.
@@ -46,9 +53,15 @@ To add a service:
 npm test
 ```
 
-Vitest specs live in `src/test`, with shared fakes in `src/test/helpers.ts`. Services are unit tested against fake
+Vitest specs live in `src/test`, with shared fakes in `src/test/helpers.ts`, and run as two projects: `server`
+(`*.test.ts`, node environment) and `client` (`*.test.tsx`, jsdom). Services are unit tested against fake
 adapters, and `actions.test.ts` runs the full login and password-reset flows through a tRPC caller backed by an
 in-memory SQLite database and an in-memory email transport.
+
+Client specs render the real React app against the real server: `createApi` is given a `fetch` that routes
+requests straight to `createApp`'s Hono instance and keeps session cookies like a browser, so `client.test.tsx`
+covers register, login, logout, session revocation, and the full password-reset flow (including reading the reset
+link out of the captured email) end to end without opening a socket.
 
 ## Environment Variables
 

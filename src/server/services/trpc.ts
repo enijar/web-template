@@ -16,9 +16,15 @@ export const trpc = initTRPC.context<AppContext>().create({
   },
 });
 
+// FormData is reconstructed by the fetch runtime, whose constructor can differ from this
+// realm's global (e.g. undici vs jsdom in the client tests), so check shape, not identity
+function isFormData(value: unknown): value is FormData {
+  return value instanceof FormData || Object.prototype.toString.call(value) === "[object FormData]";
+}
+
 export function formInput<Shape extends z.ZodRawShape>(shape: Shape) {
   return z
-    .instanceof(FormData)
+    .custom<FormData>(isFormData, "Expected form data")
     .transform((form): unknown => {
       const values: Record<string, unknown> = {};
       for (const key of Object.keys(shape)) {

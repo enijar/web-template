@@ -11,7 +11,24 @@ export default defineConfig({
     },
   },
   test: {
-    environment: "node",
-    include: ["src/test/**/*.test.{ts,tsx}"],
+    projects: [
+      {
+        extends: true,
+        test: {
+          name: "server",
+          environment: "node",
+          include: ["src/test/**/*.test.ts"],
+        },
+      },
+      {
+        extends: true,
+        test: {
+          name: "client",
+          environment: "jsdom",
+          include: ["src/test/**/*.test.tsx"],
+          setupFiles: ["src/test/setup.client.ts"],
+        },
+      },
+    ],
   },
 });

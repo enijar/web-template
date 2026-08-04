@@ -1,16 +1,14 @@
 import React from "react";
-import { TRPCClientError } from "@trpc/client";
+import { Link } from "react-router-dom";
 import * as Style from "client/pages/home/home.style.js";
-import { appState } from "client/state/app-state.js";
+import { useAuth } from "client/hooks/use-auth.js";
+import { errorMessage } from "client/services/errors.js";
 import trpc from "client/services/trpc.js";
 import Form from "client/components/form/form.js";
 
 export default function Home() {
-  const user = appState((state) => state.user);
-  const setUser = appState((state) => state.setUser);
-  const login = trpc.login.useMutation();
+  const auth = useAuth();
   const passwordReset = trpc.passwordReset.useMutation();
-  const logout = trpc.logout.useMutation();
   const [formError, setFormError] = React.useState<string | null>(null);
   const [notice, setNotice] = React.useState<string | null>(null);
   const [forgotPassword, setForgotPassword] = React.useState(false);
@@ -18,7 +16,7 @@ export default function Home() {
     <Style.Wrapper>
       <h1>Home</h1>
       <div>
-        {user === null ? (
+        {auth.user === null ? (
           <Form
             onSubmit={async (form) => {
               try {
@@ -30,11 +28,11 @@ export default function Home() {
                   setForgotPassword(false);
                   setNotice("If that email is registered, a reset link is on its way.");
                 } else {
-                  setUser(await login.mutateAsync(form.data));
+                  await auth.login(form.data);
                   form.element.reset();
                 }
               } catch (err) {
-                setFormError(err instanceof TRPCClientError ? err.message : "Something went wrong");
+                setFormError(errorMessage(err));
               }
             }}
           >
@@ -52,18 +50,24 @@ export default function Home() {
               </>
             )}
             <button>{forgotPassword ? "Reset password" : "Login"}</button>
+            <Link to="/register">Need an account? Register</Link>
           </Form>
         ) : (
           <>
-            <p>Signed in as {user.email}</p>
+            <p>Signed in as {auth.user.email}</p>
             <button
               onClick={async () => {
-                await logout.mutateAsync();
-                setUser(null);
+                try {
+                  setFormError(null);
+                  await auth.logout();
+                } catch (err) {
+                  setFormError(errorMessage(err));
+                }
               }}
             >
               Logout
             </button>
+            {formError !== null && <pre>{formError}</pre>}
           </>
         )}
       </div>
