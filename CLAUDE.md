@@ -1,4 +1,4 @@
-- Write all prose to a human in Strunk's style: active voice, omit needless words, concrete language, no hedging or filler
+- Write all prose in Strunk's style: active voice, omit needless words, concrete language, no hedging or filler. The strunkify skill holds the full rules; they govern every response
 - Before marking any task complete, run and verify: `npm run format`, `npm run check`, `npm run test`
 - Third-party integrations follow ports-and-adapters: service factories in `src/server/services` declare interfaces, providers implement them in `src/server/adapters`, and `src/server/index.ts` (the composition root) is the only module that reads `config` at runtime — see README.md § Architecture
 - The client mirrors this: `createApi` (`src/client/services/api.ts`) takes an injectable `fetch` and `onUnauthorized`, `src/client/index.tsx` is the client composition root, and auth state transitions go through `useAuth` (`src/client/hooks/use-auth.ts`) — pages never call `trpc.login`/`register`/`logout` directly
