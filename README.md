@@ -82,15 +82,16 @@ link out of the captured email) end to end without opening a socket.
 build and the boot rather than the first request.
 
 [Dotenvx](https://dotenvx.com/docs) stores encrypted variables in version control, which makes deployment and
-sharing configs easier. Three files feed the schema:
+sharing configs easier. `APP_ENV` picks which encrypted file feeds the schema, and defaults to `production`:
 
-- `.env.dev` — encrypted development values, committed. Loaded when `NODE_ENV=development`.
+- `.env.dev` — encrypted development values, committed. Loaded when `APP_ENV=development`.
+- `.env.uat` — encrypted staging values, committed. Loaded when `APP_ENV=staging`.
 - `.env.prod` — encrypted production values, committed. Loaded otherwise.
-- `.env.local` — your own plaintext overrides, git-ignored, loaded last and wins.
+- `.env.local` — your own plaintext overrides, git-ignored, and wins on every value, `APP_ENV` included.
 
-The template ships neither `.env.dev` nor `.env.prod`. Create each from `.env.example`, then encrypt it with
-`npm run env:encrypt:dev` or `npm run env:encrypt:prod` before committing. `npm run env:decrypt:*` leaves the file
-in plaintext, so encrypt it again before the next commit. `.env.keys` holds the private keys and must never be
+The template ships none of the encrypted files. Create each from `.env.example`, then encrypt it with
+`npm run env:encrypt:dev`, `:uat`, or `:prod` before committing. `npm run env:decrypt:*` leaves the file in
+plaintext, so encrypt it again before the next commit. `.env.keys` holds the private keys and must never be
 committed.
 
 ## Production
@@ -100,9 +101,10 @@ npm run build
 pm2 startOrReload ecosystem.config.cjs --time --update-env
 ```
 
-The build parses `config` through `vite.config.ts`, so every variable must resolve at build time: from `.env.prod`
-with its key at hand (`.env.keys` locally, `DOTENV_PRIVATE_KEY_PROD` in CI), from `.env.local`, or from the shell.
-The built server reads `.env.prod` again at boot, resolved from the deploy root next to `build`.
+The build parses `config` through `vite.config.ts`, so every variable must resolve at build time: from the file
+`APP_ENV` selects with its key at hand (`.env.keys` locally, `DOTENV_PRIVATE_KEY_PROD` or `DOTENV_PRIVATE_KEY_UAT`
+in CI), from `.env.local`, or from the shell. The built server reads that file again at boot, resolved from the
+deploy root next to `build`. A staging deploy needs `APP_ENV=staging` on both the build and the server process.
 
 `.github/workflows/ci.yml` type-checks, tests, and builds on the GitHub runner, rsyncs `build`, `node_modules`,
 `package.json`, `ecosystem.config.cjs`, and `.nvmrc` to the server, then reloads pm2. It needs five repository

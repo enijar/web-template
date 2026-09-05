@@ -6,7 +6,7 @@
     "npm": ">=11"
   },
   "scripts": {
-    "start": "NODE_ENV=development conc -n client,server,emails \"npm run start:client\" \"npm run start:server\" \"npm run start:emails\"",
+    "start": "APP_ENV=development NODE_ENV=development conc -n client,server,emails \"npm run start:client\" \"npm run start:server\" \"npm run start:emails\"",
     "build": "NODE_ENV=production npm run build:client && npm run build:server",
     "check": "tsc --noEmit",
     "format": "prettier --write .",
@@ -17,8 +17,10 @@
     "build:client": "vite build",
     "build:server": "rm -rf build/config build/server && tsc -p tsconfig.server.json && tsc-alias -p tsconfig.server.json",
     "env:encrypt:dev": "dotenvx encrypt -f .env.dev",
+    "env:encrypt:uat": "dotenvx encrypt -f .env.uat",
     "env:encrypt:prod": "dotenvx encrypt -f .env.prod",
     "env:decrypt:dev": "dotenvx decrypt -f .env.dev",
+    "env:decrypt:uat": "dotenvx decrypt -f .env.uat",
     "env:decrypt:prod": "dotenvx decrypt -f .env.prod"
   },
   "dependencies": {
