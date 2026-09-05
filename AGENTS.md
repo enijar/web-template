@@ -1,6 +1,6 @@
-- Write every human-readable output in Strunk's style: active voice, no needless words, concrete language, no hedging, no filler openers. This governs chat replies, plans, reviews, commit messages, PR descriptions, code comments, docs, and every subagent report. Read `.agents/skills/strunkify/SKILL.md` and apply its eight rules before writing prose — unprompted, on every task
-- Before marking any task complete, run and verify: `npm run format`, `npm run check`, `npm run test`
-- Third-party integrations follow ports-and-adapters: service factories in `src/server/services` declare interfaces, providers implement them in `src/server/adapters`, and `src/server/index.ts` (the composition root) is the only module that reads `config` at runtime — see README.md § Architecture
-- The client mirrors this: `createApi` (`src/client/services/api.ts`) takes an injectable `fetch` and `onUnauthorized`, `src/client/index.tsx` is the client composition root, and auth state transitions go through `useAuth` (`src/client/hooks/use-auth.ts`) — pages never call `trpc.login`/`register`/`logout` directly
-- Don't destructure `react` imports; use `React` as a namespace (e.g. `React.useState`, `React.useRef`)
-- Use exact versions in `package.json` (e.g. `"1.2.3"` not `"^1.2.3"`)
+- Apply `.agents/skills/strunkify/SKILL.md` to every human-readable output — chat, plans, reviews, commit messages, PR descriptions, code comments, docs, subagent reports. Unprompted, on every task
+- Before marking a task complete, run and verify: `npm run format`, `npm run check`, `npm run test`
+- Server and client both use ports-and-adapters with one composition root each (`src/server/index.ts`, `src/client/index.tsx`), the only modules that read `config`. Read README.md § Architecture before touching `src/server/services`, `src/server/adapters`, or `src/client/services`
+- Auth state transitions go through `useAuth` (`src/client/hooks/use-auth.ts`); pages never call `trpc.login`/`register`/`logout`
+- Don't destructure `react` imports; use the `React` namespace (`React.useState`)
+- Use exact versions in `package.json` (`"1.2.3"`, not `"^1.2.3"`)
