@@ -8,6 +8,7 @@ Node 24 or newer; `.nvmrc` pins the version CI and pm2 use.
 
 ```shell
 cp .env.example .env.local
+nvm install
 npm install
 npm start
 ```
