@@ -1,6 +1,7 @@
 - Apply `.agents/skills/strunkify/SKILL.md` to every human-readable output — chat, plans, reviews, commit messages, PR descriptions, code comments, docs, subagent reports. Unprompted, on every task
 - Before marking a task complete, run and verify: `npm run format`, `npm run check`, `npm run test`
-- Server and client both use ports-and-adapters with one composition root each (`src/server/index.ts`, `src/client/index.tsx`), the only modules that read `config`. Read README.md § Architecture before touching `src/server/services`, `src/server/adapters`, or `src/client/services`
+- Server and client both use ports-and-adapters with one composition root each (`src/server/index.ts`, `src/client/index.tsx`). `src/server/index.ts` is the only module that reads `config` at runtime; `vite.config.ts` reads it at build time, and the client reads `import.meta.env.BASE_URL`. Read README.md § Architecture before touching `src/server/services`, `src/server/adapters`, or `src/client/services`
+- `npm run build` parses `config`, so every env var must resolve (`.env.local`, a decryptable `.env.prod`, or the shell); `check` and `test` don't
 - Auth state transitions go through `useAuth` (`src/client/hooks/use-auth.ts`); pages never call `trpc.login`/`register`/`logout`
 - Don't destructure `react` imports; use the `React` namespace (`React.useState`)
 - Use exact versions in `package.json` (`"1.2.3"`, not `"^1.2.3"`)

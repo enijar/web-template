@@ -91,8 +91,8 @@ describe("health", () => {
 });
 
 describe("body limit", () => {
-  it("rejects trpc bodies over 1 MB", async () => {
-    const large = "x".repeat(1024 * 1024 + 1);
+  it("rejects trpc bodies over 10 MB", async () => {
+    const large = "x".repeat(10 * 1024 * 1024 + 1);
     const res = await app.request("/trpc/login", { method: "POST", body: large });
     expect(res.status).toBe(413);
   });

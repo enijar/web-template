@@ -28,9 +28,10 @@ export type AppContext = AppServices & {
   ip: string;
 };
 
-// tRPC inputs are buffered into memory before rate limits run, so they stay small;
-// routes that need large bodies (e.g. uploads) should set their own route-scoped bodyLimit
-const MAX_BODY_SIZE = 1024 * 1024; // 1 MB
+// Matches client_max_body_size in the NGINX example, so the proxy and the app reject the same payloads.
+// tRPC buffers inputs into memory before rate limits run, so a route that accepts genuinely large uploads
+// should stream the body under its own route-scoped bodyLimit rather than raising this one.
+const MAX_BODY_SIZE = 10 * 1024 * 1024; // 10 MB
 
 function clientIp(ctx: Context, trustProxy: boolean) {
   if (trustProxy) {
