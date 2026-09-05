@@ -4,3 +4,4 @@
 - Auth state transitions go through `useAuth` (`src/client/hooks/use-auth.ts`); pages never call `trpc.login`/`register`/`logout`
 - Don't destructure `react` imports; use the `React` namespace (`React.useState`)
 - Use exact versions in `package.json` (`"1.2.3"`, not `"^1.2.3"`)
+- Trunk-based development: commit straight to `main`; no feature branch or PR unless asked
